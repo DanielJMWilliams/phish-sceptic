@@ -11,15 +11,21 @@
     <HomePage UploadFile=@uploadFile></HomePage>
 }
 else{
-    <MudButton OnClick="@startOver">Restart</MudButton>
+    <MudButton Color="Color.Error" OnClick="@startOver">Restart</MudButton>
     <MudListItem Icon="@Icons.Material.Filled.AttachFile" @key="@myFile">
         Uploaded: @myFile.Name <code>@myFile.Size bytes</code>
     </MudListItem>
 
+    <MudDivider Class="my-5"></MudDivider>
 
-    <YesNoQuestion Question="Do you trust this sender?"/>
+    <MudPaper Class="my-5 py-10">
+        <MudText Align="Align.Center" Typo="Typo.h4" Color="@addressColor">This email was sent by: @sender</MudText>
+        <MudDivider Class="my-10"></MudDivider>
+        <YesNoQuestion Question="Do you trust this sender?"/>
+    </MudPaper>
 
-    <MudText Align="Align.Center" Typo="Typo.h2" Color="@addressColor">@sender</MudText>
+
+
 
 
     <MudTextField  @bind-Value="typedAddress" Label="Retype the above email address" Variant="Variant.Outlined"></MudTextField>
@@ -52,10 +58,10 @@ else{
 @code
 {
     IBrowserFile myFile;
-    private void uploadFile(IBrowserFile file)
+    private async Task uploadFile(IBrowserFile file)
     {
         myFile = file;
-        AnalyseEmail();
+        await AnalyseEmail();
         StateHasChanged();
     }
 

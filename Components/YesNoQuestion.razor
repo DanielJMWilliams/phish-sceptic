@@ -1,0 +1,19 @@
+﻿
+<MudPaper Class="d-flex align-center flex-grow-1 gap-4" Elevation="0">
+
+</MudPaper>
+
+<MudText Typo="Typo.h3" Align="Align.Center">@Question</MudText>
+
+<MudPaper Class="d-flex justify-space-around flex-grow-1 gap-4 my-10 px-16" Elevation="0">
+    <MudButton Variant="Variant.Filled" Color="Color.Success" FullWidth Style="height:60px">Yes</MudButton>
+    <MudButton Variant="Variant.Filled" Color="Color.Error" FullWidth Style="height:60px">No</MudButton>
+</MudPaper>
+
+
+
+@code {
+    [Parameter]
+    public string Question { get; set; } = "";
+
+}
