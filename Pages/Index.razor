@@ -6,81 +6,66 @@
 
 <PageTitle>Index</PageTitle>
 
-<MudText>Upload .eml files below:</MudText>
-<MudFileUpload T="IBrowserFile" FilesChanged="UploadFiles">
-    <ButtonTemplate>
-        <MudButton HtmlTag="label"
-                   Variant="Variant.Filled"
-                   Color="Color.Primary"
-                   StartIcon="@Icons.Material.Filled.CloudUpload"
-                   for="@context">
-            Upload Files
-        </MudButton>
-    </ButtonTemplate>
-</MudFileUpload>
-
-
-@if (myFile != null)
+@if (myFile==null)
 {
+    <HomePage UploadFile=@uploadFile></HomePage>
+}
+else{
+    <MudButton OnClick="@startOver">Restart</MudButton>
     <MudListItem Icon="@Icons.Material.Filled.AttachFile" @key="@myFile">
-        @myFile.Name <code>@myFile.Size bytes</code>
+        Uploaded: @myFile.Name <code>@myFile.Size bytes</code>
     </MudListItem>
+
+
+    <YesNoQuestion Question="Do you trust this sender?"/>
+
+    <MudText Align="Align.Center" Typo="Typo.h2" Color="@addressColor">@sender</MudText>
+
+
+    <MudTextField  @bind-Value="typedAddress" Label="Retype the above email address" Variant="Variant.Outlined"></MudTextField>
+
+
+    @if (typedAddress == sender)
+    {
+        <MudText>Email Addresses Match!</MudText>
+    }
+    else if (typedAddress != sender && typedAddress!="")
+    {
+        <MudText>Email Addresses DO NOT match!</MudText>
+    }
+
+
+    <MudText>URLs found in email: </MudText>
+    @foreach(string url in Urls)
+    {
+        <MudText>@url</MudText>
+    }
+
+    <MudText>Domains: </MudText>
+    @foreach(string domain in Domains)
+    {
+        <MudText>@domain</MudText>
+    }
+    
 }
-<hr />
-<MudButton HtmlTag="label"
-            Variant="Variant.Filled"
-            Color="Color.Primary"
-            StartIcon="@Icons.Material.Filled.CloudUpload"
-            OnClick="@AnalyseEmail">
-    Analyse Email
-</MudButton>
-
-<hr />
-
-<YesNoQuestion Question="Do you trust this sender?"/>
-
-<MudText Align="Align.Center" Typo="Typo.h2" Color="@addressColor">@sender</MudText>
-
-
-<MudTextField  @bind-Value="typedAddress" Label="Retype the above email address" Variant="Variant.Outlined"></MudTextField>
-
-
-@if (typedAddress == sender)
-{
-    <MudText>Email Addresses Match!</MudText>
-}
-else if (typedAddress != sender && typedAddress!="")
-{
-    <MudText>Email Addresses DO NOT match!</MudText>
-}
-
-
-<MudText>URLs found in email: </MudText>
-@foreach(string url in Urls)
-{
-    <MudText>@url</MudText>
-}
-
-<MudText>Domains: </MudText>
-@foreach(string domain in Domains)
-{
-    <MudText>@domain</MudText>
-}
-
-
-
-
-
-
 
 @code
 {
     IBrowserFile myFile;
-    private void UploadFiles(IBrowserFile file)
+    private void uploadFile(IBrowserFile file)
     {
         myFile = file;
-        //TODO upload the files to the server
+        AnalyseEmail();
+        StateHasChanged();
     }
+
+    private void startOver()
+    {
+        reset();
+        myFile = null;
+    }
+
+
 
     Color addressColor = Color.Default;
     private async Task checkAddress()

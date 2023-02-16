@@ -1,0 +1,62 @@
+﻿@inject ISnackbar Snackbar
+<MudText Align="Align.Center" Typo="Typo.h1">PhishSceptic</MudText>
+<MudText Typo="Typo.h2">What is PhishSceptic?</MudText>
+<MudText Typo="Typo.body1">PhishSceptic is a phishing awareness tool that you can use to analyse emails if you are suspicious of them. It encourages scepticism and blah bah blah.</MudText>
+
+<MudDivider Class="my-5"></MudDivider>
+
+<MudText Typo="Typo.h4">Upload a .eml file below:</MudText>
+
+<MudStack Style="width: 100%">
+    <MudFileUpload T="IReadOnlyList<IBrowserFile>" OnFilesChanged="OnInputFileChanged" Hidden="false" Class="flex-1" InputClass="absolute mud-width-full mud-height-full overflow-hidden z-20" InputStyle="opacity:0"
+                   @ondragenter="@SetDragClass" @ondragleave="@ClearDragClass" @ondragend="@ClearDragClass">
+        <ButtonTemplate>
+            <MudPaper Height="300px" Outlined="true" Class="@DragClass">
+                <MudText Typo="Typo.h6">Drag and drop a file here or click</MudText>
+            </MudPaper>
+        </ButtonTemplate>
+    </MudFileUpload>
+</MudStack>
+
+<MudFileUpload T="IBrowserFile" FilesChanged="UploadFile">
+    <ButtonTemplate>
+        <MudButton HtmlTag="label"
+                   Variant="Variant.Filled"
+                   Color="Color.Primary"
+                   StartIcon="@Icons.Material.Filled.CloudUpload"
+                   for="@context">
+            Upload Files
+        </MudButton>
+    </ButtonTemplate>
+</MudFileUpload>
+
+
+@code{
+    [Parameter] public Action<IBrowserFile> UploadFile { get; set; }
+
+    private static string DefaultDragClass = "relative rounded-lg border-2 border-dashed pa-4 mt-4 mud-width-full mud-height-full z-10";
+    private string DragClass = DefaultDragClass;
+    private List<string> fileNames = new List<string>();
+
+    private void OnInputFileChanged(InputFileChangeEventArgs e)
+    {
+        ClearDragClass();
+        var files = e.GetMultipleFiles();
+        if (files.Count != 0)
+        {
+            UploadFile.Invoke(files[0]);
+        }
+        
+    }
+
+    private void SetDragClass()
+    {
+        DragClass = $"{DefaultDragClass} mud-border-primary";
+    }
+
+    private void ClearDragClass()
+    {
+        DragClass = DefaultDragClass;
+    }
+
+}
