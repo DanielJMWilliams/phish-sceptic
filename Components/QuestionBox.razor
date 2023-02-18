@@ -1,11 +1,15 @@
 ﻿@using System.Text.RegularExpressions
+@foreach(Question q in questionBank.GetQuestions())
+{
+    <MudPaper Class="my-5 py-10">
+        <MudText Align="Align.Center" Typo="Typo.h4" Color="Color.Default">This email was sent by: @emailAnalyser.GetSender()</MudText>
+        <MudDivider Class="my-10"></MudDivider>
+        <YesNoQuestion OnAnswer="@updateScore" Question="@q"/>
+    </MudPaper>    
+}
 
-<MudPaper Class="my-5 py-10">
-    <MudText Align="Align.Center" Typo="Typo.h4" Color="Color.Default">This email was sent by: @emailAnalyser.GetSender()</MudText>
-    <MudDivider Class="my-10"></MudDivider>
-    <YesNoQuestion Question="@questionBank.GetQuestions()[0]"/>
-</MudPaper>
 
+<MudText>Score: @score</MudText>
 
 <MudText>URLs found in email: </MudText>
 
@@ -14,6 +18,26 @@
 
     [Parameter] public EmailAnalyser emailAnalyser { get; set; }
     [Parameter] public QuestionBank questionBank { get; set; }
+
+    private float score = 0;
+
+    private void updateScore()
+    {
+        score = 0;
+        foreach(Question q in questionBank.GetQuestions())
+        {
+            if (q.isYes==true)
+            {
+                score += q.weighting;
+            }
+            else if (q.isYes==false)
+            {
+                score -= q.weighting;
+            }
+
+        }
+        StateHasChanged();
+    }
 
 
 }

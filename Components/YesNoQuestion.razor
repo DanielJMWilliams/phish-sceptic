@@ -6,8 +6,8 @@
 <MudText Typo="Typo.h3" Align="Align.Center">@Question.question</MudText>
 
 <MudPaper Class="d-flex justify-space-around flex-grow-1 gap-4 my-10 px-16" Elevation="0">
-    <MudButton OnClick="() => AnswerQuestion(true)" Variant="Variant.Filled" Color="Color.Success" FullWidth Style="height:60px">Yes</MudButton>
-    <MudButton OnClick="() => AnswerQuestion(false)" Variant="Variant.Filled" Color="Color.Error" FullWidth Style="height:60px">No</MudButton>
+    <MudButton OnClick="() => AnswerQuestion(true)" Variant="Variant.Filled" Color="@yesColor" FullWidth Style="height:60px">Yes</MudButton>
+    <MudButton OnClick="() => AnswerQuestion(false)" Variant="Variant.Filled" Color="@noColor" FullWidth Style="height:60px">No</MudButton>
 </MudPaper>
 
 @if (answered)
@@ -20,12 +20,30 @@
 @code {
     [Parameter]
     public Question Question { get; set; }
+    [Parameter] public Action OnAnswer { get; set; }
+
     private bool answered = false;
+
+    private Color yesColor = Color.Success;
+    private Color noColor = Color.Error;
 
     private void AnswerQuestion(bool isYes)
     {
+        if (isYes)
+        {
+            noColor = Color.Dark;
+            yesColor = Color.Success;
+        }
+        else
+        {
+            yesColor = Color.Dark;
+            noColor = Color.Error;
+        }
+
         Question.isYes = isYes;
         answered = true;
+        OnAnswer.Invoke();
+        StateHasChanged();
     }
 
 }

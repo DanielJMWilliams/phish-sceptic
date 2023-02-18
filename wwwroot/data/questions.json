@@ -1,5 +1,10 @@
 [
   {
+    "question": "Does the email contain shortened URLS?",
+    "description": "URLs are often disguised by using shortened url links",
+    "weighting": -2
+  },
+  {
     "question": "Are there any typos or weird looking characters in the address?",
     "description": "Attackers try to mislead targets by disguising their email address as a trusted email address.",
     "weighting": -5
@@ -18,11 +23,6 @@
     "question": "Is there poor spelling in the email?",
     "description": "Misspellings are often used to avoid spam filters",
     "weighting": 2
-  },
-  {
-    "question": "Does it contain shortened URLS?",
-    "description": "URLs are often disguised by using shortened url links",
-    "weighting": -2
   },
   {
     "question": "Does the email use urgent language?",
