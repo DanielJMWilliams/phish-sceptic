@@ -1,160 +1,42 @@
 ﻿@using MudBlazor
 @using System
-@using System.Text.RegularExpressions
 @page "/"
 @inject ISnackbar Snackbar
 
 <PageTitle>Index</PageTitle>
 
-@if (myFile==null)
+@if (emailAnalyser==null)
 {
     <HomePage UploadFile=@uploadFile></HomePage>
 }
 else{
     <MudButton Color="Color.Error" OnClick="@startOver">Restart</MudButton>
-    <MudListItem Icon="@Icons.Material.Filled.AttachFile" @key="@myFile">
-        Uploaded: @myFile.Name <code>@myFile.Size bytes</code>
+    <MudListItem Icon="@Icons.Material.Filled.AttachFile" @key="@emailAnalyser">
+        Uploaded: @emailAnalyser.GetFileName() <code>@emailAnalyser.GetFileSize() bytes</code>
     </MudListItem>
 
     <MudDivider Class="my-5"></MudDivider>
 
-    <MudPaper Class="my-5 py-10">
-        <MudText Align="Align.Center" Typo="Typo.h4" Color="@addressColor">This email was sent by: @sender</MudText>
-        <MudDivider Class="my-10"></MudDivider>
-        <YesNoQuestion Question="Do you trust this sender?"/>
-    </MudPaper>
-
-
-
-
-
-    <MudTextField  @bind-Value="typedAddress" Label="Retype the above email address" Variant="Variant.Outlined"></MudTextField>
-
-
-    @if (typedAddress == sender)
-    {
-        <MudText>Email Addresses Match!</MudText>
-    }
-    else if (typedAddress != sender && typedAddress!="")
-    {
-        <MudText>Email Addresses DO NOT match!</MudText>
-    }
-
-
-    <MudText>URLs found in email: </MudText>
-    @foreach(string url in Urls)
-    {
-        <MudText>@url</MudText>
-    }
-
-    <MudText>Domains: </MudText>
-    @foreach(string domain in Domains)
-    {
-        <MudText>@domain</MudText>
-    }
-    
+    <QuestionBox emailAnalyser="@emailAnalyser"></QuestionBox>    
 }
 
 @code
 {
-    IBrowserFile myFile;
+    private EmailAnalyser emailAnalyser;
     private async Task uploadFile(IBrowserFile file)
     {
-        myFile = file;
-        await AnalyseEmail();
+        emailAnalyser = new EmailAnalyser(file);
+        await emailAnalyser.Analyse();
+        //await AnalyseEmail();
         StateHasChanged();
     }
 
     private void startOver()
     {
-        reset();
-        myFile = null;
+        //reset();
+        emailAnalyser = null;
     }
 
 
-
-    Color addressColor = Color.Default;
-    private async Task checkAddress()
-    {
-        if (typedAddress == sender)
-        {
-            addressColor = Color.Success;
-        }
-        else
-        {
-            addressColor = Color.Default;
-        }
-    }
-
-    string bitstring = "";
-    string sender = "";
-    List<string> Urls = new List<string>();
-    List<string> Domains = new List<string>();
-    public string typedAddress { get; set; }
-
-    private void reset()
-    {
-        Urls = new List<string>();
-        Domains = new List<string>();
-    }
-
-    private async Task AnalyseEmail()
-    {
-        reset();
-        var buffer = new byte[myFile.Size];
-        var length = await myFile.OpenReadStream().ReadAsync(buffer);
-
-        using (var streamReader = new StreamReader(myFile.OpenReadStream()))
-        {
-            bitstring = await streamReader.ReadToEndAsync();
-        }
-
-        // extract sender
-        string senderPattern = @"From: ([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})";
-        sender = extractSinglePattern(bitstring, senderPattern).Groups[1].Value;
-
-        // extract all urls in email
-        // TODO: update pattern to extract urls broken by new line characters
-        string urlPattern = @"https?://[a-zA-Z0-9\./-?=#]+";
-        MatchCollection urlMatches = extractPattern(bitstring, urlPattern);
-        foreach (Match m in urlMatches)
-        {
-            Urls.Add(m.Groups[0].Value);
-        }
-        Domains = extractDomains(Urls);
-
-
-    }
-
-    private List<string> extractDomains(List<string> urls)
-    {
-        // Not perfect
-        string pattern = @"(?:https?:\/\/)?(?:[^@\n]+@)?(?:www\.)?([^:\/\n]+)";
-        List<string> domains = new List<string>();
-        foreach(string url in urls)
-        {
-            GroupCollection groups = Regex.Match(url, pattern).Groups;
-            string domain = groups[1].Value;
-
-            domains.Add(domain);
-        }
-        return domains;
-    }
-
-    private Match extractSinglePattern(string text, string pattern)
-    {
-        Match match = Regex.Match(text, pattern, RegexOptions.IgnoreCase);
-
-        if (match.Success) {
-            return match;
-        }
-
-        throw new Exception("No match found for given pattern");
-    }
-    private MatchCollection extractPattern(string text, string pattern)
-    {
-        MatchCollection matches = Regex.Matches(text, pattern, RegexOptions.Multiline | RegexOptions.IgnoreCase);
-        return matches;
-    }
-
+    
 }
