@@ -29,6 +29,11 @@ namespace PhishSceptic.Utilities
 
         }
 
+        public List<string> GetUrls()
+        {
+            return Urls;
+        }
+
         private string extractExtension(string filename)
         {
             string extension = extractSinglePattern(filename, @"\.(.*)").Groups[1].Value;
