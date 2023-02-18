@@ -1,5 +1,6 @@
 ﻿@using MudBlazor
 @using System
+@inject HttpClient Http
 @page "/"
 @inject ISnackbar Snackbar
 
@@ -17,19 +18,29 @@ else{
 
     <MudDivider Class="my-5"></MudDivider>
 
-    <QuestionBox emailAnalyser="@emailAnalyser"></QuestionBox>    
+    <QuestionBox emailAnalyser="@emailAnalyser" questionBank="@questionBank"></QuestionBox>    
 }
 
 @code
 {
     private EmailAnalyser emailAnalyser;
+    private QuestionBank questionBank;
+
+    protected async override Task OnInitializedAsync()
+    {
+        questionBank = new QuestionBank(Http);
+        await questionBank.LoadQuestions();
+    }
+
     private async Task uploadFile(IBrowserFile file)
     {
         emailAnalyser = new EmailAnalyser(file);
         await emailAnalyser.Analyse();
-        //await AnalyseEmail();
+        Console.WriteLine("Analysis complete");
         StateHasChanged();
     }
+
+
 
     private void startOver()
     {

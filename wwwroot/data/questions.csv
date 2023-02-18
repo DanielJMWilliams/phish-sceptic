@@ -1,8 +1,0 @@
-Questions	Info	Weighting
-Do you recognise this email address?	Compromised colleagues…	1
-Are there any typos or weird looking characters in the address?	Attackers try to mislead targets by disguising their email address as a trusted email address.	-5
-Do you trust the domain?		5
-Is there poor spelling in the email?	Misspellings are often used to avoid spam filters	2
-Does it contain shortened URLS?	URLs are often disguised by using shortened url links	-2
-Does the email use urgent language?	Attackers panic targets into taking urgent action before they realise it may not be legitimate.	-5
-Would you expect an email like this from this sender?	The sender's account may have been compromised and a malicious acter is sending this email on their behalf.	5

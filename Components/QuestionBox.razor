@@ -3,7 +3,7 @@
 <MudPaper Class="my-5 py-10">
     <MudText Align="Align.Center" Typo="Typo.h4" Color="Color.Default">This email was sent by: @emailAnalyser.GetSender()</MudText>
     <MudDivider Class="my-10"></MudDivider>
-    <YesNoQuestion Question="Do you trust this sender?"/>
+    <YesNoQuestion Question="@questionBank.GetQuestions()[0]"/>
 </MudPaper>
 
 
@@ -13,6 +13,7 @@
 @code {
 
     [Parameter] public EmailAnalyser emailAnalyser { get; set; }
+    [Parameter] public QuestionBank questionBank { get; set; }
 
 
 }

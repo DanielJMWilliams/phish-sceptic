@@ -1,0 +1,37 @@
+[
+  {
+    "question": "Are there any typos or weird looking characters in the address?",
+    "description": "Attackers try to mislead targets by disguising their email address as a trusted email address.",
+    "weighting": -5
+  },
+  {
+    "question": "Do you recognise this email address?",
+    "description": "Compromised colleagues",
+    "weighting": 1
+  },
+  {
+    "question": "Do you trust the domain?",
+    "description": "n/a",
+    "weighting": 5
+  },
+  {
+    "question": "Is there poor spelling in the email?",
+    "description": "Misspellings are often used to avoid spam filters",
+    "weighting": 2
+  },
+  {
+    "question": "Does it contain shortened URLS?",
+    "description": "URLs are often disguised by using shortened url links",
+    "weighting": -2
+  },
+  {
+    "question": "Does the email use urgent language?",
+    "description": "Attackers panic targets into taking urgent action before they realise it may not be legitimate.",
+    "weighting": -5
+  },
+  {
+    "question": "Would you expect an email like this from this sender?",
+    "description": "The sender's account may have been compromised and a malicious acter is sending this email on their behalf.",
+    "weighting": 5
+  }
+]
