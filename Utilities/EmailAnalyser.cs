@@ -8,7 +8,8 @@ namespace PhishSceptic.Utilities
         public IBrowserFile EmailFile { get; set; }
 
         // email as a bitstring
-        private string emailString = "";
+        private string _emailString = "";
+        private string emailBody = "";
         private string Sender = "";
         private List<string> Urls = new List<string>();
         private List<string> Domains = new List<string>();
@@ -27,6 +28,11 @@ namespace PhishSceptic.Utilities
             }
             
 
+        }
+
+        public string GetEmailBody()
+        {
+            return emailBody;
         }
 
         public List<string> GetUrls()
@@ -75,24 +81,47 @@ namespace PhishSceptic.Utilities
 
             using (var streamReader = new StreamReader(EmailFile.OpenReadStream()))
             {
-                emailString = await streamReader.ReadToEndAsync();
+                _emailString = await streamReader.ReadToEndAsync();
             }
 
             // extract sender
             string senderPattern = @"From: ([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})";
-            Sender = extractSinglePattern(emailString, senderPattern).Groups[1].Value;
+            Sender = extractSinglePattern(_emailString, senderPattern).Groups[1].Value;
 
             // extract all urls in email
             // TODO: update pattern to extract urls broken by new line characters
             string urlPattern = @"https?://[a-zA-Z0-9\./-?=#]+";
-            MatchCollection urlMatches = extractPattern(emailString, urlPattern);
+            MatchCollection urlMatches = extractPattern(_emailString, urlPattern);
             foreach (Match m in urlMatches)
             {
                 Urls.Add(m.Groups[0].Value);
             }
             Domains = extractDomains(Urls);
 
+            // extract body of email
+            emailBody = extractBody(_emailString);
 
+
+
+        }
+
+        public string extractBody(string emailString)
+        {
+            // Use regular expression to extract body of email
+            Regex bodyRegex = new Regex("\n\n(.+)", RegexOptions.Singleline);
+            Match match = bodyRegex.Match(emailString);
+
+            if (match.Success)
+            {
+                string body = match.Groups[1].Value;
+                return body;
+                Console.WriteLine(body);
+            }
+            else
+            {
+                Console.WriteLine("No body found in email");
+                return "empty";
+            }
         }
 
         private List<string> extractDomains(List<string> urls)
