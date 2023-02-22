@@ -124,7 +124,7 @@ namespace PhishSceptic.Utilities
         {
             //string pattern = @"https?://[a-zA-Z0-9\./-?=#]+";
             string pattern = @"https?://\S+?\s";
-            string output = Regex.Replace(text, pattern, "\n", RegexOptions.IgnoreCase | RegexOptions.Singleline);
+            string output = Regex.Replace(text, pattern, "\r\n", RegexOptions.IgnoreCase | RegexOptions.Singleline);
             return output;
 
         }

@@ -1,17 +1,19 @@
-﻿<MudText Typo="Typo.h3">Urgency Inspector</MudText>
+﻿@inject HttpClient Http
+ 
+<MudText Typo="Typo.h3">Urgency Inspector</MudText>
 <MudText>This component highlights urgency words in the email subject and body.</MudText>
 <MudPaper Elevation="1" Class="my-5 pa-4">
-    <MudText Typo="Typo.h6">
+    <MudText Class="ma-2" Typo="Typo.h6">
         <MudHighlighter Text="@_emailTitle"
-                HighlightedTexts="@urgentWords"
-                Class="pa-1 mud-elevation-2 mud-theme-primary" />
+                HighlightedTexts="@wordCategories.urgent_words"
+                Class="pa-1 mud-elevation-2 mud-theme-error" />
     </MudText>
     <MudDivider></MudDivider>
-    <MudText>
+    <MudText Class="ma-2">
 
         <MudHighlighter Text="@_emailBody"
-                HighlightedTexts="@urgentWords"
-                Class="pa-1 mud-elevation-2 mud-theme-primary" />
+                HighlightedTexts="@wordCategories.urgent_words"
+                Class="pa-1 mud-elevation-2 mud-theme-error" />
     </MudText>
 </MudPaper>
 
@@ -24,12 +26,35 @@
     private string _emailBody = "";
     private string _emailTitle = "";
 
-    private string[] urgentWords = { "now", "password", "update" };
+    private string[] urgentWords;
+
+    protected async override Task OnInitializedAsync()
+    {
+        await LoadWordCategories();
+    }
 
     protected async override Task OnParametersSetAsync()
     {
         _emailBody = emailAnalyser.GetEmailBody();
         _emailBody = EmailAnalyser.StripOutLinks(_emailBody);
         _emailTitle = emailAnalyser.GetEmailTitle();
+        
+        //urgentWords = wordCategories
+
+    }
+
+    private WordCategories wordCategories;
+
+    public async Task LoadWordCategories()
+    {
+        try
+        {
+            wordCategories = await Http.GetFromJsonAsync<WordCategories>("data/word_categories.json");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Error: " + ex.Message);
+        }
+
     }
 }
