@@ -12,8 +12,9 @@ namespace PhishSceptic.Utilities
 
         private string _emailBody = "";
         private string _sender = "";
-        private List<string> Urls = new List<string>();
-        private List<string> Domains = new List<string>();
+        private List<string> _urls = new List<string>();
+        private List<string> _domains = new List<string>();
+        private List<string> _shortenedLinks = new List<string>();
 
         public EmailAnalyser(IBrowserFile file)
         {
@@ -57,10 +58,34 @@ namespace PhishSceptic.Utilities
             Console.WriteLine(_emailBody);
 
             // extract all urls in email
-            Urls = ExtractUrls(_emailBody);
-            Domains = ExtractDomains(Urls);
+            _urls = ExtractUrls(_emailBody);
+            _domains = ExtractDomains(_urls) ;
+            _shortenedLinks = ExtractShortenedDomains(GetDistinctDomains());
 
 
+        }
+
+        public List<string> GetShortenedDomains()
+        {
+            return _shortenedLinks;
+        }
+
+        public static List<string> ExtractShortenedDomains(List<string> domains)
+        {
+            string pattern = "(bit.ly)|(tinyurl.com)|(tiny.one)|(rotf.lol)|(rb.gy/diwcdb)";
+            List<string> shortened = new List<string>();
+            foreach (string domain in domains)
+            {
+                Match m = Regex.Match(domain, pattern);
+                if (m.Success)
+                {
+                    string s = m.Groups[0].Value;
+
+                    shortened.Add(s);
+                }
+
+            }
+            return shortened;
         }
 
         public static List<string> ExtractDomains(List<string> urls)
@@ -98,10 +123,14 @@ namespace PhishSceptic.Utilities
         {
             return _emailBody;
         }
+        public List<string> GetDistinctDomains()
+        {
+            return _domains.Distinct().ToList();
+        }
 
         public List<string> GetUrls()
         {
-            return Urls;
+            return _urls;
         }
 
         private string extractExtension(string filename)
@@ -133,8 +162,8 @@ namespace PhishSceptic.Utilities
 
         private void reset()
         {
-            Urls = new List<string>();
-            Domains = new List<string>();
+            _urls = new List<string>();
+            _domains = new List<string>();
         }
 
         public string extractBody(string emailString)
