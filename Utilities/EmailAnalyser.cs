@@ -30,6 +30,37 @@ namespace PhishSceptic.Utilities
 
         }
 
+        public static List<string> ExtractDomains(List<string> urls)
+        {
+            // Not perfect
+            string pattern = @"(?:https?:\/\/)?(?:[^@\n]+@)?(?:www\.)?([^:\/\n]+)";
+            List<string> domains = new List<string>();
+            foreach (string url in urls)
+            {
+                GroupCollection groups = Regex.Match(url, pattern).Groups;
+                string domain = groups[1].Value;
+
+                domains.Add(domain);
+            }
+            return domains;
+        }
+
+        public static List<string> ExtractUrls(string emailString)
+        {
+            List<string> urls = new List<string>();
+            // extract all urls in email
+            // TODO: update pattern to extract urls broken by new line characters
+            string pattern = @"https?://[a-zA-Z0-9\./-?=#]+";
+            MatchCollection matches = Regex.Matches(emailString, pattern, RegexOptions.IgnoreCase | RegexOptions.Singleline);
+            
+            foreach(Match m in matches)
+            {
+                urls.Add(m.Value);
+            }
+            return urls;
+
+        }
+
         public string GetEmailBody()
         {
             return emailBody;
@@ -89,13 +120,7 @@ namespace PhishSceptic.Utilities
             Sender = extractSinglePattern(_emailString, senderPattern).Groups[1].Value;
 
             // extract all urls in email
-            // TODO: update pattern to extract urls broken by new line characters
-            string urlPattern = @"https?://[a-zA-Z0-9\./-?=#]+";
-            MatchCollection urlMatches = extractPattern(_emailString, urlPattern);
-            foreach (Match m in urlMatches)
-            {
-                Urls.Add(m.Groups[0].Value);
-            }
+            Urls = ExtractUrls(_emailString);
             Domains = extractDomains(Urls);
 
             // extract body of email

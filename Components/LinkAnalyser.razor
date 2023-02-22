@@ -4,5 +4,10 @@
     <MudText># of shortened links: </MudText>
 </MudPaper>
 
-
+<MudPaper>
+    @foreach(string url in urls)
+    {
+        <MudText>@url</MudText>
+    }
+</MudPaper>
 
