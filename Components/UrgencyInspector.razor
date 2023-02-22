@@ -3,7 +3,10 @@
 <MudText Typo="Typo.h3">Urgency Inspector</MudText>
 <MudText>This component highlights urgency words in the email subject and body.</MudText>
 <MudPaper Elevation="1" Class="my-5 pa-4">
-    <MudTabs Elevation="2" Rounded="true" ApplyEffectsToContainer="true" PanelClass="pa-6">
+    <MudTabs Elevation="2" Rounded Centered ApplyEffectsToContainer PanelClass="pa-6">
+        <MudTabPanel Text="All">
+            <HighlightedText Title="@_emailTitle" Text="@_emailBody" HighlightedTexts="@allSuspiciousWords" ></HighlightedText>
+        </MudTabPanel>
         <MudTabPanel Text="Urgency">
             <HighlightedText Title="@_emailTitle" Text="@_emailBody" HighlightedTexts="@urgentWords" ></HighlightedText>
         </MudTabPanel>
@@ -33,6 +36,7 @@
     private string[] threatWords;
     private string[] rewardWords;
     private string[] misspeltWords;
+    private string[] allSuspiciousWords;
     //private string[] phishingWords;
 
     protected async override Task OnInitializedAsync()
@@ -40,11 +44,12 @@
         await LoadWordCategories();
         if (wordCategories != null)
         {
-           urgentWords = wordCategories.urgent; 
-           threatWords = wordCategories.threat; 
-           rewardWords = wordCategories.reward; 
-           misspeltWords = wordCategories.misspelling; 
-           
+            urgentWords = wordCategories.urgent; 
+            threatWords = wordCategories.threat; 
+            rewardWords = wordCategories.reward; 
+            misspeltWords = wordCategories.misspelling;
+            allSuspiciousWords = urgentWords.Concat(threatWords).Concat(rewardWords).Concat(misspeltWords).ToArray();
+
         }
         
     }
