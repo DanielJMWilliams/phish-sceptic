@@ -11,6 +11,7 @@ namespace PhishSceptic.Utilities
         private MimeMessage _mimeMessage;
 
         private string _emailBody = "";
+        private string _emailTitle = "";
         private string _sender = "";
         private List<string> _urls = new List<string>();
         private List<string> _domains = new List<string>();
@@ -55,6 +56,7 @@ namespace PhishSceptic.Utilities
             _sender = _mimeMessage.From[0].ToString();
 
             _emailBody = _mimeMessage.TextBody;
+            _emailTitle = _mimeMessage.Subject;
 
             // extract all urls in email
             _urls = ExtractUrls(_emailBody);
@@ -90,7 +92,7 @@ namespace PhishSceptic.Utilities
         public static List<string> ExtractDomains(List<string> urls)
         {
             // Not perfect
-            string pattern = @"(?:https?:\/\/)?(?:[^@\n]+@)?(?:www\.)?([^:\/\n]+)";
+            string pattern = @"(?:https?:\/\/)?(?:[^@\n]+@)?(?:www\.)?([^:\/\n?]+)";
             List<string> domains = new List<string>();
             foreach (string url in urls)
             {
@@ -107,7 +109,7 @@ namespace PhishSceptic.Utilities
             List<string> urls = new List<string>();
             // extract all urls in email
             // TODO: update pattern to extract urls broken by new line characters
-            string pattern = @"https?://[a-zA-Z0-9\./-?=#]+";
+            string pattern = @"https?://\S+?\s";
             MatchCollection matches = Regex.Matches(emailString, pattern, RegexOptions.IgnoreCase | RegexOptions.Singleline);
             
             foreach(Match m in matches)
@@ -118,6 +120,19 @@ namespace PhishSceptic.Utilities
 
         }
 
+        public static string StripOutLinks(string text)
+        {
+            //string pattern = @"https?://[a-zA-Z0-9\./-?=#]+";
+            string pattern = @"https?://\S+?\s";
+            string output = Regex.Replace(text, pattern, "\n", RegexOptions.IgnoreCase | RegexOptions.Singleline);
+            return output;
+
+        }
+
+        public string GetEmailTitle()
+        {
+            return _emailTitle;
+        }
         public string GetEmailBody()
         {
             return _emailBody;

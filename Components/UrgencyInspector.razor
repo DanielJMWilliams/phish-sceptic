@@ -1,0 +1,35 @@
+﻿<MudText Typo="Typo.h3">Urgency Inspector</MudText>
+<MudText>This component highlights urgency words in the email subject and body.</MudText>
+<MudPaper Elevation="1" Class="my-5 pa-4">
+    <MudText Typo="Typo.h6">
+        <MudHighlighter Text="@_emailTitle"
+                HighlightedTexts="@urgentWords"
+                Class="pa-1 mud-elevation-2 mud-theme-primary" />
+    </MudText>
+    <MudDivider></MudDivider>
+    <MudText>
+
+        <MudHighlighter Text="@_emailBody"
+                HighlightedTexts="@urgentWords"
+                Class="pa-1 mud-elevation-2 mud-theme-primary" />
+    </MudText>
+</MudPaper>
+
+
+
+
+@code {
+    [Parameter] public EmailAnalyser emailAnalyser { get; set; }
+
+    private string _emailBody = "";
+    private string _emailTitle = "";
+
+    private string[] urgentWords = { "now", "password", "update" };
+
+    protected async override Task OnParametersSetAsync()
+    {
+        _emailBody = emailAnalyser.GetEmailBody();
+        _emailBody = EmailAnalyser.StripOutLinks(_emailBody);
+        _emailTitle = emailAnalyser.GetEmailTitle();
+    }
+}
