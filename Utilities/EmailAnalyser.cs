@@ -34,7 +34,7 @@ namespace PhishSceptic.Utilities
         public async static Task MimeKitLoad(IBrowserFile emailFile)
         {
             Stream stream = emailFile.OpenReadStream();
-            var path = @"C:\Users\Admin\Documents\1Uni\1FinalYear\Project\phish-sceptic\tmp\" + emailFile.Name;
+            var path = @"..\tmp\" + emailFile.Name;
             FileStream fs = File.Create(path);
             await stream.CopyToAsync(fs);
             stream.Close();
