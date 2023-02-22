@@ -4,13 +4,13 @@
 @page "/"
 @inject ISnackbar Snackbar
 
-<PageTitle>Index</PageTitle>
 
 @if (emailAnalyser==null)
 {
     <HomePage UploadFile=@uploadFile></HomePage>
 }
 else{
+    <InfoComponent></InfoComponent>
     <MudButton Color="Color.Error" OnClick="@startOver">Restart</MudButton>
     <MudListItem Icon="@Icons.Material.Filled.AttachFile" @key="@emailAnalyser">
         Uploaded: @emailAnalyser.GetFileName() <code>@emailAnalyser.GetFileSize() bytes</code>
@@ -18,9 +18,13 @@ else{
 
     <MudDivider Class="my-5"></MudDivider>
 
+    <SenderInspector emailAnalyser="@emailAnalyser"></SenderInspector>
+
+    <MudDivider Class="my-5"></MudDivider>
+
     <LinkAnalyser emailAnalyser="@emailAnalyser"></LinkAnalyser>
 
-    <UrgencyAnalyser emailAnalyser="@emailAnalyser"></UrgencyAnalyser>
+     <MudDivider Class="my-5"></MudDivider>
 
     <QuestionBox emailAnalyser="@emailAnalyser" questionBank="@questionBank"></QuestionBox> 
     
