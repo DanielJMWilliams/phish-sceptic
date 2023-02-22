@@ -3,18 +3,21 @@
 <MudText Typo="Typo.h3">Urgency Inspector</MudText>
 <MudText>This component highlights urgency words in the email subject and body.</MudText>
 <MudPaper Elevation="1" Class="my-5 pa-4">
-    <MudText Class="ma-2" Typo="Typo.h6">
-        <MudHighlighter Text="@_emailTitle"
-                HighlightedTexts="@urgentWords"
-                Class="pa-1 mud-elevation-2 mud-theme-error" />
-    </MudText>
-    <MudDivider></MudDivider>
-    <MudText Class="ma-2">
+    <MudTabs Elevation="2" Rounded="true" ApplyEffectsToContainer="true" PanelClass="pa-6">
+        <MudTabPanel Text="Urgency">
+            <HighlightedText Title="@_emailTitle" Text="@_emailBody" HighlightedTexts="@urgentWords" ></HighlightedText>
+        </MudTabPanel>
+        <MudTabPanel Text="Threat">
+            <HighlightedText Title="@_emailTitle" Text="@_emailBody" HighlightedTexts="@threatWords" ></HighlightedText>
+        </MudTabPanel>
+        <MudTabPanel Text="Reward">
+            <HighlightedText Title="@_emailTitle" Text="@_emailBody" HighlightedTexts="@rewardWords" ></HighlightedText>
+        </MudTabPanel>
+        <MudTabPanel Text="Misspellings">
+            <HighlightedText Title="@_emailTitle" Text="@_emailBody" HighlightedTexts="@misspeltWords" ></HighlightedText>
+        </MudTabPanel>
+    </MudTabs>
 
-        <MudHighlighter Text="@_emailBody"
-                HighlightedTexts="@urgentWords"
-                Class="pa-1 mud-elevation-2 mud-theme-error" />
-    </MudText>
 </MudPaper>
 
 
@@ -27,6 +30,10 @@
     private string _emailTitle = "";
 
     private string[] urgentWords;
+    private string[] threatWords;
+    private string[] rewardWords;
+    private string[] misspeltWords;
+    //private string[] phishingWords;
 
     protected async override Task OnInitializedAsync()
     {
@@ -34,6 +41,10 @@
         if (wordCategories != null)
         {
            urgentWords = wordCategories.urgent; 
+           threatWords = wordCategories.threat; 
+           rewardWords = wordCategories.reward; 
+           misspeltWords = wordCategories.misspelling; 
+           
         }
         
     }
