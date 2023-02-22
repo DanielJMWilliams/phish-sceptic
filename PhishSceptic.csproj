@@ -14,9 +14,22 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Content Remove="wwwroot\sample-data\email.eml" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Include="wwwroot\sample-data\email.eml" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.7" />
 		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.7" PrivateAssets="all" />
+		<PackageReference Include="MimeKit" Version="3.5.0" />
 		<PackageReference Include="MudBlazor" Version="6.1.9" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="tmp\" />
 	</ItemGroup>
 	
 	

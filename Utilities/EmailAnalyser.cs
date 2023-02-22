@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components.Forms;
+using MimeKit;
 using System.Text.RegularExpressions;
 
 namespace PhishSceptic.Utilities
@@ -28,6 +29,20 @@ namespace PhishSceptic.Utilities
             }
             
 
+        }
+
+        public async static Task MimeKitLoad(IBrowserFile emailFile)
+        {
+            Stream stream = emailFile.OpenReadStream();
+            var path = @"C:\Users\Admin\Documents\1Uni\1FinalYear\Project\phish-sceptic\tmp\" + emailFile.Name;
+            FileStream fs = File.Create(path);
+            await stream.CopyToAsync(fs);
+            stream.Close();
+            fs.Close();
+
+            // Load a MimeMessage from a stream
+            var message = MimeMessage.Load(path);
+            Console.WriteLine(message.TextBody);
         }
 
         public static List<string> ExtractDomains(List<string> urls)
@@ -107,6 +122,10 @@ namespace PhishSceptic.Utilities
         public async Task Analyse()
         {
             reset();
+            await MimeKitLoad(EmailFile);
+
+            /*
+
             var buffer = new byte[EmailFile.Size];
             var length = await EmailFile.OpenReadStream().ReadAsync(buffer);
 
@@ -125,7 +144,7 @@ namespace PhishSceptic.Utilities
 
             // extract body of email
             emailBody = extractBody(_emailString);
-
+            */
 
 
         }
