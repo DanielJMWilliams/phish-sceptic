@@ -1,4 +1,6 @@
-﻿<MudText Typo="Typo.h3">Link Analyser</MudText>
+﻿@inject IDialogService DialogService
+
+<MudText Typo="Typo.h3">Link Analyser</MudText>
 <MudText>This component analyses all of the links in the email body.</MudText>
 <MudPaper Elevation="1" Class="my-5 pa-4">
 
@@ -27,9 +29,10 @@
     </MudGrid>
 
     <MudText>Domains referenced in email body:</MudText>
-    @foreach(string domain in domains)
+    @for(int i=0; i<domains.Count();i++)
     {
-        <MudChip>@domain</MudChip>
+        var index = i;
+        <MudChip Color="@domainChipColors[index]" OnClick="() => VerifyDomain(index)">@domains[index]</MudChip>
     }
 
 </MudPaper>

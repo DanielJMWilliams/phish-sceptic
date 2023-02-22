@@ -55,7 +55,6 @@ namespace PhishSceptic.Utilities
             _sender = _mimeMessage.From[0].ToString();
 
             _emailBody = _mimeMessage.TextBody;
-            Console.WriteLine(_emailBody);
 
             // extract all urls in email
             _urls = ExtractUrls(_emailBody);
