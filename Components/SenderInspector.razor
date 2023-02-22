@@ -1,0 +1,52 @@
+﻿@inject IDialogService DialogService
+
+<MudText Typo="Typo.h3">Sender Inspector</MudText>
+<MudText>This component helps you inspect the sender</MudText>
+<MudPaper Elevation="1" Class="my-5 pa-4">
+    <MudText>The email was sent by:</MudText>
+    <MudText Color="@(_isVerified ? Color.Default : Color.Error)" 
+             Align="Align.Center" Typo="Typo.h3">@_sender</MudText>
+
+    <MudText>In the input field below, type the email address as you see it.</MudText>
+    <MudTextField Immediate TextChanged="@verify" @bind-Value="_typedValue"
+                  Label="Type what you see above" Variant="Variant.Text"></MudTextField>
+    @if (!_isVerified && _typedValue!="")
+    {
+        <MudText Color="Color.Error">
+            Currently the actual email address and the email address you typed do NOT match.
+            Attackers often will use misleading email addresses with similar characters to trick people.
+        </MudText>
+    }
+    else if(_isVerified)
+    {
+        <MudText Color="Color.Info">
+            The email addresses match. However this does not necessarily mean the email is legitimate.
+            Continue looking at the other phishing indicators.
+        </MudText>
+    }
+</MudPaper>
+
+@code {
+    [Parameter] public EmailAnalyser emailAnalyser { get; set; }
+
+    private string _sender = "";
+
+    private string _typedValue = "";
+
+    protected async override Task OnParametersSetAsync()
+    {
+        _sender = emailAnalyser.GetSender();
+    }
+
+    private bool _isVerified = false;
+    private void verify()
+    {
+        if(_typedValue == _sender)
+        {
+            _isVerified = true;
+        }
+        else{
+            _isVerified = false;
+        }
+    }
+}
