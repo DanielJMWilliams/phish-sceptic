@@ -1,7 +1,5 @@
 ﻿@using System.Text.RegularExpressions
 
-<MudText Align="Align.Center" Typo="Typo.h4" Color="Color.Default">This email was sent by: @emailAnalyser.GetSender()</MudText>
-<MudDivider Class="my-10"></MudDivider>
 @foreach(Question q in questionBank.GetQuestions())
 {
     <MudPaper Class="my-5 py-10">
