@@ -45,6 +45,24 @@ namespace PhishSceptic.Utilities
             return message;
         }
 
+        public async Task Analyse()
+        {
+            reset();
+            _mimeMessage = await MimeKitLoad(EmailFile);
+
+            //will only display first sender: minor issue
+            _sender = _mimeMessage.From[0].ToString();
+
+            _emailBody = _mimeMessage.TextBody;
+            Console.WriteLine(_emailBody);
+
+            // extract all urls in email
+            Urls = ExtractUrls(_emailBody);
+            Domains = ExtractDomains(Urls);
+
+
+        }
+
         public static List<string> ExtractDomains(List<string> urls)
         {
             // Not perfect
@@ -117,24 +135,6 @@ namespace PhishSceptic.Utilities
         {
             Urls = new List<string>();
             Domains = new List<string>();
-        }
-
-        public async Task Analyse()
-        {
-            reset();
-            _mimeMessage = await MimeKitLoad(EmailFile);
-
-            _sender = _mimeMessage.From[0].ToString();
-
-
-            _emailBody = _mimeMessage.TextBody;
-            Console.WriteLine(_emailBody);
-
-            // extract all urls in email
-            Urls = ExtractUrls(_emailBody);
-            Domains = ExtractDomains(Urls);
-
-
         }
 
         public string extractBody(string emailString)

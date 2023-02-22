@@ -1,7 +1,26 @@
-﻿<MudPaper Elevation="30">
-    <MudText># of links: @urls.Count() </MudText>
-    <MudText># of unique links: </MudText>
-    <MudText># of shortened links: </MudText>
+﻿<MudPaper Elevation="50">
+
+    <MudGrid Spacing="10" Justify="Justify.Center">
+        <MudItem>
+            <MudText Align="Align.Center"># of links</MudText>
+            <MudPaper Elevation="10" Class="d-flex align-center" Height="140px" Width="140px">
+                <MudText Align="Align.Center" Typo="Typo.h2" Style="width:100%;" >@urls.Count() </MudText>
+            </MudPaper>
+        </MudItem>
+        <MudItem>
+             <MudText Align="Align.Center"># of unique links</MudText>
+            <MudPaper Elevation="10" Class="d-flex align-center" Height="140px" Width="140px">
+                <MudText Align="Align.Center" Typo="Typo.h2" Style="width:100%;" >@urls.Count() </MudText>
+            </MudPaper>
+        </MudItem>
+        <MudItem>
+            <MudText Align="Align.Center"># of shortened links</MudText>
+            <MudPaper Elevation="10" Class="d-flex align-center" Height="140px" Width="140px">
+                <MudText Align="Align.Center" Typo="Typo.h2" Style="width:100%;" >@urls.Count() </MudText>
+            </MudPaper>
+        </MudItem>
+    </MudGrid>
+
 </MudPaper>
 
 <MudPaper>
