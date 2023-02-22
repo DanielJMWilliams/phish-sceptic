@@ -5,14 +5,14 @@
 <MudPaper Elevation="1" Class="my-5 pa-4">
     <MudText Class="ma-2" Typo="Typo.h6">
         <MudHighlighter Text="@_emailTitle"
-                HighlightedTexts="@wordCategories.urgent_words"
+                HighlightedTexts="@urgentWords"
                 Class="pa-1 mud-elevation-2 mud-theme-error" />
     </MudText>
     <MudDivider></MudDivider>
     <MudText Class="ma-2">
 
         <MudHighlighter Text="@_emailBody"
-                HighlightedTexts="@wordCategories.urgent_words"
+                HighlightedTexts="@urgentWords"
                 Class="pa-1 mud-elevation-2 mud-theme-error" />
     </MudText>
 </MudPaper>
@@ -31,6 +31,11 @@
     protected async override Task OnInitializedAsync()
     {
         await LoadWordCategories();
+        if (wordCategories != null)
+        {
+           urgentWords = wordCategories.urgent; 
+        }
+        
     }
 
     protected async override Task OnParametersSetAsync()
@@ -38,18 +43,18 @@
         _emailBody = emailAnalyser.GetEmailBody();
         _emailBody = EmailAnalyser.StripOutLinks(_emailBody);
         _emailTitle = emailAnalyser.GetEmailTitle();
-        
+
         //urgentWords = wordCategories
 
     }
 
-    private WordCategories wordCategories;
+    private WordCategories? wordCategories;
 
     public async Task LoadWordCategories()
     {
         try
         {
-            wordCategories = await Http.GetFromJsonAsync<WordCategories>("data/word_categories.json");
+            wordCategories = await Http.GetFromJsonAsync<WordCategories>("data/word_categories.json");            
         }
         catch (Exception ex)
         {

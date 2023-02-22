@@ -2,6 +2,6 @@
 {
     public class WordCategories
     {
-        public string[] urgent_words;
+        public string[] urgent { get; set; }
     }
 }
