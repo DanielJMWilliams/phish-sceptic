@@ -8,10 +8,10 @@ namespace PhishSceptic.Utilities
     {
         public IBrowserFile EmailFile { get; set; }
 
-        // email as a bitstring
-        private string _emailString = "";
-        private string emailBody = "";
-        private string Sender = "";
+        private MimeMessage _mimeMessage;
+
+        private string _emailBody = "";
+        private string _sender = "";
         private List<string> Urls = new List<string>();
         private List<string> Domains = new List<string>();
 
@@ -31,7 +31,7 @@ namespace PhishSceptic.Utilities
 
         }
 
-        public async static Task MimeKitLoad(IBrowserFile emailFile)
+        public async static Task<MimeMessage> MimeKitLoad(IBrowserFile emailFile)
         {
             Stream stream = emailFile.OpenReadStream();
             var path = @"..\tmp\" + emailFile.Name;
@@ -40,9 +40,9 @@ namespace PhishSceptic.Utilities
             stream.Close();
             fs.Close();
 
-            // Load a MimeMessage from a stream
+            // Load a MimeMessage from a path
             var message = MimeMessage.Load(path);
-            Console.WriteLine(message.TextBody);
+            return message;
         }
 
         public static List<string> ExtractDomains(List<string> urls)
@@ -78,7 +78,7 @@ namespace PhishSceptic.Utilities
 
         public string GetEmailBody()
         {
-            return emailBody;
+            return _emailBody;
         }
 
         public List<string> GetUrls()
@@ -95,7 +95,7 @@ namespace PhishSceptic.Utilities
 
         public string GetSender()
         {
-            return Sender;
+            return _sender;
         }
 
         public IBrowserFile GetFile()
@@ -122,29 +122,17 @@ namespace PhishSceptic.Utilities
         public async Task Analyse()
         {
             reset();
-            await MimeKitLoad(EmailFile);
+            _mimeMessage = await MimeKitLoad(EmailFile);
 
-            /*
+            _sender = _mimeMessage.From[0].ToString();
 
-            var buffer = new byte[EmailFile.Size];
-            var length = await EmailFile.OpenReadStream().ReadAsync(buffer);
 
-            using (var streamReader = new StreamReader(EmailFile.OpenReadStream()))
-            {
-                _emailString = await streamReader.ReadToEndAsync();
-            }
-
-            // extract sender
-            string senderPattern = @"From: ([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})";
-            Sender = extractSinglePattern(_emailString, senderPattern).Groups[1].Value;
+            _emailBody = _mimeMessage.TextBody;
+            Console.WriteLine(_emailBody);
 
             // extract all urls in email
-            Urls = ExtractUrls(_emailString);
-            Domains = extractDomains(Urls);
-
-            // extract body of email
-            emailBody = extractBody(_emailString);
-            */
+            Urls = ExtractUrls(_emailBody);
+            Domains = ExtractDomains(Urls);
 
 
         }
