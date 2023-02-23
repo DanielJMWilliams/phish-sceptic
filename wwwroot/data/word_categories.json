@@ -1,0 +1,72 @@
+{
+  "phishing": [
+    "password",
+    "compromised",
+    "required",
+    "suspicious",
+    "reward",
+    "prize",
+    "price",
+    "help"
+  ],
+  "urgent": [
+    "Now",
+    "Urgent",
+    "Immediately",
+    "Quickly",
+    "Fast",
+    "Hurry",
+    "Deadline",
+    "Limited",
+    "time",
+    "Act",
+    "now",
+    "Final",
+    "notice",
+    "vital",
+    "crucial",
+    "important",
+    "priority",
+    "time-sensitive"
+  ],
+  "reward": [
+    "Congratulations",
+    "won",
+    "Prize",
+    "Award",
+    "Gift",
+    "Bonus",
+    "Free",
+    "Claim",
+    "Valuable",
+    "Jackpot",
+    "limited"
+  ],
+  "threat": [
+    "account",
+    "compromised",
+    "Unauthorized",
+    "suspended",
+    "Security",
+    "alert",
+    "Suspicious",
+    "activity",
+    "Verify",
+    "hacked",
+    "virus",
+    "infected",
+    "password"
+  ],
+  "misspelling": [
+    "urgant",
+    "congradulations",
+    "valubale",
+    "suspisious",
+    "verfiy",
+    "acount",
+    "passwrod",
+    "limted",
+    "secrutiy",
+    "price"
+  ]
+}
