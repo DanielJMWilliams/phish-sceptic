@@ -18,6 +18,10 @@ else{
 
     <MudDivider Class="my-5"></MudDivider>
 
+    <AttachmentInspector emailAnalyser="@emailAnalyser"></AttachmentInspector>
+
+    <MudDivider Class="my-5"></MudDivider>
+
     <UrgencyInspector emailAnalyser="@emailAnalyser"></UrgencyInspector>
 
     <MudDivider Class="my-5"></MudDivider>
@@ -49,7 +53,6 @@ else{
     {
         emailAnalyser = new EmailAnalyser(file);
         await emailAnalyser.Analyse();
-        Console.WriteLine("Analysis complete");
         StateHasChanged();
     }
 

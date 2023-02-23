@@ -1,0 +1,36 @@
+﻿@using MimeKit
+
+<MudText Typo="Typo.h3">Attachment Inspector</MudText>
+<MudText>This component highlights displays and analyses any email attachments. </MudText>
+<MudPaper Elevation="1" Class="my-5 pa-4">
+
+    @if(_attachments==null || _attachments.Count() == 0)
+    {
+        <MudText>This email has no attachments.</MudText>
+    }
+    else
+    {
+        foreach(MimeEntity a in _attachments)
+        {
+            <Attachment Filename="@a.ContentDisposition.FileName"></Attachment>
+            Console.WriteLine(a.Headers);
+        }        
+    }
+
+
+</MudPaper>
+
+
+
+
+@code {
+    [Parameter] public EmailAnalyser emailAnalyser { get; set; }
+
+    private List<MimeEntity> _attachments;
+
+    protected async override Task OnParametersSetAsync()
+    {
+        _attachments = emailAnalyser.GetAttachments().ToList();
+
+    }
+}

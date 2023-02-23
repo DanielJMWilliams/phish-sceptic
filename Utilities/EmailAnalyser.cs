@@ -17,6 +17,8 @@ namespace PhishSceptic.Utilities
         private List<string> _domains = new List<string>();
         private List<string> _shortenedLinks = new List<string>();
 
+        private IEnumerable<MimeEntity> _attachments = new List<MimeEntity>();
+
         public EmailAnalyser(IBrowserFile file)
         {
             Console.WriteLine(extractExtension(file.Name));
@@ -62,6 +64,8 @@ namespace PhishSceptic.Utilities
             _urls = ExtractUrls(_emailBody);
             _domains = ExtractDomains(_urls) ;
             _shortenedLinks = ExtractShortenedDomains(GetDistinctDomains());
+
+            _attachments = _mimeMessage.Attachments;
 
 
         }
@@ -140,6 +144,11 @@ namespace PhishSceptic.Utilities
         public List<string> GetDistinctDomains()
         {
             return _domains.Distinct().ToList();
+        }
+
+        public IEnumerable<MimeEntity> GetAttachments()
+        {
+            return _attachments;
         }
 
         public List<string> GetUrls()
