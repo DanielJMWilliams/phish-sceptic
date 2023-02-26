@@ -13,7 +13,6 @@
         foreach(MimeEntity a in _attachments)
         {
             <Attachment Filename="@a.ContentDisposition.FileName"></Attachment>
-            Console.WriteLine(a.Headers);
         }        
     }
 
