@@ -17,6 +17,11 @@ else{
         Uploaded: @emailAnalyser.GetFileName() <code>@emailAnalyser.GetFileSize() bytes</code>
     </MudListItem>
 
+    
+    <MudDivider Class="my-5"></MudDivider>
+
+    <LinkAnalyser emailAnalyser="@emailAnalyser"></LinkAnalyser>
+
     <MudDivider Class="my-5"></MudDivider>
 
     <UrgencyInspector emailAnalyser="@emailAnalyser"></UrgencyInspector>
@@ -24,10 +29,6 @@ else{
     <MudDivider Class="my-5"></MudDivider>
 
     <SenderInspector emailAnalyser="@emailAnalyser"></SenderInspector>
-
-    <MudDivider Class="my-5"></MudDivider>
-
-    <LinkAnalyser emailAnalyser="@emailAnalyser"></LinkAnalyser>
 
     <MudDivider Class="my-5"></MudDivider>
 

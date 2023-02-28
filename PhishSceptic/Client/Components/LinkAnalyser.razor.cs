@@ -2,6 +2,7 @@
 using MudBlazor;
 using PhishSceptic.Client.Utilities;
 using System.Net.Http.Headers;
+using System.Net.Http.Json;
 using VirusTotalNet;
 using VirusTotalNet.ResponseCodes;
 using VirusTotalNet.Results;
@@ -11,6 +12,8 @@ namespace PhishSceptic.Client.Components
     public partial class LinkAnalyser
     {
         [Parameter] public EmailAnalyser emailAnalyser { get; set; }
+
+        [Inject] HttpClient Http { get; set; }
 
         private List<string> urls;
         private List<string> domains;
@@ -30,14 +33,16 @@ namespace PhishSceptic.Client.Components
         }
 
 
-        public static async Task CheckReputation(string url)
+        public async Task CheckReputation(string url)
         {
-            VirusTotal virusTotal = new VirusTotal("apikey");
-            DomainReport domainReport = await virusTotal.GetDomainReportAsync("piratebay.com");
-            //virusTotal.GetUrlReportAsync("https://www.example.com");
 
-            Console.WriteLine(domainReport);
-            Console.WriteLine(domainReport.ResponseCode);
+            //string positives = await Http.GetStringAsync("VirusTotal");
+            var postBody = new { URL = url };
+            //var response = await Http.PostAsJsonAsync("VirusTotal/urlReport", postBody);
+            string positives = await Http.GetStringAsync("VirusTotal/urlReport?url="+url);
+            //string positives = await response.Content.ReadAsStringAsync();
+            Console.WriteLine(positives);
+            //Console.WriteLine(domainReport.ResponseCode);
 
 
 
@@ -46,7 +51,6 @@ namespace PhishSceptic.Client.Components
         }
         private async Task VerifyDomain(int domainIndex)
         {
-            await CheckReputation(domains[domainIndex]);
 
             var parameters = new DialogParameters();
             parameters.Add("ContentText", "Verify that this domain really is what you think it is.");
@@ -55,6 +59,8 @@ namespace PhishSceptic.Client.Components
             var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall };
 
             var dialog = await DialogService.ShowAsync<InspectionDialog>("Verify Domain", parameters, options);
+
+            await CheckReputation(domains[domainIndex]);
 
             var result = await dialog.Result;
 
