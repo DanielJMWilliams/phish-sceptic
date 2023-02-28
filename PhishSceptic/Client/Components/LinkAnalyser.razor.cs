@@ -1,12 +1,12 @@
 ﻿using Microsoft.AspNetCore.Components;
 using MudBlazor;
-using PhishSceptic.Utilities;
+using PhishSceptic.Client.Utilities;
 using System.Net.Http.Headers;
 using VirusTotalNet;
 using VirusTotalNet.ResponseCodes;
 using VirusTotalNet.Results;
 
-namespace PhishSceptic.Components
+namespace PhishSceptic.Client.Components
 {
     public partial class LinkAnalyser
     {

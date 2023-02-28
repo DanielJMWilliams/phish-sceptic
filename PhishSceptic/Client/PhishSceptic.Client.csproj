@@ -33,6 +33,10 @@
 	<ItemGroup>
 	  <Folder Include="tmp\" />
 	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\Shared\PhishSceptic.Shared.csproj" />
+	</ItemGroup>
 	
 	
 </Project>

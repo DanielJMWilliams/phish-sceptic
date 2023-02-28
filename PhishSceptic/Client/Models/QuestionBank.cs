@@ -1,6 +1,6 @@
 ﻿using System.Net.Http.Json;
 
-namespace PhishSceptic.Models
+namespace PhishSceptic.Client.Models
 {
     public class QuestionBank
     {

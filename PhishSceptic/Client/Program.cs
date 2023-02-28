@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using PhishSceptic;
 using MudBlazor.Services;
+using PhishSceptic.Client;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
@@ -10,10 +10,7 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 builder.Services.AddMudServices();
 
-var movieApiKey = builder.Configuration["VirusTotal:ApiKey"];
-
 var app = builder.Build();
 
-//app.MapGet("/", () => movieApiKey);
-
 await app.RunAsync();
+
