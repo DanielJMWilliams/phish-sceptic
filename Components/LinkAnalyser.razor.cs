@@ -1,6 +1,10 @@
 ﻿using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using PhishSceptic.Utilities;
+using System.Net.Http.Headers;
+using VirusTotalNet;
+using VirusTotalNet.ResponseCodes;
+using VirusTotalNet.Results;
 
 namespace PhishSceptic.Components
 {
@@ -25,8 +29,25 @@ namespace PhishSceptic.Components
             }
         }
 
+
+        public static async Task CheckReputation(string url)
+        {
+            VirusTotal virusTotal = new VirusTotal("apikey");
+            DomainReport domainReport = await virusTotal.GetDomainReportAsync("piratebay.com");
+            //virusTotal.GetUrlReportAsync("https://www.example.com");
+
+            Console.WriteLine(domainReport);
+            Console.WriteLine(domainReport.ResponseCode);
+
+
+
+
+
+        }
         private async Task VerifyDomain(int domainIndex)
         {
+            await CheckReputation(domains[domainIndex]);
+
             var parameters = new DialogParameters();
             parameters.Add("ContentText", "Verify that this domain really is what you think it is.");
             parameters.Add("TextToVerify", domains[domainIndex]);

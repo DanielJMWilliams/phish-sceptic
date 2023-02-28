@@ -10,4 +10,10 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 builder.Services.AddMudServices();
 
-await builder.Build().RunAsync();
+var movieApiKey = builder.Configuration["VirusTotal:ApiKey"];
+
+var app = builder.Build();
+
+//app.MapGet("/", () => movieApiKey);
+
+await app.RunAsync();
