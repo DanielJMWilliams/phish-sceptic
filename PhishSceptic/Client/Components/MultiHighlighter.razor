@@ -1,0 +1,37 @@
+﻿@inherits MudComponentBase
+
+@using System.Text.RegularExpressions
+@using static MudBlazor.Components.Highlighter.Splitter
+
+@foreach (var fragment in _fragments.Span)
+{
+    bool match = false;
+    Console.WriteLine("length: " + Colors.Length);
+    for(int i=0; i < _regexes.Length; i++)
+    {
+        var index = i;
+        Console.WriteLine("index: " + index);
+        Console.WriteLine("index % length: " + index % Colors.Length);
+        if (!string.IsNullOrWhiteSpace(_regexes[index])
+            && Regex.IsMatch(fragment,
+                _regexes[index],
+                CaseSensitive
+                    ? RegexOptions.None
+                    : RegexOptions.IgnoreCase))
+        {
+            match = true;
+            <mark class="@Class @Colors[index % Colors.Length]" style="@Style" @attributes="@UserAttributes"> @fragment </mark>
+            break;
+        }
+    }
+    if (!match)
+    {
+        @fragment
+    }
+
+}
+
+@foreach(string c in Colors)
+{
+    Console.WriteLine("Color: " + c);
+}

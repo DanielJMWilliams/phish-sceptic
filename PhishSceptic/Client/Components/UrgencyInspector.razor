@@ -1,81 +1,23 @@
-﻿@inject HttpClient Http
- 
-<MudText Typo="Typo.h3">Urgency Inspector</MudText>
+﻿<MudText Typo="Typo.h3">Urgency Inspector</MudText>
 <MudText>This component highlights urgency words in the email subject and body.</MudText>
 <MudPaper Elevation="1" Class="my-5 pa-4">
     <MudTabs Elevation="2" Rounded Centered ApplyEffectsToContainer PanelClass="pa-6">
         <MudTabPanel Text="All">
-            <HighlightedText Title="@_emailTitle" Text="@_emailBody" HighlightedTexts="@allSuspiciousWords" ></HighlightedText>
+            <HighlightedText Title="@_emailTitle" Text="@_emailBody" HighlightedTexts="@allSuspiciousWords" Colors="@_colors" />
         </MudTabPanel>
         <MudTabPanel Text="Urgency">
-            <HighlightedText Title="@_emailTitle" Text="@_emailBody" HighlightedTexts="@urgentWords" ></HighlightedText>
+            <HighlightedText Title="@_emailTitle" Text="@_emailBody" HighlightedTexts="@urgentWords" Colors="@_colors.Skip(0).Take(1).ToArray()"></HighlightedText>
         </MudTabPanel>
         <MudTabPanel Text="Threat">
-            <HighlightedText Title="@_emailTitle" Text="@_emailBody" HighlightedTexts="@threatWords" ></HighlightedText>
+            <HighlightedText Title="@_emailTitle" Text="@_emailBody" HighlightedTexts="@threatWords" Colors="@_colors.Skip(1).Take(1).ToArray()"></HighlightedText>
         </MudTabPanel>
         <MudTabPanel Text="Reward">
-            <HighlightedText Title="@_emailTitle" Text="@_emailBody" HighlightedTexts="@rewardWords" ></HighlightedText>
+            <HighlightedText Title="@_emailTitle" Text="@_emailBody" HighlightedTexts="@rewardWords" Colors="@_colors.Skip(2).Take(1).ToArray()"></HighlightedText>
         </MudTabPanel>
         <MudTabPanel Text="Misspellings">
-            <HighlightedText Title="@_emailTitle" Text="@_emailBody" HighlightedTexts="@misspeltWords" ></HighlightedText>
+            <HighlightedText Title="@_emailTitle" Text="@_emailBody" HighlightedTexts="@misspeltWords" Colors="@_colors.Skip(3).Take(1).ToArray()"></HighlightedText>
         </MudTabPanel>
     </MudTabs>
 
 </MudPaper>
 
-
-
-
-@code {
-    [Parameter] public EmailAnalyser emailAnalyser { get; set; }
-
-    private string _emailBody = "";
-    private string _emailTitle = "";
-
-    private string[] urgentWords;
-    private string[] threatWords;
-    private string[] rewardWords;
-    private string[] misspeltWords;
-    private string[] allSuspiciousWords;
-    //private string[] phishingWords;
-
-    protected async override Task OnInitializedAsync()
-    {
-        await LoadWordCategories();
-        if (wordCategories != null)
-        {
-            urgentWords = wordCategories.urgent; 
-            threatWords = wordCategories.threat; 
-            rewardWords = wordCategories.reward; 
-            misspeltWords = wordCategories.misspelling;
-            allSuspiciousWords = urgentWords.Concat(threatWords).Concat(rewardWords).Concat(misspeltWords).ToArray();
-
-        }
-        
-    }
-
-    protected async override Task OnParametersSetAsync()
-    {
-        _emailBody = emailAnalyser.GetEmailBody();
-        _emailBody = EmailAnalyser.StripOutLinks(_emailBody);
-        _emailTitle = emailAnalyser.GetEmailTitle();
-
-        //urgentWords = wordCategories
-
-    }
-
-    private WordCategories? wordCategories;
-
-    public async Task LoadWordCategories()
-    {
-        try
-        {
-            wordCategories = await Http.GetFromJsonAsync<WordCategories>("data/word_categories.json");            
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine("Error: " + ex.Message);
-        }
-
-    }
-}
