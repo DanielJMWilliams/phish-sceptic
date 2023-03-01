@@ -4,6 +4,7 @@
 @page "/"
 @inject ISnackbar Snackbar
 
+<MudText>API Status: @apiStatus</MudText>
 
 @if (emailAnalyser==null)
 {
@@ -16,6 +17,11 @@ else{
         Uploaded: @emailAnalyser.GetFileName() <code>@emailAnalyser.GetFileSize() bytes</code>
     </MudListItem>
 
+    
+    <MudDivider Class="my-5"></MudDivider>
+
+    <LinkAnalyser emailAnalyser="@emailAnalyser"></LinkAnalyser>
+
     <MudDivider Class="my-5"></MudDivider>
 
     <UrgencyInspector emailAnalyser="@emailAnalyser"></UrgencyInspector>
@@ -26,21 +32,21 @@ else{
 
     <MudDivider Class="my-5"></MudDivider>
 
-    <LinkAnalyser emailAnalyser="@emailAnalyser"></LinkAnalyser>
-
-    <MudDivider Class="my-5"></MudDivider>
-
     <QuestionBox emailAnalyser="@emailAnalyser" questionBank="@questionBank"></QuestionBox> 
     
 }
 
 @code
 {
+    private string apiStatus = "offline";
     private EmailAnalyser emailAnalyser;
     private QuestionBank questionBank;
 
     protected async override Task OnInitializedAsync()
     {
+        //apiStatus = await Http.GetFromJsonAsync<string>("Test");
+        apiStatus = await Http.GetStringAsync("Test");
+
         questionBank = new QuestionBank(Http);
         await questionBank.LoadQuestions();
     }

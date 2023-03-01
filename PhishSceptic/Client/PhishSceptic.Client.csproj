@@ -4,6 +4,7 @@
 		<TargetFramework>net6.0</TargetFramework>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
+		<UserSecretsId>4ca6c8d5-4195-403c-a37f-10f389a1e020</UserSecretsId>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -26,10 +27,15 @@
 		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="6.0.7" PrivateAssets="all" />
 		<PackageReference Include="MimeKit" Version="3.5.0" />
 		<PackageReference Include="MudBlazor" Version="6.1.9" />
+		<PackageReference Include="VirusTotalNet" Version="2.1.0" />
 	</ItemGroup>
 
 	<ItemGroup>
 	  <Folder Include="tmp\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\Shared\PhishSceptic.Shared.csproj" />
 	</ItemGroup>
 	
 	

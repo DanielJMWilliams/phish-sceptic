@@ -5,4 +5,10 @@ A phishing awareness/detection tool that allows users to analyse an email, point
 ## Set-Up
 1. Clone Repo
 2. Open in Visual Studio
-3. Run
+3. Right click solution explorer, manage user secrets, add
+```
+{
+  "VirusTotal:ApiKey": ""
+}
+```
+4. Run
