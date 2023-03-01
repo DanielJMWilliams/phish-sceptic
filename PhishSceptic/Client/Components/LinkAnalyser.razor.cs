@@ -19,6 +19,7 @@ namespace PhishSceptic.Client.Components
         private List<string> domains;
         private List<string> shortenedDomains;
         private Color[] domainChipColors;
+        private string[] domainChipIcons;
 
         protected async override Task OnParametersSetAsync()
         {
@@ -26,26 +27,30 @@ namespace PhishSceptic.Client.Components
             domains = emailAnalyser.GetDistinctDomains();
             shortenedDomains = emailAnalyser.GetShortenedDomains();
             domainChipColors = new Color[domains.Count()];
+            domainChipIcons = new string[domains.Count()];
             for (int i = 0; i < domainChipColors.Length; i++)
             {
                 domainChipColors[i] = Color.Default;
+                domainChipIcons[i] = "";//Icons.Material.Filled.WarningAmber;//Icons.Material.Filled.Error
             }
         }
 
 
-        public async Task CheckReputation(string url)
+        public async Task<int> CheckReputation(string url)
         {
 
             //string positives = await Http.GetStringAsync("VirusTotal");
             var postBody = new { URL = url };
             //var response = await Http.PostAsJsonAsync("VirusTotal/urlReport", postBody);
-            string positives = await Http.GetStringAsync("VirusTotal/urlReport?url="+url);
-            //string positives = await response.Content.ReadAsStringAsync();
-            Console.WriteLine(positives);
-            //Console.WriteLine(domainReport.ResponseCode);
-
-
-
+            string positives = await Http.GetStringAsync("VirusTotal/urlReport/positives?url="+url);
+            if(int.TryParse(positives, out int result))
+            {
+                return result;
+            }
+            else
+            {
+                return -1;
+            }
 
 
         }
@@ -60,24 +65,43 @@ namespace PhishSceptic.Client.Components
 
             var dialog = await DialogService.ShowAsync<InspectionDialog>("Verify Domain", parameters, options);
 
-            await CheckReputation(domains[domainIndex]);
 
             var result = await dialog.Result;
 
             if (result.Canceled)
             {
-                //nothin
-                // this needs to be here otherwise can get error when type casting result.Data to bool
-                //if cancelled, there is no data
+                return;
             }
-            else if (!(bool)result.Data)
+
+            int rep = await CheckReputation(domains[domainIndex]);
+            if (rep == -1)
             {
+                //unscanned
+                domainChipColors[domainIndex] = Color.Warning;
+                domainChipIcons[domainIndex] = Icons.Material.Filled.WarningAmber;
+            }
+            else if (rep > 0)
+            {
+                //scanned and bad
                 domainChipColors[domainIndex] = Color.Error;
+                domainChipIcons[domainIndex] = Icons.Material.Filled.Dangerous;
             }
-            else if ((bool)result.Data)
+            else if(rep == 0)
             {
+                //scanned and fine
                 domainChipColors[domainIndex] = Color.Info;
+                domainChipIcons[domainIndex] = Icons.Material.Filled.Check;
             }
+            else if (rep == -2)
+            {
+                //no response, rate limited
+                domainChipColors[domainIndex] = Color.Warning;
+                domainChipIcons[domainIndex] = "";
+                Console.WriteLine("VirusTotal Rate Limit hit");
+            }
+
+
+
             StateHasChanged();
         }
     }
