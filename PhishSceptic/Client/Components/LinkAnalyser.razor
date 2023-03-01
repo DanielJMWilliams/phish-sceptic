@@ -32,7 +32,29 @@
     @for(int i=0; i<domains.Count();i++)
     {
         var index = i;
-        <MudChip Color="@domainChipColors[index]" OnClick="() => VerifyDomain(index)">@domains[index]</MudChip>
+
+        string tip = "This domain's reputation is yet to be checked'";
+        if(domainChipIcons[index] == Icons.Material.Filled.Dangerous)
+        {
+            tip = "This domain has been flagged as dangerous by VirusTotal.";
+        }
+        else if(domainChipIcons[index] == Icons.Material.Filled.WarningAmber)
+        {
+            tip = "This domain has not been scanned before";
+        }
+        else if ( domainChipIcons[index] == Icons.Material.Filled.Check)
+        {
+            tip = "This domain is though to be safe by VirusTotal";
+        }
+
+        <MudTooltip Text="@tip">
+            <MudChip Icon="@domainChipIcons[index]" IconColor="@domainChipColors[index]"
+                        OnClick="() => VerifyDomain(index)">@domains[index]
+            </MudChip>
+
+        </MudTooltip>
+
+        
     }
 
 </MudPaper>

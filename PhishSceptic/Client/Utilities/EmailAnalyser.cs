@@ -2,7 +2,7 @@
 using MimeKit;
 using System.Text.RegularExpressions;
 
-namespace PhishSceptic.Utilities
+namespace PhishSceptic.Client.Utilities
 {
     public class EmailAnalyser
     {
