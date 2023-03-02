@@ -1,4 +1,4 @@
-﻿namespace PhishSceptic.Models
+﻿namespace PhishSceptic.Client.Models
 {
     public class WordCategories
     {

@@ -11,7 +11,16 @@
                     Arrow Placement="Placement.Bottom">
             <MudButton OnClick="@Flag" Color="Color.Error">Flag</MudButton>
         </MudTooltip>
-        <MudButton Disabled="@( !_isVerified)" Color="Color.Info" Variant="Variant.Filled" OnClick="Submit">Verify</MudButton>
+
+        <MudTooltip>
+            <ChildContent>
+                <MudButton Disabled="@( !_isVerified)" Color="Color.Info" Variant="Variant.Filled" OnClick="Submit">Verify</MudButton>
+            </ChildContent>
+            <TooltipContent>
+                <MudText>Upon verifying this domain, it will be sent to VirusTotal to be scanned.</MudText>
+            </TooltipContent>
+        </MudTooltip>
+
     </DialogActions>
 </MudDialog>
 
