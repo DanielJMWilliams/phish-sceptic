@@ -13,7 +13,11 @@ namespace PhishSceptic.Client.Components
     {
         [Parameter] public EmailAnalyser emailAnalyser { get; set; }
 
+        [Inject] ISnackbar Snackbar { get; set; }
+
         [Inject] HttpClient Http { get; set; }
+        [Inject] IVirusTotalService vtService { get; set; }
+
 
         private List<string> urls;
         private List<string> domains;
@@ -35,25 +39,6 @@ namespace PhishSceptic.Client.Components
             }
         }
 
-
-        public async Task<int> CheckReputation(string url)
-        {
-
-            //string positives = await Http.GetStringAsync("VirusTotal");
-            var postBody = new { URL = url };
-            //var response = await Http.PostAsJsonAsync("VirusTotal/urlReport", postBody);
-            string positives = await Http.GetStringAsync("VirusTotal/urlReport/positives?url="+url);
-            if(int.TryParse(positives, out int result))
-            {
-                return result;
-            }
-            else
-            {
-                return -1;
-            }
-
-
-        }
         private async Task VerifyDomain(int domainIndex)
         {
 
@@ -73,7 +58,7 @@ namespace PhishSceptic.Client.Components
                 return;
             }
 
-            int rep = await CheckReputation(domains[domainIndex]);
+            int rep = await vtService.CheckReputation(domains[domainIndex]);
             if (rep == -1)
             {
                 //unscanned
@@ -85,6 +70,7 @@ namespace PhishSceptic.Client.Components
                 //scanned and bad
                 domainChipColors[domainIndex] = Color.Error;
                 domainChipIcons[domainIndex] = Icons.Material.Filled.Dangerous;
+                Snackbar.Add("VirusTotal flagged this domain as suspicious.", Severity.Error);
             }
             else if(rep == 0)
             {
