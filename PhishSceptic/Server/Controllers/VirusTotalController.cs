@@ -30,6 +30,7 @@ namespace PhishSceptic.Server.Controllers
             try
             {
                 UrlReport urlReport = await virusTotal.GetUrlReportAsync(url);
+                Console.WriteLine("urlReport: " + urlReport);
 
                 //if response not present because blocked by rate limiting
                 if(urlReport.ResponseCode == UrlReportResponseCode.NotPresent)
@@ -49,6 +50,7 @@ namespace PhishSceptic.Server.Controllers
             catch (Exception ex)
             {
                 //error;
+                Console.WriteLine("Error: " + ex.Message);
                 return -2;
             }
 

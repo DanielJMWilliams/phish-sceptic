@@ -1,11 +1,19 @@
 ﻿@inject IDialogService DialogService
+@inject ISnackbar Snackbar
 
 <MudText Typo="Typo.h3">Sender Inspector</MudText>
 <MudText>This component helps you inspect the sender</MudText>
 <MudPaper Elevation="1" Class="my-5 pa-4">
     <MudText>The email was sent by:</MudText>
     <MudText Color="@(_isVerified ? Color.Default : Color.Error)" 
-             Align="Align.Center" Typo="Typo.h3">@_sender</MudText>
+             Align="Align.Center" Typo="Typo.h3">
+        @if (domainReputation > 0)
+        {
+            <MudIcon Color="Color.Error" Icon="@Icons.Material.Filled.Dangerous" />
+        }
+        
+             @_sender
+    </MudText>
 
     <MudText>In the input field below, type the email address as you see it.</MudText>
     <MudTextField Immediate TextChanged="@verify" @bind-Value="_typedValue"
@@ -24,22 +32,46 @@
             Continue looking at the other phishing indicators.
         </MudText>
     }
+    <MudTooltip>
+        <ChildContent>
+            <MudButton Disabled="@( !_isVerified)" Color="Color.Info" Variant="Variant.Filled" OnClick="submitVerify">Verify</MudButton>
+        </ChildContent>
+        <TooltipContent>
+            <MudText>Upon verifying this email address, its domain will be sent to VirusTotal to be scanned.</MudText>
+        </TooltipContent>
+    </MudTooltip>
 </MudPaper>
 
 @code {
     [Parameter] public EmailAnalyser emailAnalyser { get; set; }
 
+    [Inject] IVirusTotalService vtService { get; set; }
+
     private string _sender = "";
 
     private string _typedValue = "";
+
+    //initialise to default value
+    private int domainReputation = -3;
 
     protected async override Task OnParametersSetAsync()
     {
         _sender = emailAnalyser.GetSender();
     }
 
+    private async Task submitVerify()
+    {
+        string domain = _sender.Substring(_sender.IndexOf("@")+1);
+        Console.WriteLine(domain);
+        domainReputation = await vtService.CheckReputation(domain);
+        if (domainReputation > 0)
+        {
+            Snackbar.Add("VirusTotal flagged this email as suspicious.", Severity.Error);
+        }
+    }
+
     private bool _isVerified = false;
-    private void verify()
+    private async Task verify()
     {
         if(_typedValue == _sender)
         {
@@ -48,5 +80,6 @@
         else{
             _isVerified = false;
         }
+
     }
 }
