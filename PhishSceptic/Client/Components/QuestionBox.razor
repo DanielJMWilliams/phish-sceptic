@@ -1,5 +1,7 @@
 ﻿@using System.Text.RegularExpressions
 
+<MudText Typo="Typo.h3">Questions</MudText>
+<MudText>Here you will be asked a number of questions about the email.</MudText>
 <MudPaper Class="my-5 py-10">
     @for(int i=0; i<questions.Count(); i++)
     {
@@ -9,12 +11,14 @@
                 <YesNoQuestion OnAnswer="@updateScore" Question="@questions[index]" /> 
         </div>
 
-
-
-
     }
    <MudButton OnClick="@Back">Back</MudButton>
    <MudButton OnClick="@Next">Next</MudButton>
+    @{
+        int current = questionIndex + 1;
+        <MudText>@current / @questions.Count()</MudText>
+    }
+  
 </MudPaper>  
 
 <MudText>Score: @score</MudText>
@@ -53,7 +57,7 @@
 
     private void updateScore()
     {
-        questionIndex++;
+        Next();
         score = 0;
         foreach(Question q in questionBank.GetQuestions())
         {

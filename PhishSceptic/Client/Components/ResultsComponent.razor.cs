@@ -12,7 +12,6 @@ namespace PhishSceptic.Client.Components
         public void GenerateResults()
         {
             warnings = warningService.GetWarnings();
-            Console.WriteLine(warnings[0]);
             StateHasChanged();
         }
 
