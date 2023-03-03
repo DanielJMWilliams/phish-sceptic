@@ -1,6 +1,12 @@
-﻿ 
-<MudText Typo="Typo.h3">Results</MudText>
+﻿<MudText Typo="Typo.h3">Results</MudText>
 <MudText>Below is a summary of all of the suspicious aspects of the email you uploaded</MudText>
+<MudButton OnClick="@GenerateResults">Generate Results</MudButton>
 <MudPaper Elevation="1" Class="my-5 pa-4">
+    @foreach(string warning in warnings)
+    {
+        <MudAlert Severity="Severity.Error">@warning</MudAlert>
+    }
+
 
 </MudPaper>
+

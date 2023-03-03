@@ -27,12 +27,7 @@ builder.Services.AddMudServices(config =>
 });
 
 builder.Services.AddScoped<IVirusTotalService, VirusTotalService>();
-/*
-builder.Services.AddHttpClient<IVirusTotalService, VirusTotalService>(client =>
-{
-    client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress);
-});
-*/
+builder.Services.AddSingleton<IWarningService, WarningService>();
 
 var app = builder.Build();
 

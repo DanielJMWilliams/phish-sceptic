@@ -43,6 +43,7 @@ else{
     private string apiStatus = "offline";
     private EmailAnalyser emailAnalyser;
     private QuestionBank questionBank;
+    [Inject] IWarningService warningService { get; set; }
 
     protected async override Task OnInitializedAsync()
     {
@@ -67,6 +68,8 @@ else{
     {
         //reset();
         emailAnalyser = null;
+        warningService.Reset();
+
     }
 
 

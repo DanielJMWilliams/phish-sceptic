@@ -46,6 +46,7 @@
     [Parameter] public EmailAnalyser emailAnalyser { get; set; }
 
     [Inject] IVirusTotalService vtService { get; set; }
+    [Inject] IWarningService warningService { get; set; }
 
     private string _sender = "";
 
@@ -67,6 +68,7 @@
         if (domainReputation > 0)
         {
             Snackbar.Add("VirusTotal flagged this email as suspicious.", Severity.Error);
+            warningService.AddWarning("dodgy sender: " + _sender);
         }
     }
 

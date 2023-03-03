@@ -17,6 +17,7 @@ namespace PhishSceptic.Client.Components
 
         [Inject] HttpClient Http { get; set; }
         [Inject] IVirusTotalService vtService { get; set; }
+        [Inject] IWarningService warningService { get; set; }
 
 
         private List<string> urls;
@@ -71,6 +72,7 @@ namespace PhishSceptic.Client.Components
                 domainChipColors[domainIndex] = Color.Error;
                 domainChipIcons[domainIndex] = Icons.Material.Filled.Dangerous;
                 Snackbar.Add("VirusTotal flagged this domain as suspicious.", Severity.Error);
+                warningService.AddWarning("dodgy link: " + domains[domainIndex]);
             }
             else if(rep == 0)
             {
