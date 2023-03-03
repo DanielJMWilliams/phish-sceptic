@@ -1,16 +1,23 @@
 ﻿@using System.Text.RegularExpressions
 
-@foreach(Question q in questionBank.GetQuestions())
-{
-    <MudPaper Class="my-5 py-10">
-        <YesNoQuestion OnAnswer="@updateScore" Question="@q"/>
-    </MudPaper>    
-}
+<MudPaper Class="my-5 py-10">
+    @for(int i=0; i<questions.Count(); i++)
+    {
+        int index = i;
+        bool isHidden = !(index == questionIndex);
+        <div hidden="@isHidden">
+                <YesNoQuestion OnAnswer="@updateScore" Question="@questions[index]" /> 
+        </div>
 
+
+
+
+    }
+   <MudButton OnClick="@Back">Back</MudButton>
+   <MudButton OnClick="@Next">Next</MudButton>
+</MudPaper>  
 
 <MudText>Score: @score</MudText>
-
-<MudText>URLs found in email: </MudText>
 
 
 @code {
@@ -18,10 +25,35 @@
     [Parameter] public EmailAnalyser emailAnalyser { get; set; }
     [Parameter] public QuestionBank questionBank { get; set; }
 
+    private Question[] questions;
+
+    private int questionIndex = 0;
+
     private float score = 0;
+
+    private void Back()
+    {
+        if (questionIndex > 0)
+        {
+            questionIndex--;
+        }
+    }
+    private void Next()
+    {
+        if (questionIndex < questions.Count())
+        {
+            questionIndex++;
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        questions = questionBank.GetQuestions();
+    }
 
     private void updateScore()
     {
+        questionIndex++;
         score = 0;
         foreach(Question q in questionBank.GetQuestions())
         {

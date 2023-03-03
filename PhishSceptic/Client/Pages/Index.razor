@@ -16,9 +16,6 @@ else{
     <MudListItem Icon="@Icons.Material.Filled.AttachFile" @key="@emailAnalyser">
         Uploaded: @emailAnalyser.GetFileName() <code>@emailAnalyser.GetFileSize() bytes</code>
     </MudListItem>
-
-
-    <ResultsComponent></ResultsComponent>
     
     <MudDivider Class="my-5"></MudDivider>
 
@@ -34,7 +31,9 @@ else{
 
     <MudDivider Class="my-5"></MudDivider>
 
-    <QuestionBox emailAnalyser="@emailAnalyser" questionBank="@questionBank"></QuestionBox> 
+    <QuestionBox emailAnalyser="@emailAnalyser" questionBank="@questionBank"></QuestionBox>
+
+    <ResultsComponent></ResultsComponent>
     
 }
 
