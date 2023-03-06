@@ -1,24 +1,12 @@
 ﻿@using MudBlazor
 @using System
 @inject HttpClient Http
-@page "/"
 @inject ISnackbar Snackbar
 
-<MudText>API Status: @apiStatus</MudText>
+<h3>Dashboard</h3>
 
-@if (emailAnalyser==null)
+@if (emailAnalyser != null)
 {
-    <HomePage UploadFile=@uploadFile></HomePage>
-}
-else{
-    <InfoComponent></InfoComponent>
-    <MudButton Color="Color.Error" OnClick="@startOver">Restart</MudButton>
-    <MudListItem Icon="@Icons.Material.Filled.AttachFile" @key="@emailAnalyser">
-        Uploaded: @emailAnalyser.GetFileName() <code>@emailAnalyser.GetFileSize() bytes</code>
-    </MudListItem>
-    
-    <MudDivider Class="my-5"></MudDivider>
-
     <MudGrid>
         <MudItem md="4">
             <LinkAnalyser emailAnalyser="@emailAnalyser"></LinkAnalyser>
@@ -35,12 +23,11 @@ else{
         <MudItem md="12">
             <ResultsComponent></ResultsComponent>
         </MudItem>
-    </MudGrid>   
-    
+    </MudGrid>    
 }
 
-@code
-{
+
+@code {
     private string apiStatus = "offline";
     private EmailAnalyser emailAnalyser;
     private QuestionBank questionBank;
@@ -72,7 +59,4 @@ else{
         warningService.Reset();
 
     }
-
-
-    
 }

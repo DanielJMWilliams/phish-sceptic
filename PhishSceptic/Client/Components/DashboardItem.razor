@@ -1,0 +1,15 @@
+﻿<MudPaper Elevation="1" Class="pa-4">
+    <MudText Typo="Typo.h4" Align="Align.Center">
+        @Title
+        <HelpIconButton HelpText="This component highlights urgency words in the email subject and body."/>
+        
+    </MudText>
+    @ChildContent
+
+</MudPaper>
+
+@code {
+    public string Title = "";
+    public RenderFragment ChildContent { get; set; }
+
+}
