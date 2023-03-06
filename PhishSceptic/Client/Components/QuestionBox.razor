@@ -1,27 +1,26 @@
 ﻿@using System.Text.RegularExpressions
+<DashboardItem Title="Questions" Description="Here you will be asked a number of questions about the email.">
+    <MudPaper Class="my-5 py-10">
+        @for(int i=0; i<questions.Count(); i++)
+        {
+            int index = i;
+            bool isHidden = !(index == questionIndex);
+            <div hidden="@isHidden">
+                    <YesNoQuestion OnAnswer="@updateScore" Question="@questions[index]" /> 
+            </div>
 
-<MudText Typo="Typo.h3">Questions</MudText>
-<MudText>Here you will be asked a number of questions about the email.</MudText>
-<MudPaper Class="my-5 py-10">
-    @for(int i=0; i<questions.Count(); i++)
-    {
-        int index = i;
-        bool isHidden = !(index == questionIndex);
-        <div hidden="@isHidden">
-                <YesNoQuestion OnAnswer="@updateScore" Question="@questions[index]" /> 
-        </div>
-
-    }
-   <MudButton OnClick="@Back">Back</MudButton>
-   <MudButton OnClick="@Next">Next</MudButton>
-    @{
-        int current = questionIndex + 1;
-        <MudText>@current / @questions.Count()</MudText>
-    }
+        }
+       <MudButton OnClick="@Back">Back</MudButton>
+       <MudButton OnClick="@Next">Next</MudButton>
+        @{
+            int current = questionIndex + 1;
+            <MudText>@current / @questions.Count()</MudText>
+        }
   
-</MudPaper>  
+    </MudPaper>  
 
-<MudText>Score: @score</MudText>
+    <MudText>Score: @score</MudText>
+</DashboardItem>
 
 
 @code {

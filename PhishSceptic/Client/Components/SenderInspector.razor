@@ -1,46 +1,46 @@
 ﻿@inject IDialogService DialogService
 @inject ISnackbar Snackbar
 
-<MudText Typo="Typo.h3">Sender Inspector</MudText>
-<MudText>This component helps you inspect the sender</MudText>
-<MudPaper Elevation="1" Class="my-5 pa-4">
-    <MudText>The email was sent by:</MudText>
-    <MudText Color="@(_isVerified ? Color.Default : Color.Error)" 
-             Align="Align.Center" Typo="Typo.h3">
-        @if (domainReputation > 0)
-        {
-            <MudIcon Color="Color.Error" Icon="@Icons.Material.Filled.Dangerous" />
-        }
+<DashboardItem Title="Sender Inspector" Description="This component helps you inspect the sender">
+    <MudPaper Elevation="1" Class="my-5 pa-4">
+        <MudText>The email was sent by:</MudText>
+        <MudText Color="@(_isVerified ? Color.Default : Color.Error)" 
+                 Align="Align.Center" Typo="Typo.h6">
+            @if (domainReputation > 0)
+            {
+                <MudIcon Color="Color.Error" Icon="@Icons.Material.Filled.Dangerous" />
+            }
         
-             @_sender
-    </MudText>
+                 @_sender
+        </MudText>
 
-    <MudText>In the input field below, type the email address as you see it.</MudText>
-    <MudTextField Immediate TextChanged="@verify" @bind-Value="_typedValue"
-                  Label="Type what you see above" Variant="Variant.Text"></MudTextField>
-    @if (!_isVerified && _typedValue!="")
-    {
-        <MudText Color="Color.Error">
-            Currently the actual email address and the email address you typed do NOT match.
-            Attackers often will use misleading email addresses with similar characters to trick people.
-        </MudText>
-    }
-    else if(_isVerified)
-    {
-        <MudText Color="Color.Info">
-            The email addresses match. However this does not necessarily mean the email is legitimate.
-            Continue looking at the other phishing indicators.
-        </MudText>
-    }
-    <MudTooltip>
-        <ChildContent>
-            <MudButton Disabled="@( !_isVerified)" Color="Color.Info" Variant="Variant.Filled" OnClick="submitVerify">Verify</MudButton>
-        </ChildContent>
-        <TooltipContent>
-            <MudText>Upon verifying this email address, its domain will be sent to VirusTotal to be scanned.</MudText>
-        </TooltipContent>
-    </MudTooltip>
-</MudPaper>
+        <MudText>In the input field below, type the email address as you see it.</MudText>
+        <MudTextField Immediate TextChanged="@verify" @bind-Value="_typedValue"
+                      Label="Type what you see above" Variant="Variant.Text"></MudTextField>
+        @if (!_isVerified && _typedValue!="")
+        {
+            <MudText Color="Color.Error">
+                Currently the actual email address and the email address you typed do NOT match.
+                Attackers often will use misleading email addresses with similar characters to trick people.
+            </MudText>
+        }
+        else if(_isVerified)
+        {
+            <MudText Color="Color.Info">
+                The email addresses match. However this does not necessarily mean the email is legitimate.
+                Continue looking at the other phishing indicators.
+            </MudText>
+        }
+        <MudTooltip>
+            <ChildContent>
+                <MudButton Disabled="@( !_isVerified)" Color="Color.Info" Variant="Variant.Filled" OnClick="submitVerify">Verify</MudButton>
+            </ChildContent>
+            <TooltipContent>
+                <MudText>Upon verifying this email address, its domain will be sent to VirusTotal to be scanned.</MudText>
+            </TooltipContent>
+        </MudTooltip>
+    </MudPaper>
+</DashboardItem>
 
 @code {
     [Parameter] public EmailAnalyser emailAnalyser { get; set; }
