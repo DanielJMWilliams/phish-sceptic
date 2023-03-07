@@ -1,24 +1,11 @@
-﻿@using MudBlazor
-@using System
+﻿@using System
 @inject HttpClient Http
-@page "/"
 @inject ISnackbar Snackbar
 
-<MudText>API Status: @apiStatus</MudText>
+<h3>Dashboard</h3>
 
-@if (emailAnalyser==null)
+@if (emailAnalyser != null)
 {
-    <HomePage UploadFile=@uploadFile></HomePage>
-}
-else{
-    <InfoComponent></InfoComponent>
-    <MudButton Color="Color.Error" OnClick="@startOver">Restart</MudButton>
-    <MudListItem Icon="@Icons.Material.Filled.AttachFile" @key="@emailAnalyser">
-        Uploaded: @emailAnalyser.GetFileName() <code>@emailAnalyser.GetFileSize() bytes</code>
-    </MudListItem>
-    
-    <MudDivider Class="my-5"></MudDivider>
-
     <MudGrid>
         <MudItem md="6">
             <LinkAnalyser emailAnalyser="@emailAnalyser"></LinkAnalyser>
@@ -29,18 +16,17 @@ else{
         <MudItem md="6">
             <SenderInspector emailAnalyser="@emailAnalyser"></SenderInspector>
         </MudItem>
-        <MudItem md="12">
+        <MudItem lg="12">
             <QuestionBox emailAnalyser="@emailAnalyser" questionBank="@questionBank"></QuestionBox>
         </MudItem>
-        <MudItem md="12">
+        <MudItem lg="12">
             <ResultsComponent></ResultsComponent>
         </MudItem>
-    </MudGrid>   
-    
+    </MudGrid>    
 }
 
-@code
-{
+
+@code {
     private string apiStatus = "offline";
     private EmailAnalyser emailAnalyser;
     private QuestionBank questionBank;
@@ -59,6 +45,7 @@ else{
     {
         emailAnalyser = new EmailAnalyser(file);
         await emailAnalyser.Analyse();
+        Console.WriteLine("Analysis complete");
         StateHasChanged();
     }
 
@@ -71,7 +58,4 @@ else{
         warningService.Reset();
 
     }
-
-
-    
 }

@@ -1,0 +1,14 @@
+﻿
+<DashboardItem Title="Results" Description="Below is a summary of all of the suspicious aspects of the email you uploaded">
+    <MudButton OnClick="@GenerateResults">Generate Results</MudButton>
+    <MudPaper Elevation="1" Class="my-5 pa-4">
+        @foreach(string warning in warnings)
+        {
+            <MudAlert Severity="Severity.Error">@warning</MudAlert>
+        }
+
+
+    </MudPaper>
+
+</DashboardItem>
+
