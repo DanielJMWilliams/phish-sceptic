@@ -1,5 +1,4 @@
-﻿@using MudBlazor
-@using System
+﻿@using System
 @inject HttpClient Http
 @inject ISnackbar Snackbar
 
@@ -8,13 +7,13 @@
 @if (emailAnalyser != null)
 {
     <MudGrid>
-        <MudItem lg="6">
+        <MudItem md="6">
             <LinkAnalyser emailAnalyser="@emailAnalyser"></LinkAnalyser>
         </MudItem>
-        <MudItem lg="6">
+        <MudItem md="6">
             <UrgencyInspector emailAnalyser="@emailAnalyser"></UrgencyInspector>
         </MudItem>
-        <MudItem lg="6">
+        <MudItem md="6">
             <SenderInspector emailAnalyser="@emailAnalyser"></SenderInspector>
         </MudItem>
         <MudItem lg="12">
