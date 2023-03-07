@@ -4,48 +4,34 @@
 
 <MudDivider Class="my-5"></MudDivider>
 
-<MudGrid>
- <MudItem md="6">
-        <MudText Typo="Typo.h4">Upload a .eml file below:</MudText>
+<MudText Typo="Typo.h4">Upload a .eml file below:</MudText>
 
-        <MudStack Style="width: 100%">
-            <MudFileUpload T="IReadOnlyList<IBrowserFile>" OnFilesChanged="OnInputFileChanged" Hidden="false" Class="flex-1" InputClass="absolute mud-width-full mud-height-full overflow-hidden z-20" InputStyle="opacity:0"
-                           @ondragenter="@SetDragClass" @ondragleave="@ClearDragClass" @ondragend="@ClearDragClass">
-                <ButtonTemplate>
-                    <MudPaper Height="300px" Outlined="true" Class="@DragClass">
-                        <MudText Typo="Typo.h6">Drag and drop  .eml files here</MudText>
-                    </MudPaper>
-                </ButtonTemplate>
-            </MudFileUpload>
-        </MudStack>
+<MudStack Style="width: 100%">
+    <MudFileUpload T="IReadOnlyList<IBrowserFile>" OnFilesChanged="OnInputFileChanged" Hidden="false"
+        Class="flex-1"
+                   InputClass="absolute mud-width-full mud-height-full overflow-hidden z-20"
+                   InputStyle="opacity:0"
+                    @ondragenter="@SetDragClass" @ondragleave="@ClearDragClass" @ondragend="@ClearDragClass">
+        <ButtonTemplate>
+            <MudPaper Outlined="true" Class="@DragClass">
+                <MudText Align="Align.Center" Typo="Typo.h6">Drag and drop .eml files here</MudText>
+                <MudPaper Class="d-flex justify-center my-4" Elevation="0">
+                        <MudButton Variant="Variant.Filled"
+                                   Color="Color.Primary"
+                                   StartIcon="@Icons.Material.Filled.CloudUpload">
+                            Browse Files
+                        </MudButton>
+                </MudPaper>
 
-        <MudFileUpload T="IBrowserFile" FilesChanged="UploadFile">
-            <ButtonTemplate>
-                <MudButton HtmlTag="label"
-                           Variant="Variant.Filled"
-                           Color="Color.Primary"
-                           StartIcon="@Icons.Material.Filled.CloudUpload"
-                           for="@context">
-                    Upload Files
-                </MudButton>
-            </ButtonTemplate>
-        </MudFileUpload>
- </MudItem>
- <MudItem md="6">
-     <MudText Typo="Typo.h4">FAQ</MudText>
-        <MudExpansionPanels MultiExpansion="true">
-            <MudExpansionPanel Text="How do I get my email in .eml format?">
-                TODO: info on exporting emails as .eml
-            </MudExpansionPanel>
-            <MudExpansionPanel Text="What is PhishSceptic?">
-                PhishSceptic is a tool to assist you to spot the signs of a phishing email.
-            </MudExpansionPanel>
-            <MudExpansionPanel Text="Can I trust PhishSceptic?">
-                PhishSceptic is designed to help you identify phishing emails, but...
-            </MudExpansionPanel>
-        </MudExpansionPanels>
- </MudItem>
-</MudGrid>
+            </MudPaper>
+        </ButtonTemplate>
+    </MudFileUpload>
+</MudStack>
+
+<MudDivider Class="my-4"></MudDivider>
+    
+<FAQ />
+
 
 
 
