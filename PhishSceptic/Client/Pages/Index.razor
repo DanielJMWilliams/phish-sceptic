@@ -5,12 +5,22 @@
 @inject ISnackbar Snackbar
 
 <MudText>API Status: @apiStatus</MudText>
-
+@{
+Console.WriteLine("loading: "+ loading);
+}
 @if (emailAnalyser==null)
 {
     <HomePage UploadFile=@uploadFile></HomePage>
+    
+}
+else if (loading && emailAnalyser!=null)
+{
+    <MudText Typo="Typo.h1" Align="Align.Center">PhishSceptic</MudText>
+    <MudProgressLinear Color="Color.Primary" Indeterminate="true" Class="my-7" />
+    Analyse();
 }
 else{
+    Console.WriteLine(loading);
     <InfoComponent></InfoComponent>
     <MudButton Color="Color.Error" OnClick="@startOver">Restart</MudButton>
     <MudListItem Icon="@Icons.Material.Filled.AttachFile" @key="@emailAnalyser">
@@ -42,6 +52,7 @@ else{
 
 @code
 {
+    private bool loading = true;
     private string apiStatus = "offline";
     private EmailAnalyser emailAnalyser;
     private QuestionBank questionBank;
@@ -59,10 +70,18 @@ else{
     private async Task uploadFile(IBrowserFile file)
     {
         emailAnalyser = new EmailAnalyser(file);
-        await emailAnalyser.Analyse();
         StateHasChanged();
+        
     }
 
+
+    private async Task Analyse()
+    {
+        await emailAnalyser.Analyse();
+        loading = false;
+
+        StateHasChanged();
+    }
 
 
     private void startOver()
@@ -70,6 +89,7 @@ else{
         //reset();
         emailAnalyser = null;
         warningService.Reset();
+        loading = true;
 
     }
 

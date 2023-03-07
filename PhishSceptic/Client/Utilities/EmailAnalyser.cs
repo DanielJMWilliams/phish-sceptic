@@ -67,7 +67,6 @@ namespace PhishSceptic.Client.Utilities
 
             _attachments = _mimeMessage.Attachments;
 
-
         }
 
         public List<string> GetShortenedDomains()
