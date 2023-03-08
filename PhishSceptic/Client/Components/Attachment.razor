@@ -3,7 +3,25 @@
 
 <MudPaper Class="d-flex justify-center">
     <MudButton OnClick="@ScanFile">
-        <MudIcon Icon="@Icons.Material.Filled.InsertDriveFile" />
+        @if (positives > 0)
+        {
+            <MudBadge Content="@positives" Color="Color.Error" Overlap="false" Class="mx-6 my-4">
+                <MudIcon Icon="@Icons.Material.Filled.InsertDriveFile" />
+            </MudBadge>
+        }
+        else if (positives == 0)
+        {
+            <MudBadge Content="@positives" Color="Color.Info" Overlap="false" Class="mx-6 my-4">
+                <MudIcon Icon="@Icons.Material.Filled.InsertDriveFile" />
+            </MudBadge>
+        }
+        else
+        {
+            <MudBadge Icon="@Icons.Material.Filled.Warning" Color="Color.Warning" Overlap="false" Class="mx-6 my-4">
+                <MudIcon Icon="@Icons.Material.Filled.InsertDriveFile" />
+            </MudBadge>
+        }
+
         <MudText>@Filename</MudText>
     </MudButton>
 
@@ -16,9 +34,12 @@
 
     [Inject] IVirusTotalService vtService { get; set; }
 
+    //default value to indicate unscanned
+    private int positives = -2;
+
     private async Task ScanFile()
     {
-        
+
         var parameters = new DialogParameters();
         //parameters.Add("ContentText", "Verify that this domain really is what you think it is.");
 
@@ -46,7 +67,7 @@
 
     private async Task Scan()
     {
-        var res = await vtService.ScanFile(FileEntity);
-        Console.WriteLine("res" + res);
+        positives = await vtService.ScanFile(FileEntity);
+        StateHasChanged();
     }
 }

@@ -85,16 +85,15 @@ namespace PhishSceptic.Client.Utilities
                     formData.Add(streamContent, "file", fileEntity.ContentType.Name);
 
                     var response = await http.PostAsync("VirusTotal/fileScan", formData);
+                    
 
-                    var responseContent = await response.Content.ReadAsStringAsync();
-                    //var result = responseContent.Result;
-                    Console.WriteLine("responseContent: " + responseContent);
-                    var jsonObject = JObject.Parse(responseContent);
+                    var resource = await response.Content.ReadAsStringAsync();
+                    Console.WriteLine("resource: " + resource);
 
-                    Console.WriteLine("jsonObject: " + jsonObject.ToString());
-                    var resource = jsonObject["content"].ToString();
-                    Console.WriteLine("Resource: " + resource);
-                    return 0;
+                    string positives = await http.GetStringAsync("VirusTotal/fileScan/positives?resource=" + resource);
+                    Console.WriteLine("Positives: " + positives);
+                    return int.Parse(positives);
+
                     //string positives = await http.GetStringAsync("VirusTotal/urlReport/positives?resource=" + resource);
 
                     /*
