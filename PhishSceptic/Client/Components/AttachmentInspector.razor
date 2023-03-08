@@ -10,7 +10,7 @@
             {
                 foreach (MimeEntity a in _attachments)
                 {
-                    <Attachment Filename="@a.ContentDisposition.FileName"></Attachment>
+                    <Attachment Filename="@a.ContentDisposition.FileName" FileEntity="@a"></Attachment>
                 }
             }
         </MudPaper>

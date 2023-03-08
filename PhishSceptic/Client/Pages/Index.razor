@@ -5,9 +5,7 @@
 @inject ISnackbar Snackbar
 
 <MudText>API Status: @apiStatus</MudText>
-@{
-Console.WriteLine("loading: "+ loading);
-}
+
 @if (emailAnalyser==null)
 {
     <HomePage UploadFile=@uploadFile></HomePage>
@@ -20,7 +18,6 @@ else if (loading && emailAnalyser!=null)
     Analyse();
 }
 else{
-    Console.WriteLine(loading);
     <InfoComponent></InfoComponent>
     <MudButton Color="Color.Error" OnClick="@startOver">Restart</MudButton>
     <MudListItem Icon="@Icons.Material.Filled.AttachFile" @key="@emailAnalyser">

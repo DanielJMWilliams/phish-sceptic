@@ -1,6 +1,63 @@
-﻿<MudIcon Icon="@Icons.Material.Filled.InsertDriveFile"/>
-<MudText>@Filename</MudText>
+﻿@using MimeKit
+@inject IDialogService DialogService
+
+<MudPaper Class="d-flex justify-center">
+    <MudButton OnClick="@ScanFile">
+        <MudIcon Icon="@Icons.Material.Filled.InsertDriveFile" />
+        <MudText>@Filename</MudText>
+    </MudButton>
+
+</MudPaper>
+
 
 @code {
     [Parameter] public string Filename { get; set; }
+    [Parameter] public MimeEntity FileEntity { get; set; }
+
+    private async Task ScanFile()
+    {
+
+        var parameters = new DialogParameters();
+        parameters.Add("ContentText", "Verify that this domain really is what you think it is.");
+
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall };
+
+        var dialog = await DialogService.ShowAsync<FileScanDialog>("Scan File", parameters, options);
+
+
+        var result = await dialog.Result;
+
+        if (result.Canceled)
+        {
+            return;
+        }
+
+
+
+
+        StateHasChanged();
+    }
+
+    private void Scan()
+    {
+        if (FileEntity is MessagePart)
+        {
+            var fileName = FileEntity.ContentDisposition?.FileName;
+            var rfc822 = (MessagePart)FileEntity;
+
+            if (string.IsNullOrEmpty(fileName))
+                fileName = "attached-message.eml";
+
+            using (var stream = File.Create(fileName))
+                rfc822.Message.WriteTo(stream);
+        }
+        else
+        {
+            var part = (MimePart)FileEntity;
+            var fileName = part.FileName;
+
+            using (var stream = File.Create(fileName))
+                part.Content.DecodeTo(stream);
+        }
+    }
 }
