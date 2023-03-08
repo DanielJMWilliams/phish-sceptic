@@ -9,7 +9,7 @@ using VirusTotalNet.Results;
 
 namespace PhishSceptic.Client.Components
 {
-    public partial class LinkAnalyser
+    public partial class LinkInspector
     {
         [Parameter] public EmailAnalyser emailAnalyser { get; set; }
 
