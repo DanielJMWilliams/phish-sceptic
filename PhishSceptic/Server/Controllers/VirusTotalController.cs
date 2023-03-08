@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Net;
 using VirusTotalNet;
 using VirusTotalNet.ResponseCodes;
 using VirusTotalNet.Results;
@@ -12,22 +13,47 @@ namespace PhishSceptic.Server.Controllers
         private readonly ILogger<VirusTotalController> _logger;
         private readonly IConfiguration _config;
         private string apikey = "Not Set";
+        private VirusTotal virusTotal;
 
         public VirusTotalController(ILogger<VirusTotalController> logger, IConfiguration config)
         {
             _logger = logger;
             _config = config;
             apikey = _config["VirusTotal:ApiKey"];
+            virusTotal = new VirusTotal(apikey);
         }
 
-        //[HttpPost]
-        //public async Task<string> 
+        [HttpPost("fileScan")]
+        public async Task<HttpResponseMessage> ScanFile(IFormFile file)
+        {
+            Console.WriteLine("scanfile api");
+            // Check if a file was actually uploaded
+            if (file == null || file.Length == 0)
+            {
+                Console.WriteLine("File is null or file.length is 0");
+                return new HttpResponseMessage(HttpStatusCode.BadRequest);
+            }
+
+            using (var ms = new MemoryStream())
+            {
+                // Read the uploaded file into a memory stream
+                await file.CopyToAsync(ms);
+
+                // Upload the file to VirusTotal for scanning
+                ScanResult result = await virusTotal.ScanFileAsync(ms.ToArray(), file.FileName);
+                Console.WriteLine("result: " + result);
+                // Return the scan results as an HTTP response
+                var response = new HttpResponseMessage(HttpStatusCode.OK);
+                //response.Content = new StringContent(result.Resource);
+                response.Content = new StringContent("HELLO WORLD");
+                Console.WriteLine("response: " + response);
+                return response;
+            }
+        }
 
         [HttpGet("urlReport/positives")]
         public async Task<int> Get(string url)
         {
-            VirusTotal virusTotal = new VirusTotal(apikey);
-            //DomainReport domainReport = await virusTotal.GetDomainReportAsync(url);
             try
             {
                 UrlReport urlReport = await virusTotal.GetUrlReportAsync(url);

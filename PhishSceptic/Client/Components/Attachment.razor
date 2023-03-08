@@ -18,7 +18,7 @@
 
     private async Task ScanFile()
     {
-
+        
         var parameters = new DialogParameters();
         //parameters.Add("ContentText", "Verify that this domain really is what you think it is.");
 
@@ -44,37 +44,9 @@
         StateHasChanged();
     }
 
-    private void Scan()
+    private async Task Scan()
     {
-        if (FileEntity is MessagePart)
-        {
-            var fileName = FileEntity.ContentDisposition?.FileName;
-            var rfc822 = (MessagePart)FileEntity;
-
-            if (string.IsNullOrEmpty(fileName))
-                fileName = "attached-message.eml";
-
-            using (var stream = File.Create(fileName))
-            {
-                rfc822.Message.WriteTo(stream);
-                vtService.ScanFile(stream);
-
-            }
-
-
-        }
-        else
-        {
-            var part = (MimePart)FileEntity;
-            var fileName = part.FileName;
-
-            using (var stream = File.Create(fileName))
-            {
-                part.Content.DecodeTo(stream);
-                vtService.ScanFile(stream);
-            }
-            
-        }
-        Console.WriteLine("attachment saved somewhere");
+        var res = await vtService.ScanFile(FileEntity);
+        Console.WriteLine("res" + res);
     }
 }

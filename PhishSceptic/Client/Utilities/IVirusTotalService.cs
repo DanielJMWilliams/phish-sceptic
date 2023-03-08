@@ -6,6 +6,6 @@ namespace PhishSceptic.Client.Utilities
     {
         public Task<int> CheckReputation(string url);
 
-        public Task<int> ScanFile(FileStream file);
+        public Task<int> ScanFile(MimeEntity fileEntity);
     }
 }
