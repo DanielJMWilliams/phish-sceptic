@@ -1,23 +1,16 @@
 ﻿<MudDialog>
     <DialogContent>
-        <MudText>@ContentText</MudText>
-        <MudText Align="Align.Center" Typo="Typo.h6">@TextToVerify</MudText>
-
-        <MudTextField Immediate TextChanged="@verify" @bind-Value="_typedValue" Label="Type what you see above" Variant="Variant.Text"></MudTextField>
+        <MudText>Send this file to VirusTotal to scan for viruses</MudText>
+        <MudText>Note: do not do this for any files that may contain sensitive / personal information.</MudText>
     </DialogContent>
     <DialogActions>
         <MudButton OnClick="Cancel">Cancel</MudButton>
-        <MudTooltip Text="Flag this if it is not what you expected or you think it is suspicious in any way."
-                        Arrow Placement="Placement.Bottom">
-            <MudButton OnClick="@Flag" Color="Color.Error">Flag</MudButton>
-        </MudTooltip>
-
         <MudTooltip>
             <ChildContent>
-                <MudButton Disabled="@( !_isVerified)" Color="Color.Info" Variant="Variant.Filled" OnClick="Submit">Verify</MudButton>
+                <MudButton Color="Color.Info" Variant="Variant.Filled" OnClick="@scan">Scan</MudButton>
             </ChildContent>
             <TooltipContent>
-                <MudText>Upon verifying this domain, it will be sent to VirusTotal to be scanned.</MudText>
+                <MudText>Upon clicking Scan, this file will be sent to virustotal and scanned for known viruses.</MudText>
             </TooltipContent>
         </MudTooltip>
 
@@ -27,12 +20,6 @@
 @code {
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
 
-    [Parameter] public string ContentText { get; set; }
-
-    [Parameter] public string TextToVerify { get; set; }
-
-
-    private string _typedValue { get; set; }
 
     void Submit() => MudDialog.Close(DialogResult.Ok(true));
     void Cancel() => MudDialog.Cancel();
@@ -41,15 +28,9 @@
     private bool _isVerified = false;
 
 
-    private void verify()
+    private void scan()
     {
-        if (_typedValue == TextToVerify)
-        {
-            _isVerified = true;
-        }
-        else
-        {
-            _isVerified = false;
-        }
+
+        Submit();
     }
 }

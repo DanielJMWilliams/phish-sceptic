@@ -14,11 +14,13 @@
     [Parameter] public string Filename { get; set; }
     [Parameter] public MimeEntity FileEntity { get; set; }
 
+    [Inject] IVirusTotalService vtService { get; set; }
+
     private async Task ScanFile()
     {
 
         var parameters = new DialogParameters();
-        parameters.Add("ContentText", "Verify that this domain really is what you think it is.");
+        //parameters.Add("ContentText", "Verify that this domain really is what you think it is.");
 
         var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall };
 
@@ -30,6 +32,10 @@
         if (result.Canceled)
         {
             return;
+        }
+        else
+        {
+            Scan();
         }
 
 
@@ -49,7 +55,13 @@
                 fileName = "attached-message.eml";
 
             using (var stream = File.Create(fileName))
+            {
                 rfc822.Message.WriteTo(stream);
+                vtService.ScanFile(stream);
+
+            }
+
+
         }
         else
         {
@@ -57,7 +69,12 @@
             var fileName = part.FileName;
 
             using (var stream = File.Create(fileName))
+            {
                 part.Content.DecodeTo(stream);
+                vtService.ScanFile(stream);
+            }
+            
         }
+        Console.WriteLine("attachment saved somewhere");
     }
 }
