@@ -36,8 +36,8 @@ namespace PhishSceptic.Client.Utilities
         public Task<int> ScanFile(FileStream file)
         {
             Console.WriteLine("scannin");
-            throw new NotImplementedException();
-            /*
+           throw new NotImplementedException();
+           /* 
             var postBody = new { URL = url };
             //var response = await Http.PostAsJsonAsync("VirusTotal/urlReport", postBody);
             string positives = await http.GetStringAsync("VirusTotal/urlReport/positives?url=" + url);
@@ -65,8 +65,8 @@ namespace PhishSceptic.Client.Utilities
                 Console.WriteLine(body);
             }
         }
-    
-            */
+        */
+            
         }
     }
 }
