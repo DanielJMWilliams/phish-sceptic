@@ -20,7 +20,8 @@ namespace PhishSceptic.Server.Controllers
             apikey = _config["VirusTotal:ApiKey"];
         }
 
-        [HttpPost]
+        //[HttpPost]
+        //public async Task<string> 
 
         [HttpGet("urlReport/positives")]
         public async Task<int> Get(string url)
