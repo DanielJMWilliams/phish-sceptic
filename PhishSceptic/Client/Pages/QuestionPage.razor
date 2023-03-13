@@ -1,0 +1,25 @@
+﻿@page "/questions"
+@inject HttpClient Http
+
+@if (questionBank != null)
+{
+<MudGrid>
+    <MudItem md="12">
+        <QuestionBox questionBank="@questionBank"></QuestionBox>
+    </MudItem>
+</MudGrid>    
+}
+
+<MudText Class="my-2">Have access to the .eml file? Use our <MudLink Href="/">inspector tool</MudLink> to guide you through the process.</MudText>
+
+
+@code {
+    private QuestionBank questionBank;
+
+    protected async override Task OnInitializedAsync()
+    {
+        questionBank = new QuestionBank(Http);
+        await questionBank.LoadQuestions();
+        StateHasChanged();
+    }
+}

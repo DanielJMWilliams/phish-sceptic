@@ -1,31 +1,34 @@
 ﻿@using System.Text.RegularExpressions
 <DashboardItem Title="Questions" Description="Here you will be asked a number of questions about the email.">
-    <MudPaper Class="my-5 py-10">
-        @for(int i=0; i<questions.Count(); i++)
-        {
-            int index = i;
-            bool isHidden = !(index == questionIndex);
-            <div hidden="@isHidden">
-                    <YesNoQuestion OnAnswer="@updateScore" Question="@questions[index]" /> 
-            </div>
+    @if (questions != null)
+    {
+        <MudPaper Class="my-5 py-10">
+            @for(int i=0; i<questions.Count(); i++)
+            {
+                int index = i;
+                bool isHidden = !(index == questionIndex);
+                <div hidden="@isHidden">
+                        <YesNoQuestion OnAnswer="@updateScore" Question="@questions[index]" /> 
+                </div>
 
-        }
-       <MudButton OnClick="@Back">Back</MudButton>
-       <MudButton OnClick="@Next">Next</MudButton>
-        @{
-            int current = questionIndex + 1;
-            <MudText>@current / @questions.Count()</MudText>
-        }
+            }
+           <MudButton OnClick="@Back">Back</MudButton>
+           <MudButton OnClick="@Next">Next</MudButton>
+            @{
+                int current = questionIndex + 1;
+                <MudText>@current / @questions.Count()</MudText>
+            }
   
-    </MudPaper>  
+        </MudPaper>  
 
-    <MudText>Score: @score</MudText>
+        <MudText>Score: @score</MudText>        
+    }
+
 </DashboardItem>
 
 
 @code {
 
-    [Parameter] public EmailAnalyser emailAnalyser { get; set; }
     [Parameter] public QuestionBank questionBank { get; set; }
 
     private Question[] questions;
@@ -48,8 +51,7 @@
             questionIndex++;
         }
     }
-
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnParametersSetAsync()
     {
         questions = questionBank.GetQuestions();
     }

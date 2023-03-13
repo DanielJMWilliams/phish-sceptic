@@ -38,9 +38,6 @@ else{
             <UrgencyInspector emailAnalyser="@emailAnalyser"></UrgencyInspector>
         </MudItem>
         <MudItem md="12">
-            <QuestionBox emailAnalyser="@emailAnalyser" questionBank="@questionBank"></QuestionBox>
-        </MudItem>
-        <MudItem md="12">
             <ResultsComponent></ResultsComponent>
         </MudItem>
     </MudGrid>   
@@ -52,16 +49,12 @@ else{
     private bool loading = true;
     private string apiStatus = "offline";
     private EmailAnalyser emailAnalyser;
-    private QuestionBank questionBank;
     [Inject] IWarningService warningService { get; set; }
 
     protected async override Task OnInitializedAsync()
     {
         //apiStatus = await Http.GetFromJsonAsync<string>("Test");
         apiStatus = await Http.GetStringAsync("Test");
-
-        questionBank = new QuestionBank(Http);
-        await questionBank.LoadQuestions();
     }
 
     private async Task uploadFile(IBrowserFile file)

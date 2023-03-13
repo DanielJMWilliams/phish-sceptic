@@ -67,6 +67,7 @@
 
     private async Task Scan()
     {
+        
         positives = await vtService.ScanFile(FileEntity);
         StateHasChanged();
     }

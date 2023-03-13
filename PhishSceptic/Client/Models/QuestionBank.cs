@@ -32,7 +32,11 @@ namespace PhishSceptic.Client.Models
             {
                 return questions;
             }
-            throw new Exception("Questions object is null");
+            else
+            {
+                return new Question[0];
+            }
+            //throw new Exception("Questions object is null");
         }
     }
 }
