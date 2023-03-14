@@ -1,5 +1,6 @@
 ﻿@using MimeKit
 <DashboardItem Title="Attachment Inspector" Description="This component highlights displays and analyses any email attachments.">
+    <ComponentBody>
         <MudPaper Elevation="1" Class="my-5 pa-4">
 
             @if (_attachments == null || _attachments.Count() == 0)
@@ -14,6 +15,11 @@
                 }
             }
         </MudPaper>
+    </ComponentBody>
+    <ComponentHelp>
+
+    </ComponentHelp>
+
 </DashboardItem>
 
 
