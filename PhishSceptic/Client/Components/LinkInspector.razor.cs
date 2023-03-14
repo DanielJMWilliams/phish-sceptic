@@ -85,7 +85,7 @@ namespace PhishSceptic.Client.Components
                 //no response, rate limited
                 domainChipColors[domainIndex] = Color.Warning;
                 domainChipIcons[domainIndex] = "";
-                Console.WriteLine("VirusTotal Rate Limit hit");
+                Snackbar.Add("VirusTotal Rate Limit hit. Wait a few minutes and try again.", Severity.Info);
             }
 
 
