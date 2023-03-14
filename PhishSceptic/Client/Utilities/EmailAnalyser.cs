@@ -14,6 +14,7 @@ namespace PhishSceptic.Client.Utilities
         private string _emailTitle = "";
         private string _sender = "";
         private List<string> _urls = new List<string>();
+        private List<string> _urlsContainingAnchors = new List<string>();
         private List<string> _domains = new List<string>();
         private List<string> _shortenedLinks = new List<string>();
 
@@ -55,13 +56,15 @@ namespace PhishSceptic.Client.Utilities
             _mimeMessage = await MimeKitLoad(EmailFile);
 
             //will only display first sender: minor issue
-            _sender = _mimeMessage.From[0].ToString();
+            _sender = ExtractEmailAddress(_mimeMessage.From[0].ToString());
 
             _emailBody = _mimeMessage.TextBody;
             _emailTitle = _mimeMessage.Subject;
 
             // extract all urls in email
             _urls = ExtractUrls(_emailBody);
+            _urlsContainingAnchors = _urls.Where(url => url.Contains('#')).ToList();
+            Console.WriteLine("anchors: "+ _urlsContainingAnchors);
             _domains = ExtractDomains(_urls) ;
             _shortenedLinks = ExtractShortenedDomains(GetDistinctDomains());
 
@@ -72,6 +75,20 @@ namespace PhishSceptic.Client.Utilities
         public List<string> GetShortenedDomains()
         {
             return _shortenedLinks;
+        }
+
+        public static string ExtractEmailAddress(string from)
+        {
+            if (from.Contains('<'))
+            {
+                Match match = Regex.Match(from, "<([^>]*)>");
+                if (match.Success)
+                {
+                    string email = match.Groups[1].Value;
+                    return email;
+                }
+            }
+            return from;
         }
 
         public static List<string> ExtractShortenedDomains(List<string> domains)
@@ -154,6 +171,10 @@ namespace PhishSceptic.Client.Utilities
         {
             return _urls;
         }
+        public List<string> GetUrlsContainingAnchors()
+        {
+            return _urlsContainingAnchors;
+        }
 
         private string extractExtension(string filename)
         {
@@ -186,6 +207,8 @@ namespace PhishSceptic.Client.Utilities
         {
             _urls = new List<string>();
             _domains = new List<string>();
+            _urlsContainingAnchors= new List<string>();
+            _shortenedLinks= new List<string>();
         }
 
         public string extractBody(string emailString)

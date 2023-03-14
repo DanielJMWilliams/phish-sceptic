@@ -23,12 +23,14 @@ namespace PhishSceptic.Client.Components
         private List<string> urls;
         private List<string> domains;
         private List<string> shortenedDomains;
+        private List<string> urlsContainingAnchors;
         private Color[] domainChipColors;
         private string[] domainChipIcons;
 
         protected async override Task OnParametersSetAsync()
         {
             urls = emailAnalyser.GetUrls();
+            urlsContainingAnchors = emailAnalyser.GetUrlsContainingAnchors();
             domains = emailAnalyser.GetDistinctDomains();
             shortenedDomains = emailAnalyser.GetShortenedDomains();
             domainChipColors = new Color[domains.Count()];

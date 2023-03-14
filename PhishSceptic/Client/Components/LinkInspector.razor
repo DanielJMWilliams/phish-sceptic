@@ -1,29 +1,52 @@
 ﻿@inject IDialogService DialogService
 
 <DashboardItem Title="Link Inspector" Description="This component analyses all of the links in the email body.">
+    @if (urls.Count() > 0)
+    {
     <MudPaper Elevation="1" Class="my-5 pa-4">
 
-        <MudGrid Spacing="5" Justify="Justify.Center">
-            <MudItem md="4">
-                <MudText Align="Align.Center"># of links</MudText>
-                <MudPaper Elevation="4" Class="d-flex align-center" Height="140px" Width="140px">
-                    <MudText Align="Align.Center" Typo="Typo.h2" Style="width:100%;" >@urls.Count() </MudText>
-                </MudPaper>
-            </MudItem>
-            <MudItem md="4">
-                 <MudText Align="Align.Center"># of domains</MudText>
-                <MudPaper Elevation="4" Class="d-flex align-center" Height="140px" Width="140px">
-                    <MudText Align="Align.Center" Typo="Typo.h2" Style="width:100%;" >@domains.Count() </MudText>
-                </MudPaper>
-            </MudItem>
-            <MudItem md="4">
-                <MudText Align="Align.Center"># of shortened links</MudText>
-                <MudTooltip Text="Attackers sometimes disguise malicious links with shortened URLs"
-                            Arrow="true" Placement="Placement.Right">
-                    <MudPaper Elevation="4" Class="d-flex align-center" Height="140px" Width="140px">
-                        <MudText Color="@((shortenedDomains.Count()>0) ? Color.Error : Color.Default)" Align="Align.Center" Typo="Typo.h2" Style="width:100%;" >@shortenedDomains.Count() </MudText>
+        <MudGrid Spacing="1" Justify="Justify.Center">
+            <MudItem lg="3" md="6">
+                <MudStack>
+                    <MudText># of links</MudText>
+                    <MudPaper Elevation="4" Outlined Class="d-flex align-center" Height="120px" Width="120px">
+                        <MudText Align="Align.Center" Typo="Typo.h2" Style="width:100%;">@urls.Count() </MudText>
                     </MudPaper>
-                </MudTooltip>
+                </MudStack>
+
+            </MudItem>
+            <MudItem lg="3" md="6">
+                <MudStack>
+                    <MudText># of domains</MudText>
+                    <MudPaper Elevation="4" Outlined Class="d-flex align-center" Height="120px" Width="120px">
+                        <MudText Align="Align.Center" Typo="Typo.h2" Style="width:100%;" >@domains.Count() </MudText>
+                    </MudPaper>
+                </MudStack>
+
+            </MudItem>
+            <MudItem lg="3" md="6">
+                <MudStack>
+                    <MudText># of shortened links</MudText>
+                    <MudTooltip Text="Attackers sometimes disguise malicious links with shortened URLs"
+                                Arrow Placement="Placement.Right">
+                        <MudPaper Elevation="4" Outlined Class="d-flex align-center" Height="120px" Width="120px">
+                            <MudText Color="@((shortenedDomains.Count()>0) ? Color.Error : Color.Default)" Align="Align.Center" Typo="Typo.h2" Style="width:100%;">@shortenedDomains.Count() </MudText>
+                        </MudPaper>
+                    </MudTooltip>
+                </MudStack>
+
+            </MudItem>
+                <MudItem lg="3" md="6">
+                    <MudStack>
+                        <MudText># of links containing anchors</MudText>
+                        <MudTooltip Text="Attackers can manipulate URL anchors maliciously."
+                                    Arrow Placement="Placement.Right">
+                            <MudPaper Elevation="4" Outlined Class="d-flex align-center" Height="120px" Width="120px">
+                                <MudText Color="@((urlsContainingAnchors.Count()>0) ? Color.Error : Color.Default)" Align="Align.Center" Typo="Typo.h2" Style="width:100%;">@urlsContainingAnchors.Count() </MudText>
+                            </MudPaper>
+                        </MudTooltip>
+                    </MudStack>
+
             </MudItem>
         </MudGrid>
 
@@ -59,7 +82,13 @@
         
         }
 
-    </MudPaper>
+        </MudPaper>
+    }
+    else
+    {
+        <MudText Color="Color.Info" Align="Align.Center">This email contains no links.</MudText>
+    }
+
 </DashboardItem>
 
 
