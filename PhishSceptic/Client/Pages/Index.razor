@@ -55,18 +55,20 @@ else{
     {
         //apiStatus = await Http.GetFromJsonAsync<string>("Test");
         apiStatus = await Http.GetStringAsync("Test");
+        startOver();
     }
 
     private async Task uploadFile(IBrowserFile file)
     {
         emailAnalyser = new EmailAnalyser(file);
         StateHasChanged();
-        
+
     }
 
 
     private async Task Analyse()
     {
+        loading = true;
         await emailAnalyser.Analyse();
         loading = false;
 
@@ -76,10 +78,8 @@ else{
 
     private void startOver()
     {
-        //reset();
         emailAnalyser = null;
         warningService.Reset();
-        loading = true;
 
     }
 

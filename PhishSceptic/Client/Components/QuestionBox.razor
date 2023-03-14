@@ -2,26 +2,25 @@
 <DashboardItem Title="Questions" Description="Here you will be asked a number of questions about the email.">
     @if (questions != null)
     {
-        <MudPaper Class="my-5 py-10">
-            @for(int i=0; i<questions.Count(); i++)
-            {
-                int index = i;
-                bool isHidden = !(index == questionIndex);
-                <div hidden="@isHidden">
-                        <YesNoQuestion OnAnswer="@updateScore" Question="@questions[index]" /> 
-                </div>
+        @for(int i=0; i<questions.Count(); i++)
+        {
+            int index = i;
+            bool isHidden = !(index == questionIndex);
+            <div hidden="@isHidden" class="my-4">
+                    <YesNoQuestion OnAnswer="@updateScore" Question="@questions[index]" /> 
+            </div>
 
-            }
-           <MudButton OnClick="@Back">Back</MudButton>
-           <MudButton OnClick="@Next">Next</MudButton>
+        }
+
+  
+        <MudPaper Class="d-flex justify-space-between gap-2" Elevation="0">
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="@Back" Disabled="@backDisabled">Back</MudButton>
             @{
                 int current = questionIndex + 1;
                 <MudText>@current / @questions.Count()</MudText>
             }
-  
-        </MudPaper>  
-
-        <MudText>Score: @score</MudText>        
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="@Next" Disabled="@nextDisabled">Next</MudButton>
+        </MudPaper>
     }
 
 </DashboardItem>
@@ -30,25 +29,40 @@
 @code {
 
     [Parameter] public QuestionBank questionBank { get; set; }
+    [Inject] IWarningService warningService { get; set; }
+
+    private bool backDisabled = true;
+    private bool nextDisabled = false;
 
     private Question[] questions;
 
     private int questionIndex = 0;
 
-    private float score = 0;
-
     private void Back()
     {
+        nextDisabled = false;
         if (questionIndex > 0)
         {
             questionIndex--;
         }
+
+        if (questionIndex == 0)
+        {
+            backDisabled = true;
+        }
+
     }
     private void Next()
     {
-        if (questionIndex < questions.Count())
+        backDisabled = false;
+        if (questionIndex < questions.Count()-1)
         {
             questionIndex++;
+        }
+
+        if (questionIndex == questions.Count()-1)
+        {
+            nextDisabled = true;
         }
     }
     protected override async Task OnParametersSetAsync()
@@ -58,20 +72,27 @@
 
     private void updateScore()
     {
-        Next();
-        score = 0;
-        foreach(Question q in questionBank.GetQuestions())
+        warningService.Reset();
+
+        foreach(Question q in questions)
         {
-            if (q.isYes==true)
+            float polarity = 0;
+            if (q.isYes == true)
             {
-                score += q.weighting;
+                polarity += q.weighting;
             }
-            else if (q.isYes==false)
+            else if (q.isYes == false)
             {
-                score -= q.weighting;
+                polarity -= q.weighting;
             }
 
+            if (polarity < 0)
+            {
+                warningService.AddWarning(q.warning);
+            }            
         }
+
+
         StateHasChanged();
     }
 

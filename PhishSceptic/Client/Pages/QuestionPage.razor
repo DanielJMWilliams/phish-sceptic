@@ -1,6 +1,8 @@
 ﻿@page "/questions"
 @inject HttpClient Http
 
+<MudText Class="my-2">Have access to the .eml file? Use our <MudLink Href="/">inspector tool</MudLink> to guide you through the process.</MudText>
+
 @if (questionBank != null)
 {
 <MudGrid>
@@ -9,9 +11,8 @@
     </MudItem>
 </MudGrid>    
 }
-
-<MudText Class="my-2">Have access to the .eml file? Use our <MudLink Href="/">inspector tool</MudLink> to guide you through the process.</MudText>
-
+<MudDivider Class="my-4"></MudDivider>
+<ResultsComponent></ResultsComponent>
 
 @code {
     private QuestionBank questionBank;

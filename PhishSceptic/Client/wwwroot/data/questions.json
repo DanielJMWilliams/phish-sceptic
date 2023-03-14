@@ -1,37 +1,44 @@
 [
   {
-    "question": "Does the email contain shortened URLS?",
+    "question": "Does the email contain shortened URLs?",
     "description": "URLs are often disguised by using shortened url links",
-    "weighting": -2
+    "weighting": -2,
+    "warning":  "The email contains shortened URLs. These can be used to disguise malicious links."
   },
   {
     "question": "Are there any typos or weird looking characters in the address?",
     "description": "Attackers try to mislead targets by disguising their email address as a trusted email address.",
-    "weighting": -5
+    "weighting": -5,
+    "warning": "The email address contains typos or strange characters. These may be used to mislead you into thinking the email address is something else."
   },
   {
     "question": "Do you recognise this email address?",
     "description": "Compromised colleagues",
-    "weighting": 1
+    "weighting": 1,
+    "warning": "This email comes from an unrecognised address."
   },
   {
     "question": "Do you trust the domain?",
     "description": "n/a",
-    "weighting": 5
+    "weighting": 5,
+    "warning": "You do not trust this domain."
   },
   {
     "question": "Is there poor spelling in the email?",
     "description": "Misspellings are often used to avoid spam filters",
-    "weighting": 2
+    "weighting": 2,
+    "warning": "This email contains poor spelling. Misspellings are often used to avoid detection from spam filters that search for certain keywords."
   },
   {
     "question": "Does the email use urgent language?",
     "description": "Attackers panic targets into taking urgent action before they realise it may not be legitimate.",
-    "weighting": -5
+    "weighting": -5,
+    "warning": "This email contains urgent language. Phishing emails pressure the user to do something quickly before having time to think whether the email was legitimate."
   },
   {
     "question": "Would you expect an email like this from this sender?",
     "description": "The sender's account may have been compromised and a malicious acter is sending this email on their behalf.",
-    "weighting": 5
+    "weighting": 5,
+    "warning": "You would not expect an email like this from this sender. This could mean that the sender's account was compromised and used to send phishing emails.'"
   }
 ]
