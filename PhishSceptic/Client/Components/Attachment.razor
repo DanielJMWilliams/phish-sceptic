@@ -1,31 +1,34 @@
 ﻿@using MimeKit
 @inject IDialogService DialogService
 
-<MudPaper Class="d-flex justify-center">
-    <MudButton OnClick="@ScanFile">
+<MudPaper Outlined Class="d-flex justify-space-around">
+    <MudStack Row Class="my-6">
         @if (positives > 0)
         {
-            <MudBadge Content="@positives" Color="Color.Error" Overlap="false" Class="mx-6 my-4">
+            <MudBadge Content="@positives" Color="Color.Error" Overlap="false" Class="mx-6">
                 <MudIcon Icon="@Icons.Material.Filled.InsertDriveFile" />
             </MudBadge>
         }
         else if (positives == 0)
         {
-            <MudBadge Content="@positives" Color="Color.Info" Overlap="false" Class="mx-6 my-4">
+            <MudBadge Content="@positives" Color="Color.Info" Overlap="false" Class="mx-6">
                 <MudIcon Icon="@Icons.Material.Filled.InsertDriveFile" />
             </MudBadge>
         }
         else
         {
-            <MudBadge Icon="@Icons.Material.Filled.Warning" Color="Color.Warning" Overlap="false" Class="mx-6 my-4">
+            <MudBadge Icon="@Icons.Material.Filled.Warning" Color="Color.Warning" Overlap="false" Class="mx-6">
                 <MudIcon Icon="@Icons.Material.Filled.InsertDriveFile" />
             </MudBadge>
         }
 
         <MudText>@Filename</MudText>
-    </MudButton>
+    </MudStack>
 
+    <MudButton Class="my-6" Color="Color.Primary" Style="height:30px;" Variant="Variant.Filled" OnClick="@ScanFile">Scan</MudButton>
 </MudPaper>
+
+
 
 
 @code {
