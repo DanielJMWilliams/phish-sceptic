@@ -1,0 +1,61 @@
+﻿@using System
+@inject HttpClient Http
+@inject ISnackbar Snackbar
+
+<h3>Dashboard</h3>
+
+@if (emailAnalyser != null)
+{
+    <MudGrid Spacing="5">
+        <MudItem md="6">
+            <LinkInspector emailAnalyser="@emailAnalyser"></LinkInspector>
+        </MudItem>
+        <MudItem md="6">
+            <UrgencyInspector emailAnalyser="@emailAnalyser"></UrgencyInspector>
+        </MudItem>
+        <MudItem md="6">
+            <SenderInspector emailAnalyser="@emailAnalyser"></SenderInspector>
+        </MudItem>
+        <MudItem lg="12">
+            <QuestionBox emailAnalyser="@emailAnalyser" questionBank="@questionBank"></QuestionBox>
+        </MudItem>
+        <MudItem lg="12">
+            <ResultsComponent></ResultsComponent>
+        </MudItem>
+    </MudGrid>    
+}
+
+
+@code {
+    private string apiStatus = "offline";
+    private EmailAnalyser emailAnalyser;
+    private QuestionBank questionBank;
+    [Inject] IWarningService warningService { get; set; }
+
+    protected async override Task OnInitializedAsync()
+    {
+        //apiStatus = await Http.GetFromJsonAsync<string>("Test");
+        apiStatus = await Http.GetStringAsync("Test");
+
+        questionBank = new QuestionBank(Http);
+        await questionBank.LoadQuestions();
+    }
+
+    private async Task uploadFile(IBrowserFile file)
+    {
+        emailAnalyser = new EmailAnalyser(file);
+        await emailAnalyser.Analyse();
+        Console.WriteLine("Analysis complete");
+        StateHasChanged();
+    }
+
+
+
+    private void startOver()
+    {
+        //reset();
+        emailAnalyser = null;
+        warningService.Reset();
+
+    }
+}

@@ -5,12 +5,12 @@ using PhishSceptic.Client.Components;
 
 namespace PhishScepticTests
 {
-    public class LinkAnalyserTests
+    public class LinkInspectorTests
     {
         [Fact]
         public void CheckDomainTest()
         {
-            LinkAnalyser.CheckReputation("www.piratebay.com");
+            LinkInspector.CheckReputation("www.piratebay.com");
 
         }
 

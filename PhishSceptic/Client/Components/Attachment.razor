@@ -1,0 +1,74 @@
+﻿@using MimeKit
+@inject IDialogService DialogService
+
+<MudPaper Class="d-flex justify-center">
+    <MudButton OnClick="@ScanFile">
+        @if (positives > 0)
+        {
+            <MudBadge Content="@positives" Color="Color.Error" Overlap="false" Class="mx-6 my-4">
+                <MudIcon Icon="@Icons.Material.Filled.InsertDriveFile" />
+            </MudBadge>
+        }
+        else if (positives == 0)
+        {
+            <MudBadge Content="@positives" Color="Color.Info" Overlap="false" Class="mx-6 my-4">
+                <MudIcon Icon="@Icons.Material.Filled.InsertDriveFile" />
+            </MudBadge>
+        }
+        else
+        {
+            <MudBadge Icon="@Icons.Material.Filled.Warning" Color="Color.Warning" Overlap="false" Class="mx-6 my-4">
+                <MudIcon Icon="@Icons.Material.Filled.InsertDriveFile" />
+            </MudBadge>
+        }
+
+        <MudText>@Filename</MudText>
+    </MudButton>
+
+</MudPaper>
+
+
+@code {
+    [Parameter] public string Filename { get; set; }
+    [Parameter] public MimeEntity FileEntity { get; set; }
+
+    [Inject] IVirusTotalService vtService { get; set; }
+
+    //default value to indicate unscanned
+    private int positives = -2;
+
+    private async Task ScanFile()
+    {
+
+        var parameters = new DialogParameters();
+        //parameters.Add("ContentText", "Verify that this domain really is what you think it is.");
+
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall };
+
+        var dialog = await DialogService.ShowAsync<FileScanDialog>("Scan File", parameters, options);
+
+
+        var result = await dialog.Result;
+
+        if (result.Canceled)
+        {
+            return;
+        }
+        else
+        {
+            Scan();
+        }
+
+
+
+
+        StateHasChanged();
+    }
+
+    private async Task Scan()
+    {
+        
+        positives = await vtService.ScanFile(FileEntity);
+        StateHasChanged();
+    }
+}

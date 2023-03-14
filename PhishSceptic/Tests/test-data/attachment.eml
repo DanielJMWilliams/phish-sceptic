@@ -1,0 +1,61 @@
+From: "Daniel Williams (BSc Com Sc w DTP FT DA (PwC))"
+	<DXW994@student.bham.ac.uk>
+To: DanielJMWilliams <dancart2001@gmail.com>
+Subject: Test
+Thread-Topic: Test
+Thread-Index: AQHZR6o7CYaSVCI1vECdIvfGwiCdsg==
+Date: Thu, 23 Feb 2023 17:14:14 +0000
+Message-ID:
+	<CWXP265MB5669E0DF43FA6F11F21D7E55F8AB9@CWXP265MB5669.GBRP265.PROD.OUTLOOK.COM>
+Content-Language: en-GB
+X-MS-Has-Attach: yes
+X-MS-Exchange-Organization-SCL: -1
+X-MS-TNEF-Correlator:
+X-MS-Exchange-Organization-RecordReviewCfmType: 0
+msip_labels:
+Content-Type: multipart/mixed;
+	boundary="_004_CWXP265MB5669E0DF43FA6F11F21D7E55F8AB9CWXP265MB5669GBRP_"
+MIME-Version: 1.0
+
+--_004_CWXP265MB5669E0DF43FA6F11F21D7E55F8AB9CWXP265MB5669GBRP_
+Content-Type: multipart/alternative;
+	boundary="_000_CWXP265MB5669E0DF43FA6F11F21D7E55F8AB9CWXP265MB5669GBRP_"
+
+--_000_CWXP265MB5669E0DF43FA6F11F21D7E55F8AB9CWXP265MB5669GBRP_
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+
+here is an email with a small file. Open the attachment. 
+
+--_000_CWXP265MB5669E0DF43FA6F11F21D7E55F8AB9CWXP265MB5669GBRP_
+Content-Type: text/html; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
+1">
+<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
+ttom:0;} </style>
+</head>
+<body dir=3D"ltr">
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);" class=
+=3D"elementToProof">
+here is an email with a small file</div>
+</body>
+</html>
+
+--_000_CWXP265MB5669E0DF43FA6F11F21D7E55F8AB9CWXP265MB5669GBRP_--
+
+--_004_CWXP265MB5669E0DF43FA6F11F21D7E55F8AB9CWXP265MB5669GBRP_
+Content-Type: text/plain; name="test.txt"
+Content-Description: test.txt
+Content-Disposition: attachment; filename="test.txt"; size=184;
+	creation-date="Thu, 23 Feb 2023 17:14:05 GMT";
+	modification-date="Thu, 23 Feb 2023 17:14:15 GMT"
+Content-Transfer-Encoding: base64
+
+aGVsbG8gdGhpcyBpcyB0ZXN0IGNvbnRlbnQ=
+
+--_004_CWXP265MB5669E0DF43FA6F11F21D7E55F8AB9CWXP265MB5669GBRP_--

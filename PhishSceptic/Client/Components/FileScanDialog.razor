@@ -1,0 +1,36 @@
+﻿<MudDialog>
+    <DialogContent>
+        <MudText>Send this file to VirusTotal to scan for viruses</MudText>
+        <MudText>Note: do not do this for any files that may contain sensitive / personal information.</MudText>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudTooltip>
+            <ChildContent>
+                <MudButton Color="Color.Info" Variant="Variant.Filled" OnClick="@scan">Scan</MudButton>
+            </ChildContent>
+            <TooltipContent>
+                <MudText>Upon clicking Scan, this file will be sent to virustotal and scanned for known viruses.</MudText>
+            </TooltipContent>
+        </MudTooltip>
+
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+
+
+    void Submit() => MudDialog.Close(DialogResult.Ok(true));
+    void Cancel() => MudDialog.Cancel();
+    void Flag() => MudDialog.Close(DialogResult.Ok(false));
+
+    private bool _isVerified = false;
+
+
+    private void scan()
+    {
+
+        Submit();
+    }
+}

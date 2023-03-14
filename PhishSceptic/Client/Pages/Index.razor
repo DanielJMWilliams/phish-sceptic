@@ -4,69 +4,92 @@
 @page "/"
 @inject ISnackbar Snackbar
 
-<MudText>API Status: @apiStatus</MudText>
-
+<MudText Align="Align.Center" Typo="Typo.h2">PhishSceptic</MudText>
 @if (emailAnalyser==null)
 {
     <HomePage UploadFile=@uploadFile></HomePage>
+    
+}
+else if (loading && emailAnalyser!=null)
+{
+    <MudText Typo="Typo.h6" Align="Align.Center">Loading...</MudText>
+    <MudProgressLinear Color="Color.Primary" Indeterminate="true" Class="my-7" />
+    Analyse();
 }
 else{
     <InfoComponent></InfoComponent>
+    <MudDivider Class="my-4" />
     <MudButton Color="Color.Error" OnClick="@startOver">Restart</MudButton>
     <MudListItem Icon="@Icons.Material.Filled.AttachFile" @key="@emailAnalyser">
         Uploaded: @emailAnalyser.GetFileName() <code>@emailAnalyser.GetFileSize() bytes</code>
     </MudListItem>
-
-
-    <ResultsComponent></ResultsComponent>
     
     <MudDivider Class="my-5"></MudDivider>
 
-    <LinkAnalyser emailAnalyser="@emailAnalyser"></LinkAnalyser>
-
-    <MudDivider Class="my-5"></MudDivider>
-
-    <UrgencyInspector emailAnalyser="@emailAnalyser"></UrgencyInspector>
-
-    <MudDivider Class="my-5"></MudDivider>
-
-    <SenderInspector emailAnalyser="@emailAnalyser"></SenderInspector>
-
-    <MudDivider Class="my-5"></MudDivider>
-
-    <QuestionBox emailAnalyser="@emailAnalyser" questionBank="@questionBank"></QuestionBox> 
+    <MudGrid>
+        <MudItem md="6">
+            <LinkInspector emailAnalyser="@emailAnalyser"></LinkInspector>
+            <MudDivider Class="my-4"></MudDivider>
+            <AttachmentInspector emailAnalyser="@emailAnalyser"></AttachmentInspector>
+        </MudItem>
+        <MudItem md="6">
+            <SenderInspector emailAnalyser="@emailAnalyser"></SenderInspector>
+            <MudDivider Class="my-4"></MudDivider>
+            <UrgencyInspector emailAnalyser="@emailAnalyser"></UrgencyInspector>
+        </MudItem>
+        <MudItem md="12">
+            <ResultsComponent></ResultsComponent>
+        </MudItem>
+    </MudGrid>   
     
 }
 
 @code
 {
+    private bool loading = true;
     private string apiStatus = "offline";
     private EmailAnalyser emailAnalyser;
-    private QuestionBank questionBank;
+    [Inject] IWarningService warningService { get; set; }
 
     protected async override Task OnInitializedAsync()
     {
         //apiStatus = await Http.GetFromJsonAsync<string>("Test");
         apiStatus = await Http.GetStringAsync("Test");
-
-        questionBank = new QuestionBank(Http);
-        await questionBank.LoadQuestions();
+        startOver();
     }
 
     private async Task uploadFile(IBrowserFile file)
     {
-        emailAnalyser = new EmailAnalyser(file);
+        //check file extension
+        try
+        {
+            emailAnalyser = new EmailAnalyser(file); 
+        }
+        catch (Exception e){
+            Snackbar.Add("Unsupported file type. Please upload a .eml file.", Severity.Error);
+        }
+
+        
+        StateHasChanged();
+
+    }
+
+
+    private async Task Analyse()
+    {
+        loading = true;
         await emailAnalyser.Analyse();
-        Console.WriteLine("Analysis complete");
+        loading = false;
+
         StateHasChanged();
     }
 
 
-
     private void startOver()
     {
-        //reset();
         emailAnalyser = null;
+        warningService.Reset();
+
     }
 
 

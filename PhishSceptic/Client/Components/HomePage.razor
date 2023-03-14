@@ -1,8 +1,4 @@
 ﻿@inject ISnackbar Snackbar
-<MudText Align="Align.Center" Typo="Typo.h2">PhishSceptic</MudText>
-<MudDivider Class="my-5"></MudDivider>
-
-<MudText Typo="Typo.h3">What is PhishSceptic?</MudText>
 <MudText Typo="Typo.body1">PhishSceptic is a phishing awareness tool that you can use to analyse emails if you are suspicious of them. It encourages scepticism and blah bah blah.</MudText>
 
 <MudDivider Class="my-5"></MudDivider>
@@ -10,27 +6,34 @@
 <MudText Typo="Typo.h4">Upload a .eml file below:</MudText>
 
 <MudStack Style="width: 100%">
-    <MudFileUpload T="IReadOnlyList<IBrowserFile>" OnFilesChanged="OnInputFileChanged" Hidden="false" Class="flex-1" InputClass="absolute mud-width-full mud-height-full overflow-hidden z-20" InputStyle="opacity:0"
-                   @ondragenter="@SetDragClass" @ondragleave="@ClearDragClass" @ondragend="@ClearDragClass">
+    <MudFileUpload T="IReadOnlyList<IBrowserFile>" OnFilesChanged="OnInputFileChanged" Hidden="false"
+        Class="flex-1"
+                   InputClass="absolute mud-width-full mud-height-full overflow-hidden z-20"
+                   InputStyle="opacity:0"
+                    @ondragenter="@SetDragClass" @ondragleave="@ClearDragClass" @ondragend="@ClearDragClass">
         <ButtonTemplate>
-            <MudPaper Height="300px" Outlined="true" Class="@DragClass">
-                <MudText Typo="Typo.h6">Drag and drop a file here or click</MudText>
+            <MudPaper Outlined="true" Class="@DragClass">
+                <MudText Align="Align.Center" Typo="Typo.h6">Drag and drop .eml files here</MudText>
+                <MudPaper Class="d-flex justify-center my-4" Elevation="0">
+                        <MudButton Variant="Variant.Filled"
+                                   Color="Color.Primary"
+                                   StartIcon="@Icons.Material.Filled.CloudUpload">
+                            Browse Files
+                        </MudButton>
+                </MudPaper>
+
             </MudPaper>
         </ButtonTemplate>
     </MudFileUpload>
 </MudStack>
 
-<MudFileUpload T="IBrowserFile" FilesChanged="UploadFile">
-    <ButtonTemplate>
-        <MudButton HtmlTag="label"
-                   Variant="Variant.Filled"
-                   Color="Color.Primary"
-                   StartIcon="@Icons.Material.Filled.CloudUpload"
-                   for="@context">
-            Upload Files
-        </MudButton>
-    </ButtonTemplate>
-</MudFileUpload>
+<MudText Class="my-2" >Don't have access to the .eml file? Instead use our <MudLink Href="/questions">question tool</MudLink> to help.</MudText>
+
+<MudDivider Class="my-4"></MudDivider>
+    
+<FAQ />
+
+
 
 
 @code{
