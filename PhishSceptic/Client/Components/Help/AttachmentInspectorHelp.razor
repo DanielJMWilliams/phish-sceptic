@@ -1,0 +1,33 @@
+﻿<MudText>
+    Use the attachment inspector to send email attachments to VirusTotal to be scanned for malware.
+
+    Unscanned files will look like this:
+</MudText>
+
+<MudBadge Icon="@Icons.Material.Filled.Warning" Color="Color.Warning" Overlap="false" Class="mx-6 my-4">
+    <MudIcon Icon="@Icons.Material.Filled.InsertDriveFile" />
+</MudBadge>
+
+<MudText>
+    After scanning, the files will look like this:
+
+    Not flagged as dangerous:
+</MudText>
+
+<MudBadge Content="0" Color="Color.Info" Overlap="false" Class="mx-6 my-4">
+    <MudIcon Icon="@Icons.Material.Filled.InsertDriveFile" />
+</MudBadge>
+
+<MudText>
+    Flagged as dangerous:
+</MudText>
+
+
+<MudBadge Content="3" Color="Color.Error" Overlap="false" Class="mx-6 my-4">
+    <MudIcon Icon="@Icons.Material.Filled.InsertDriveFile" />
+</MudBadge>
+
+<MudText>
+    where the number 3 shows that VirusTotal flagged this file as dangerous on 3 accounts.
+</MudText>
+
