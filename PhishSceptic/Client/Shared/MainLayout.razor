@@ -11,9 +11,9 @@
         <MudLink Color="Color.Inherit" Typo="Typo.h5" Underline="Underline.None" Href="/">PhishSceptic</MudLink>
         <MudSpacer />
 
-        <div class="mx-6 mt-4">
+        <div class="mx-6 mt-3">
             <MudButton OnClick="@warningsToggle">
-                <MudBadge Color="Color.Error" Content="@warningService.GetWarnings().Count()" Overlap>
+                <MudBadge Color="Color.Error" Overlap Dot>
                     <MudIcon Icon="@Icons.Material.Filled.Notifications" />
                 </MudBadge>
             </MudButton>
@@ -58,7 +58,7 @@
 </MudLayout>
 
 @code {
-    bool _drawerOpen = false;
+    bool _drawerOpen = true;
     private bool warningsOpen = false;
     private int unseenWarnings = 0;
     private int seenWarnings = 0;

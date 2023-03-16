@@ -19,12 +19,23 @@ else if (loading && emailAnalyser!=null)
 else{
     <InfoComponent></InfoComponent>
     <MudDivider Class="my-4" />
-    <MudButton Variant="Variant.Filled" Color="Color.Error" OnClick="@startOver">Restart</MudButton>
-    <MudListItem Icon="@Icons.Material.Filled.AttachFile" @key="@emailAnalyser">
+
+     <MudText>
+        <MudButton Class="mx-4" Variant="Variant.Filled" Color="Color.Error" OnClick="@startOver">Restart</MudButton>
         Uploaded: @emailAnalyser.GetFileName() <code>@emailAnalyser.GetFileSize() bytes</code>
-    </MudListItem>
+     </MudText>
+       
+
     
     <MudDivider Class="my-5"></MudDivider>
+
+    <MudText Align="Align.Center" Class="mb-4">
+        Click the notification icon
+        <MudBadge Color="Color.Error" Overlap Dot>
+            <MudIcon Icon="@Icons.Material.Filled.Notifications" />
+        </MudBadge>
+        to see a summary of the suspicious characteristics.
+    </MudText>
 
     <MudGrid>
         <MudItem md="7">
@@ -37,9 +48,6 @@ else{
             <SenderInspector emailAnalyser="@emailAnalyser"></SenderInspector>
             <MudDivider Class="my-4"></MudDivider>
             <AttachmentInspector emailAnalyser="@emailAnalyser"></AttachmentInspector>
-        </MudItem>
-        <MudItem md="12">
-            <ResultsComponent></ResultsComponent>
         </MudItem>
     </MudGrid>   
     

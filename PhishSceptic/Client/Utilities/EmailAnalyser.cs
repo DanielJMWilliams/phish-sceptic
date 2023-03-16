@@ -67,9 +67,7 @@ namespace PhishSceptic.Client.Utilities
         public async Task Analyse()
         {
             reset();
-            Console.WriteLine("reset");
             _mimeMessage = await MimeKitLoad(EmailFile);
-            Console.WriteLine("load file");
 
             //will only display first sender: minor issue
             _sender = ExtractEmailAddress(_mimeMessage.From[0].ToString());
@@ -80,7 +78,6 @@ namespace PhishSceptic.Client.Utilities
             // extract all urls in email
             _urls = ExtractUrls(_emailBody);
             _urlsContainingAnchors = _urls.Where(url => url.Contains('#')).ToList();
-            Console.WriteLine("anchors: "+ _urlsContainingAnchors);
             _domains = ExtractDomains(_urls) ;
             _shortenedLinks = ExtractShortenedDomains(GetDistinctDomains());
 
