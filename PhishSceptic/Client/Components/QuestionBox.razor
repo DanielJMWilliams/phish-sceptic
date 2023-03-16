@@ -1,6 +1,7 @@
 ﻿@using System.Text.RegularExpressions
-<DashboardItem Title="Questions" Description="Here you will be asked a number of questions about the email.">
+<DashboardItem Title="Questions">
     <ComponentBody>
+
         @if (questions != null)
         {
             @for (int i = 0; i < questions.Count(); i++)
@@ -8,7 +9,23 @@
                 int index = i;
                 bool isHidden = !(index == questionIndex);
                 <div hidden="@isHidden" class="my-4">
-                    <YesNoQuestion OnAnswer="@updateScore" Question="@questions[index]" />
+                    <MudGrid>
+                        <MudItem md="9" sm="12">
+                            <MudPaper Outlined Class="pa-4 mb-2">
+                                <MudText Typo="Typo.h4" Align="Align.Center">Question</MudText>
+                                <YesNoQuestion OnAnswer="@updateScore" Question="@questions[index]" />
+                            </MudPaper>
+
+                        </MudItem>
+                        <MudItem md="3" sm="12">
+                            <MudPaper Outlined Class="pa-4">
+                                <MudText Typo="Typo.h4" Align="Align.Center">Info</MudText>
+                                <MudText Align="Align.Center" Color="Color.Info">Info: @questions[index].description</MudText>
+                            </MudPaper>
+
+                        </MudItem>
+
+                    </MudGrid>
                 </div>
 
             }

@@ -1,15 +1,19 @@
 ﻿@page "/questions"
 @inject HttpClient Http
 
+<MudText Align="Align.Center" Typo="Typo.h2">PhishSceptic</MudText>
+<MudText>The question tool asks you important questions for identifying a phishing email. It is useful when you cannot use our inspector tool if you do not have access to the .eml file or cannot upload it for data sensitivity reasons.</MudText>
+
+<MudDivider></MudDivider>
+
 <MudText Class="my-2">Have access to the .eml file? Use our <MudLink Href="/">inspector tool</MudLink> to guide you through the process.</MudText>
+
 
 @if (questionBank != null)
 {
-<MudGrid>
-    <MudItem md="12">
-        <QuestionBox questionBank="@questionBank"></QuestionBox>
-    </MudItem>
-</MudGrid>    
+<MudPaper Elevation="0" Class="my-4">
+    <QuestionBox questionBank="@questionBank"></QuestionBox>
+</MudPaper>   
 }
 <MudDivider Class="my-4"></MudDivider>
 <ResultsComponent></ResultsComponent>

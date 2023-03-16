@@ -19,7 +19,7 @@ else if (loading && emailAnalyser!=null)
 else{
     <InfoComponent></InfoComponent>
     <MudDivider Class="my-4" />
-    <MudButton Color="Color.Error" OnClick="@startOver">Restart</MudButton>
+    <MudButton Variant="Variant.Filled" Color="Color.Error" OnClick="@startOver">Restart</MudButton>
     <MudListItem Icon="@Icons.Material.Filled.AttachFile" @key="@emailAnalyser">
         Uploaded: @emailAnalyser.GetFileName() <code>@emailAnalyser.GetFileSize() bytes</code>
     </MudListItem>

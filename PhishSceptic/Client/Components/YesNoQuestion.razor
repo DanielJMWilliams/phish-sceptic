@@ -1,16 +1,12 @@
 ﻿
 
-<MudText Typo="Typo.h4" Align="Align.Center">@Question.question</MudText>
+<MudText Typo="Typo.h6" Align="Align.Center">@Question.question</MudText>
 
-<MudPaper Class="d-flex justify-space-around flex-grow-1 gap-1 my-10 px-12" Elevation="0">
+<MudPaper Class="d-flex justify-space-around flex-grow-1 gap-1 my-8 px-12" Elevation="0">
     <MudButton OnClick="() => AnswerQuestion(true)" Variant="Variant.Filled" Color="@yesColor" Style="height:60px;width:40%;">Yes</MudButton>
     <MudButton OnClick="() => AnswerQuestion(false)" Variant="Variant.Filled" Color="@noColor" Style="height:60px;width:40%;">No</MudButton>
 </MudPaper>
 
-@if (answered)
-{
-    <MudText Typo="Typo.h6" Align="Align.Center" Color="Color.Info">Info: @Question.description</MudText>
-}
 
 
 

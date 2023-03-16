@@ -1,11 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using PhishSceptic.Client.Utilities;
-using System.Net.Http.Headers;
-using System.Net.Http.Json;
-using VirusTotalNet;
-using VirusTotalNet.ResponseCodes;
-using VirusTotalNet.Results;
 
 namespace PhishSceptic.Client.Components
 {
@@ -15,8 +10,6 @@ namespace PhishSceptic.Client.Components
 
         [Inject] ISnackbar Snackbar { get; set; }
 
-        [Inject] HttpClient Http { get; set; }
-        [Inject] IVirusTotalService vtService { get; set; }
         [Inject] IWarningService warningService { get; set; }
 
 
@@ -31,6 +24,13 @@ namespace PhishSceptic.Client.Components
             urlsContainingAnchors = emailAnalyser.GetUrlsContainingAnchors();
             domains = emailAnalyser.GetDistinctDomains();
             shortenedDomains = emailAnalyser.GetShortenedDomains();
+            if (shortenedDomains.Count() > 0)
+            {
+                warningService.AddWarning("Email contains shortened links");
+            }
+            if (urlsContainingAnchors.Count() > 0) {
+                warningService.AddWarning("Email contains URLs with anchors");
+            }
         }
 
     }
