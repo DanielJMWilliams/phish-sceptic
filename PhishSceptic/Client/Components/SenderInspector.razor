@@ -5,15 +5,31 @@
     <ComponentBody>
         <MudPaper Elevation="1" Class="my-5 pa-4">
             <MudText>The email was sent by:</MudText>
-            <MudText Class="my-2" Color="@(_isVerified ? Color.Default : Color.Error)"
-                     Align="Align.Center" Typo="Typo.h6">
-                @if (domainReputation > 0)
+            @{
+                string icon = Icons.Material.Filled.WarningAmber;
+                Color color = Color.Warning;
+                if(domainReputation > 0)
                 {
-                    <MudIcon Color="Color.Error" Icon="@Icons.Material.Filled.Dangerous" />
-                }
+                    color = Color.Error;
+                    icon = Icons.Material.Filled.Dangerous;
 
-                @_sender
-            </MudText>
+                }
+                else if (domainReputation==0)
+                {
+                    color = Color.Info;
+                    icon = Icons.Material.Filled.Check;
+                }
+                <MudPaper Outlined Class="d-flex justify-center my-4">
+                    <MudBadge Icon="@icon" Color="color">
+                        <MudText Class="my-2" Color="@(_isVerified ? Color.Default : Color.Error)"
+                                Align="Align.Center" Typo="Typo.h6">
+                            @_sender
+                        </MudText>                    
+                    
+
+                    </MudBadge>
+                </MudPaper>
+            }
 
             <MudText>In the input field below, type the email address as you see it.</MudText>
             <MudTextField Immediate TextChanged="@verify" @bind-Value="_typedValue"
@@ -78,6 +94,7 @@
             Snackbar.Add("VirusTotal flagged this email as suspicious.", Severity.Error);
             warningService.AddWarning("dodgy sender: " + _sender);
         }
+        StateHasChanged();
     }
 
     private bool _isVerified = false;
