@@ -1,19 +1,22 @@
 ﻿@using MimeKit
 <DashboardItem Title="Attachment Inspector" Description="This component highlights displays and analyses any email attachments.">
-        <MudPaper Elevation="1" Class="my-5 pa-4">
+    <ComponentBody>
+        @if (_attachments == null || _attachments.Count() == 0)
+        {
+            <MudText Color="Color.Info" Align="Align.Center">This email has no attachments.</MudText>
+        }
+        else
+        {
+            foreach (MimeEntity a in _attachments)
+            {
+                <Attachment Filename="@a.ContentDisposition.FileName" FileEntity="@a"></Attachment>
+            }
+        }
+    </ComponentBody>
+    <ComponentHelp>
+        <AttachmentInspectorHelp/>
+    </ComponentHelp>
 
-            @if (_attachments == null || _attachments.Count() == 0)
-            {
-                <MudText>This email has no attachments.</MudText>
-            }
-            else
-            {
-                foreach (MimeEntity a in _attachments)
-                {
-                    <Attachment Filename="@a.ContentDisposition.FileName" FileEntity="@a"></Attachment>
-                }
-            }
-        </MudPaper>
 </DashboardItem>
 
 

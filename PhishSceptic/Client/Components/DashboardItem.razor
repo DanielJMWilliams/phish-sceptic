@@ -1,18 +1,24 @@
-﻿<MudPaper Elevation="1" Class="pa-4">
+﻿<MudPaper Elevation="3" Outlined Class="pa-4">
     <MudText Typo="Typo.h4" Align="Align.Center">
         @Title
-        <HelpIconButton HelpText="This component highlights urgency words in the email subject and body."/>
+        <HelpIconButton Title="@Title">
+            @ComponentHelp
+        </HelpIconButton>
     </MudText>
-    <MudText Align="Align.Center">
+    <MudText Align="Align.Center" Class="px-6">
         @Description
     </MudText>
-    @ChildContent
+    <MudPaper Elevation="0" Class="my-4 pa-4">
+        @ComponentBody
+    </MudPaper>
+    
 
 </MudPaper>
 
 @code {
     [Parameter] public string Title { get; set; }
     [Parameter] public string Description { get; set; }
-    [Parameter] public RenderFragment ChildContent { get; set; }
+    [Parameter] public RenderFragment ComponentBody { get; set; }
+    [Parameter] public RenderFragment ComponentHelp { get; set; }
 
 }

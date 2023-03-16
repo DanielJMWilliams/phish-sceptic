@@ -5,15 +5,30 @@
     <MudIconButton OnClick="OpenDialog" Icon="@Icons.Material.Filled.Help"></MudIconButton>
 </MudTooltip>
 
+<MudDialog @bind-IsVisible="visible" Options="dialogOptions">
+    <TitleContent>
+        <MudText Typo="Typo.h6">
+            <MudIcon Icon="@Icons.Material.Filled.Help" Class="mr-3 mb-n1" />
+            @Title - Help
+        </MudText>
+    </TitleContent>
+    <DialogContent>
+        @ChildContent
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="@Close">Close</MudButton>
+    </DialogActions>
+</MudDialog>
+
+
 @code {
+    [Parameter] public string Title { get; set; }
+    [Parameter] public RenderFragment ChildContent { get; set; }
 
-    [Parameter] public string HelpText { get; set; }
+    private bool visible;
+    private void OpenDialog() => visible = true;
+    private DialogOptions dialogOptions = new() { FullWidth = true, CloseButton = true };
 
-    private void OpenDialog(){
-
-        var options = new DialogOptions() { MaxWidth = MaxWidth.Medium, FullWidth = true };
-        //var options = new DialogOptions() { FullScreen = true, CloseButton = true };
-        DialogService.Show<UrgencyInspectorHelpDialog>("UrgencyInspectorDialog", options);
-    }
+    void Close() => visible = false;
 
 }

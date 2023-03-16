@@ -19,26 +19,35 @@ else if (loading && emailAnalyser!=null)
 else{
     <InfoComponent></InfoComponent>
     <MudDivider Class="my-4" />
-    <MudButton Color="Color.Error" OnClick="@startOver">Restart</MudButton>
-    <MudListItem Icon="@Icons.Material.Filled.AttachFile" @key="@emailAnalyser">
+
+     <MudText>
+        <MudButton Class="mx-4" Variant="Variant.Filled" Color="Color.Error" OnClick="@startOver">Restart</MudButton>
         Uploaded: @emailAnalyser.GetFileName() <code>@emailAnalyser.GetFileSize() bytes</code>
-    </MudListItem>
+     </MudText>
+       
+
     
     <MudDivider Class="my-5"></MudDivider>
 
+    <MudText Align="Align.Center" Class="mb-4">
+        Click the notification icon
+        <MudBadge Color="Color.Error" Overlap Dot>
+            <MudIcon Icon="@Icons.Material.Filled.Notifications" />
+        </MudBadge>
+        to see a summary of the suspicious characteristics.
+    </MudText>
+
     <MudGrid>
-        <MudItem md="6">
-            <LinkInspector emailAnalyser="@emailAnalyser"></LinkInspector>
+        <MudItem md="7">
+            <UrlInspector emailAnalyser="@emailAnalyser"></UrlInspector>
             <MudDivider Class="my-4"></MudDivider>
-            <AttachmentInspector emailAnalyser="@emailAnalyser"></AttachmentInspector>
+            <VocabularyInspector emailAnalyser="@emailAnalyser"></VocabularyInspector>
+            
         </MudItem>
-        <MudItem md="6">
+        <MudItem md="5">
             <SenderInspector emailAnalyser="@emailAnalyser"></SenderInspector>
             <MudDivider Class="my-4"></MudDivider>
-            <UrgencyInspector emailAnalyser="@emailAnalyser"></UrgencyInspector>
-        </MudItem>
-        <MudItem md="12">
-            <ResultsComponent></ResultsComponent>
+            <AttachmentInspector emailAnalyser="@emailAnalyser"></AttachmentInspector>
         </MudItem>
     </MudGrid>   
     
@@ -68,8 +77,10 @@ else{
         catch (Exception e){
             Snackbar.Add("Unsupported file type. Please upload a .eml file.", Severity.Error);
         }
+        //needed to invoke the analyse method when it rerenders.
+        loading = true;
 
-        
+
         StateHasChanged();
 
     }
@@ -77,10 +88,10 @@ else{
 
     private async Task Analyse()
     {
-        loading = true;
         await emailAnalyser.Analyse();
         loading = false;
 
+        Console.WriteLine("analysed");
         StateHasChanged();
     }
 

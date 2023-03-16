@@ -1,0 +1,84 @@
+﻿@inject IVirusTotalService vtService
+@inject IWarningService warningService
+@inject IDialogService DialogService
+@inject ISnackbar Snackbar
+
+<MudTooltip Text="@_tip">
+
+    <MudBadge Icon="@_icon" Color="@_color" Overlap Class="mb-4 mx-2">
+        <MudChip OnClick="@VerifyDomain">
+            @Domain
+            @if (_scanning)
+            {
+                <MudProgressCircular Class="mx-2" Size="Size.Small" Color="Color.Default" Indeterminate="true" />
+            }
+        </MudChip>
+    </MudBadge>
+
+</MudTooltip>
+
+
+@code{
+    [Parameter] public string Domain { get; set; }
+
+    private Color _color = Color.Warning;
+    private string _icon = Icons.Material.Filled.WarningAmber;
+    private string _tip = "This domain's reputation is yet to be checked";
+    private bool _scanning = false;
+
+    private async Task VerifyDomain()
+    {
+
+        var parameters = new DialogParameters();
+        parameters.Add("ContentText", "Verify that this domain really is what you think it is.");
+        parameters.Add("TextToVerify", Domain);
+
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall };
+
+        var dialog = await DialogService.ShowAsync<InspectionDialog>("Verify Domain", parameters, options);
+
+
+        var result = await dialog.Result;
+
+        if (result.Canceled)
+        {
+            return;
+        }
+
+        _scanning = true;
+        StateHasChanged();
+        int rep = await vtService.CheckReputation(Domain);
+        _scanning = false;
+        if (rep == -1)
+        {
+            //unscanned
+            _color = Color.Warning;
+            _icon = Icons.Material.Filled.WarningAmber;
+        }
+        else if (rep > 0)
+        {
+            //scanned and bad
+            _color = Color.Error;
+            _icon = Icons.Material.Filled.Dangerous;
+            _tip = "This domain has been flagged as dangerous by VirusTotal.";
+            Snackbar.Add("VirusTotal flagged this domain as suspicious.", Severity.Error);
+            warningService.AddWarning("dodgy link: " + Domain);
+        }
+        else if (rep == 0)
+        {
+            //scanned and fine
+            _color = Color.Info;
+            _icon = Icons.Material.Filled.Check;
+            _tip = "This domain is though to be safe by VirusTotal";
+        }
+        else if (rep == -2)
+        {
+            //no response, rate limited
+            Snackbar.Add("VirusTotal Rate Limit hit. Wait a few minutes and try again.", Severity.Info);
+        }
+
+
+
+        StateHasChanged();
+    }
+}

@@ -1,4 +1,5 @@
 ﻿@inherits LayoutComponentBase
+@inject IWarningService warningService
 
 <MudThemeProvider IsDarkMode="true"/>
 <MudDialogProvider />
@@ -9,6 +10,38 @@
         <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
         <MudLink Color="Color.Inherit" Typo="Typo.h5" Underline="Underline.None" Href="/">PhishSceptic</MudLink>
         <MudSpacer />
+
+        <div class="mx-6 mt-3">
+            <MudButton OnClick="@warningsToggle">
+                <MudBadge Color="Color.Error" Overlap Dot>
+                    <MudIcon Icon="@Icons.Material.Filled.Notifications" />
+                </MudBadge>
+            </MudButton>
+
+            <MudPopover OverflowBehavior="OverflowBehavior.FlipNever" Open="warningsOpen" Class="pa-4 mt-n4 ml-4"
+                        AnchorOrigin="Origin.BottomLeft"  TransformOrigin="Origin.TopRight">
+                <MudText Typo="Typo.h6">Alerts</MudText>
+                @if(warnings.Count() == 0)
+                {
+                    <MudText>There are no warnings yet.</MudText>
+                }
+                else
+                {
+                    foreach(string warning in warnings)
+                    {
+                        <MudAlert Severity="Severity.Warning">@warning</MudAlert>
+                    }                    
+                }
+
+                <MudPaper Class="d-flex justify-end" Elevation="0">
+                    <MudButton Class="mt-6" Color="Color.Primary" Variant="Variant.Filled" OnClick="@warningsToggle">Close</MudButton>
+                </MudPaper>
+                
+                
+            </MudPopover>
+        </div>
+
+
         <MudIconButton Icon="@Icons.Custom.Brands.GitHub" Color="Color.Inherit" Link="https://github.com/DanielJMWilliams/phish-sceptic" Target="_blank" />
     </MudAppBar>
     <MudDrawer @bind-Open="_drawerOpen" Elevation="1">
@@ -25,7 +58,25 @@
 </MudLayout>
 
 @code {
-    bool _drawerOpen = false;
+    bool _drawerOpen = true;
+    private bool warningsOpen = false;
+    private int unseenWarnings = 0;
+    private int seenWarnings = 0;
+
+
+    private List<string> warnings = new List<string>();
+
+
+    void warningsToggle()
+    {
+        warningsOpen = !warningsOpen;
+        if (warningsOpen)
+        {
+            warnings = warningService.GetWarnings();
+            seenWarnings = unseenWarnings;
+        }
+        StateHasChanged();
+    }
 
     void DrawerToggle()
     {

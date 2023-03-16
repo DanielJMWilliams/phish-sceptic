@@ -1,5 +1,46 @@
 ﻿@page "/help"
 
+<MudText Align="Align.Center" Typo="Typo.h2">PhishSceptic</MudText>
+<MudText Align="Align.Center" Typo="Typo.h5">Help</MudText>
+
+<MudText>This page explains how each of the compontents work as well as information on why certain features of an email may be signs of a phishing email to help you recognise the signs.</MudText>
+<MudText>This help is also available on the components individually by clicking on the <MudIcon Icon="@Icons.Material.Filled.Help"></MudIcon> icon found at the top right of every component.</MudText>
+
+<MudPaper Elevation="3" Outlined Class="pa-4 my-6">
+    <MudText Typo="Typo.h4" Align="Align.Center" Class="mb-4">
+        Attachment Inspector - Help
+    </MudText>
+    <AttachmentInspectorHelp />
+</MudPaper>
+
+<MudPaper Elevation="3" Outlined Class="pa-4 my-6">
+    <MudText Typo="Typo.h4" Align="Align.Center" Class="mb-4">
+        Url Inspector - Help
+    </MudText>
+    <UrlInspectorHelp />
+</MudPaper>
+
+<MudPaper Elevation="3" Outlined Class="pa-4 my-6">
+    <MudText Typo="Typo.h4" Align="Align.Center" Class="mb-4">
+        Sender Inspector - Help
+    </MudText>
+    <SenderInspectorHelp />
+</MudPaper>
+
+<MudPaper Elevation="3" Outlined Class="pa-4 my-6">
+    <MudText Typo="Typo.h4" Align="Align.Center" Class="mb-4">
+        Vocabulary Inspector - Help
+    </MudText>
+    <VocabularyInspectorHelp />
+</MudPaper>
+
+<MudPaper Elevation="3" Outlined Class="pa-4 my-6">
+    <MudText Typo="Typo.h4" Align="Align.Center" Class="mb-4">
+        Results - Help
+    </MudText>
+    <ResultsHelp />
+</MudPaper>
+
 <FAQ/>
 
 @code {

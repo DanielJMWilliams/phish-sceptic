@@ -1,0 +1,66 @@
+﻿
+<MudText>
+    The link inspector shows you all of the links in the email body.
+</MudText>
+
+<MudPaper Outlined Class="my-4 pa-4">
+    <MudText Typo="Typo.h6">URLs</MudText>
+    <MudText>
+        Phishing emails will often contain URLs (AKA links) to malicious websites.
+    </MudText>
+</MudPaper>
+
+<MudPaper Outlined Class="my-4 pa-4">
+    <MudText Typo="Typo.h6">Domains</MudText>
+    <MudText>
+        Domains are the the main part of a URL. It is a unique name that identifies a website on the internet.
+    </MudText>
+    <MudText>For example:</MudText>
+    <MudText>URL:</MudText>
+    <MudText Color="Color.Secondary">https://www.google.com/maps</MudText>
+    <MudText>Domain:</MudText>
+    <MudText Color="Color.Secondary">google.com</MudText>
+    <MudText>
+        This is arguably the most important part of the URL to pay attention to when identifying phishing emails.
+        Attackers often try to disguise their phishing URLs as legitimate websites.
+
+        e.g. аррӏе.com looks like apple.com, but it is not. It is actually using cyrillic characters that look similar some characters from the latin alphabet.
+    </MudText>
+    <MudText>Read about this at <MudLink Href="https://www.theguardian.com/technology/2017/apr/19/phishing-url-trick-hackers">Unicode trick lets hackers hide phishing URLs</MudLink></MudText>
+
+    <MudText>
+        Each of the domains are listed as clickable <MudChip>chips</MudChip>. Click on them to verify they are what you think, and send them off to VirusTotal to be scanned.
+    </MudText>
+    <MudText>
+        VirusTotal is a service that has a database untrustworthy domains. Scanning the URL will give back a whether ot not VirusTotal has flagged the domain as untrustworthy.
+    </MudText>
+</MudPaper>
+
+
+<MudPaper Outlined Class="my-4 pa-4">
+    <MudText Typo="Typo.h6">Shortened Links</MudText>
+    <MudText>
+        Shortened links are links that are shortened using a URL shortening service such as bit.ly.
+        They redirect the user from the link shortening service to the link specified upon its creation.
+        Link shorteners can be used legitimately, however attackers often use them to disguise their URLs.
+        
+    </MudText>
+    <MudText Color="Color.Info">Guidance: Be careful when clicking on shortened links and make sure you check the URL of where you end up.</MudText>
+</MudPaper>
+
+<MudPaper Outlined Class="my-4 pa-4">
+    <MudText Typo="Typo.h6">Links Containing Anchors</MudText>
+    
+    <MudText>
+        URL anchors are any text following a '#' symbol in the URL. They are usually used to jump to text on a web page
+    </MudText>
+    <MudText>For example:</MudText>
+    <MudText>
+        https://www.bbc.co.uk/news<span class="mud-theme-primary">#local-news</span>
+    </MudText>
+    <MudText>Attackers can manipulate URL anchors to display different content to users.</MudText>
+    <MudText Color="Color.Info">Guidance: Be careful when clicking on a URL containing an anchor. See if the URL takes you to a different page if you remove the anchor from the URL.</MudText>
+</MudPaper>
+
+
+

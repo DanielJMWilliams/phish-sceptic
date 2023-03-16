@@ -18,12 +18,6 @@
     "warning": "This email comes from an unrecognised address."
   },
   {
-    "question": "Do you trust the domain?",
-    "description": "n/a",
-    "weighting": 5,
-    "warning": "You do not trust this domain."
-  },
-  {
     "question": "Is there poor spelling in the email?",
     "description": "Misspellings are often used to avoid spam filters",
     "weighting": 2,

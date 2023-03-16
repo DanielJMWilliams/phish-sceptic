@@ -1,27 +1,50 @@
 ﻿@using System.Text.RegularExpressions
-<DashboardItem Title="Questions" Description="Here you will be asked a number of questions about the email.">
-    @if (questions != null)
-    {
-        @for(int i=0; i<questions.Count(); i++)
+<DashboardItem Title="Questions">
+    <ComponentBody>
+
+        @if (questions != null)
         {
-            int index = i;
-            bool isHidden = !(index == questionIndex);
-            <div hidden="@isHidden" class="my-4">
-                    <YesNoQuestion OnAnswer="@updateScore" Question="@questions[index]" /> 
-            </div>
+            @for (int i = 0; i < questions.Count(); i++)
+            {
+                int index = i;
+                bool isHidden = !(index == questionIndex);
+                <div hidden="@isHidden" class="my-4">
+                    <MudGrid>
+                        <MudItem md="9" sm="12">
+                            <MudPaper Outlined Class="pa-4 mb-2">
+                                <MudText Typo="Typo.h4" Align="Align.Center">Question</MudText>
+                                <YesNoQuestion OnAnswer="@updateScore" Question="@questions[index]" />
+                            </MudPaper>
 
-        }
+                        </MudItem>
+                        <MudItem md="3" sm="12">
+                            <MudPaper Outlined Class="pa-4">
+                                <MudText Typo="Typo.h4" Align="Align.Center">Info</MudText>
+                                <MudText Align="Align.Center" Color="Color.Info">Info: @questions[index].description</MudText>
+                            </MudPaper>
 
-  
-        <MudPaper Class="d-flex justify-space-between gap-2" Elevation="0">
-            <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="@Back" Disabled="@backDisabled">Back</MudButton>
-            @{
-                int current = questionIndex + 1;
-                <MudText>@current / @questions.Count()</MudText>
+                        </MudItem>
+
+                    </MudGrid>
+                </div>
+
             }
-            <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="@Next" Disabled="@nextDisabled">Next</MudButton>
-        </MudPaper>
-    }
+
+
+            <MudPaper Class="d-flex justify-space-between gap-2" Elevation="0">
+                <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="@Back" Disabled="@backDisabled">Back</MudButton>
+                @{
+                    int current = questionIndex + 1;
+                    <MudText>@current / @questions.Count()</MudText>
+                }
+                <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="@Next" Disabled="@nextDisabled">Next</MudButton>
+            </MudPaper>
+        }
+    </ComponentBody>
+    <ComponentHelp>
+
+    </ComponentHelp>
+
 
 </DashboardItem>
 

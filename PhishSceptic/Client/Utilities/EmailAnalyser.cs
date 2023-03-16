@@ -14,6 +14,7 @@ namespace PhishSceptic.Client.Utilities
         private string _emailTitle = "";
         private string _sender = "";
         private List<string> _urls = new List<string>();
+        private List<string> _urlsContainingAnchors = new List<string>();
         private List<string> _domains = new List<string>();
         private List<string> _shortenedLinks = new List<string>();
 
@@ -21,7 +22,6 @@ namespace PhishSceptic.Client.Utilities
 
         public EmailAnalyser(IBrowserFile file)
         {
-            Console.WriteLine(extractExtension(file.Name));
             if(file != null && extractExtension(file.Name)=="eml")
             {
                 EmailFile = file;
@@ -37,16 +37,31 @@ namespace PhishSceptic.Client.Utilities
 
         public async static Task<MimeMessage> MimeKitLoad(IBrowserFile emailFile)
         {
-            Stream stream = emailFile.OpenReadStream();
-            var path = @"..\tmp\" + emailFile.Name;
-            FileStream fs = File.Create(path);
-            await stream.CopyToAsync(fs);
-            stream.Close();
-            fs.Close();
+            Console.WriteLine("mimekitload");
+            try
+            {
+                Stream stream = emailFile.OpenReadStream(maxAllowedSize: 1024 * 5000);
+                var path = @"..\tmp\" + emailFile.Name;
+                FileStream fs = File.Create(path);
+                Console.WriteLine("fs created");
 
-            // Load a MimeMessage from a path
-            var message = MimeMessage.Load(path);
-            return message;
+                await stream.CopyToAsync(fs);
+                Console.WriteLine("stream copied");
+                stream.Close();
+                fs.Close();
+                Console.WriteLine("closed");
+
+                // Load a MimeMessage from a path
+                var message = MimeMessage.Load(path);
+                Console.WriteLine("loaded message");
+                return message;
+            }
+            catch(Exception  ex)
+            {
+                Console.WriteLine(ex.ToString());
+                throw;
+            }
+
         }
 
         public async Task Analyse()
@@ -55,13 +70,14 @@ namespace PhishSceptic.Client.Utilities
             _mimeMessage = await MimeKitLoad(EmailFile);
 
             //will only display first sender: minor issue
-            _sender = _mimeMessage.From[0].ToString();
+            _sender = ExtractEmailAddress(_mimeMessage.From[0].ToString());
 
             _emailBody = _mimeMessage.TextBody;
             _emailTitle = _mimeMessage.Subject;
 
             // extract all urls in email
             _urls = ExtractUrls(_emailBody);
+            _urlsContainingAnchors = _urls.Where(url => url.Contains('#')).ToList();
             _domains = ExtractDomains(_urls) ;
             _shortenedLinks = ExtractShortenedDomains(GetDistinctDomains());
 
@@ -72,6 +88,20 @@ namespace PhishSceptic.Client.Utilities
         public List<string> GetShortenedDomains()
         {
             return _shortenedLinks;
+        }
+
+        public static string ExtractEmailAddress(string from)
+        {
+            if (from.Contains('<'))
+            {
+                Match match = Regex.Match(from, "<([^>]*)>");
+                if (match.Success)
+                {
+                    string email = match.Groups[1].Value;
+                    return email;
+                }
+            }
+            return from;
         }
 
         public static List<string> ExtractShortenedDomains(List<string> domains)
@@ -154,6 +184,10 @@ namespace PhishSceptic.Client.Utilities
         {
             return _urls;
         }
+        public List<string> GetUrlsContainingAnchors()
+        {
+            return _urlsContainingAnchors;
+        }
 
         private string extractExtension(string filename)
         {
@@ -186,6 +220,8 @@ namespace PhishSceptic.Client.Utilities
         {
             _urls = new List<string>();
             _domains = new List<string>();
+            _urlsContainingAnchors= new List<string>();
+            _shortenedLinks= new List<string>();
         }
 
         public string extractBody(string emailString)
