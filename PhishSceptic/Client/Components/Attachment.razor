@@ -25,7 +25,15 @@
         <MudText>@Filename</MudText>
     </MudStack>
 
-    <MudButton Class="my-6" Color="Color.Primary" Style="height:30px;" Variant="Variant.Filled" OnClick="@ScanFile">Scan</MudButton>
+    @if (_scanning)
+    {
+        <MudProgressCircular Class="my-6" Color="Color.Default" Indeterminate="true" />
+    }
+    else
+    {
+        <MudButton Class="my-6" Color="Color.Primary" Style="height:30px;" Variant="Variant.Filled" OnClick="@ScanFile">Scan</MudButton>
+    }
+    
 </MudPaper>
 
 
@@ -40,6 +48,8 @@
     //default value to indicate unscanned
     private int positives = -2;
 
+    private bool _scanning = false;
+
     private async Task ScanFile()
     {
 
@@ -53,13 +63,17 @@
 
         var result = await dialog.Result;
 
+
         if (result.Canceled)
         {
             return;
         }
         else
         {
-            Scan();
+            _scanning = true;
+            StateHasChanged();
+            bool success = await Scan();
+            _scanning = false;
         }
 
 
@@ -68,10 +82,15 @@
         StateHasChanged();
     }
 
-    private async Task Scan()
+    private async Task<bool> Scan()
     {
-        
         positives = await vtService.ScanFile(FileEntity);
-        StateHasChanged();
+        if (positives >= 0)
+        {
+            //success
+            return true;
+        }
+        //failure
+        return false;
     }
 }

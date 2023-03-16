@@ -22,7 +22,6 @@ namespace PhishSceptic.Client.Utilities
 
         public EmailAnalyser(IBrowserFile file)
         {
-            Console.WriteLine(extractExtension(file.Name));
             if(file != null && extractExtension(file.Name)=="eml")
             {
                 EmailFile = file;
@@ -38,22 +37,39 @@ namespace PhishSceptic.Client.Utilities
 
         public async static Task<MimeMessage> MimeKitLoad(IBrowserFile emailFile)
         {
-            Stream stream = emailFile.OpenReadStream();
-            var path = @"..\tmp\" + emailFile.Name;
-            FileStream fs = File.Create(path);
-            await stream.CopyToAsync(fs);
-            stream.Close();
-            fs.Close();
+            Console.WriteLine("mimekitload");
+            try
+            {
+                Stream stream = emailFile.OpenReadStream(maxAllowedSize: 1024 * 5000);
+                var path = @"..\tmp\" + emailFile.Name;
+                FileStream fs = File.Create(path);
+                Console.WriteLine("fs created");
 
-            // Load a MimeMessage from a path
-            var message = MimeMessage.Load(path);
-            return message;
+                await stream.CopyToAsync(fs);
+                Console.WriteLine("stream copied");
+                stream.Close();
+                fs.Close();
+                Console.WriteLine("closed");
+
+                // Load a MimeMessage from a path
+                var message = MimeMessage.Load(path);
+                Console.WriteLine("loaded message");
+                return message;
+            }
+            catch(Exception  ex)
+            {
+                Console.WriteLine(ex.ToString());
+                throw;
+            }
+
         }
 
         public async Task Analyse()
         {
             reset();
+            Console.WriteLine("reset");
             _mimeMessage = await MimeKitLoad(EmailFile);
+            Console.WriteLine("load file");
 
             //will only display first sender: minor issue
             _sender = ExtractEmailAddress(_mimeMessage.From[0].ToString());

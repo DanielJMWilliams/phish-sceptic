@@ -72,7 +72,7 @@ else{
         //needed to invoke the analyse method when it rerenders.
         loading = true;
 
-        
+
         StateHasChanged();
 
     }
@@ -83,6 +83,7 @@ else{
         await emailAnalyser.Analyse();
         loading = false;
 
+        Console.WriteLine("analysed");
         StateHasChanged();
     }
 

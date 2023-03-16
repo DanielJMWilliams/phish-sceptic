@@ -7,11 +7,6 @@
     </DialogContent>
     <DialogActions>
         <MudButton OnClick="Cancel">Cancel</MudButton>
-        <MudTooltip Text="Flag this if it is not what you expected or you think it is suspicious in any way."
-                    Arrow Placement="Placement.Bottom">
-            <MudButton OnClick="@Flag" Color="Color.Error">Flag</MudButton>
-        </MudTooltip>
-
         <MudTooltip>
             <ChildContent>
                 <MudButton Disabled="@( !_isVerified)" Color="Color.Info" Variant="Variant.Filled" OnClick="Submit">Verify</MudButton>
