@@ -37,8 +37,8 @@ namespace PhishSceptic.Client.Components
             domainChipIcons = new string[domains.Count()];
             for (int i = 0; i < domainChipColors.Length; i++)
             {
-                domainChipColors[i] = Color.Default;
-                domainChipIcons[i] = "";//Icons.Material.Filled.WarningAmber;//Icons.Material.Filled.Error
+                domainChipColors[i] = Color.Warning;
+                domainChipIcons[i] = Icons.Material.Filled.WarningAmber;//Icons.Material.Filled.Error
             }
         }
 

@@ -32,6 +32,14 @@ namespace PhishSceptic.Client.Utilities
             {
                 return -1;
             }
+            /*
+                                 var resource = await response.Content.ReadAsStringAsync();
+                    Console.WriteLine("resource: " + resource);
+
+                    string positives = await http.GetStringAsync("VirusTotal/fileScan/positives?resource=" + resource);
+                    Console.WriteLine("Positives: " + positives);
+                    return int.Parse(positives);
+             */
 
 
         }
@@ -94,35 +102,6 @@ namespace PhishSceptic.Client.Utilities
                     Console.WriteLine("Positives: " + positives);
                     return int.Parse(positives);
 
-                    //string positives = await http.GetStringAsync("VirusTotal/urlReport/positives?resource=" + resource);
-
-                    /*
-                    // Check the response status code
-                    if (response.IsSuccessStatusCode)
-                    {
-                        Console.WriteLine("success");
-                        // Get the response content
-                        var responseContent = await response.Content.ReadAsStringAsync();
-                        Console.WriteLine("responseContent: " + responseContent);
-
-                        // Deserialize the response content to a JSON object
-                        var jsonObject = JObject.Parse(responseContent);
-
-                        Console.WriteLine("jsonObject: " + jsonObject.ToString());
-
-                        // Get the number of positive detections for the scanned file
-                        //var positives = (int)jsonObject["data"]["attributes"]["last_analysis_stats"]["malicious"];
-
-                        // Return the number of positive detections
-                        return 0;
-                    }
-                    else
-                    {
-                        Console.WriteLine("failed");
-                        // The request failed, return -1
-                        return -1;
-                    }
-                    */
                 }
             }
         }
