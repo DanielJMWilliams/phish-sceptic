@@ -4,7 +4,7 @@ using PhishSceptic.Client.Utilities;
 
 namespace PhishSceptic.Client.Components
 {
-    public partial class LinkInspector
+    public partial class UrlInspector
     {
         [Parameter] public EmailAnalyser emailAnalyser { get; set; }
 
