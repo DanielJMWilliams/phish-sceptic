@@ -55,35 +55,9 @@
 
                                 <MudText Typo="Typo.h6">Domains referenced in email body:</MudText>
                                 <MudText Color="Color.Info" Class="mb-6">Info: Click on each of the domains to verify them.</MudText>
-                @for (int i = 0; i < domains.Count(); i++)
+                @foreach(string domain in domains)
                 {
-                    var index = i;
-
-                    string tip = "This domain's reputation is yet to be checked'";
-                    if (domainChipIcons[index] == Icons.Material.Filled.Dangerous)
-                    {
-                        tip = "This domain has been flagged as dangerous by VirusTotal.";
-                    }
-                    else if (domainChipIcons[index] == Icons.Material.Filled.WarningAmber)
-                    {
-                        tip = "This domain has not been scanned before";
-                    }
-                    else if (domainChipIcons[index] == Icons.Material.Filled.Check)
-                    {
-                        tip = "This domain is though to be safe by VirusTotal";
-                    }
-
-                    <MudTooltip Text="@tip">
-
-                        <MudBadge Icon="@domainChipIcons[index]" Color="@domainChipColors[index]" Overlap Class="mb-4 mx-2">
-                            <MudChip OnClick="() => VerifyDomain(index)" >
-                                @domains[index]
-                            </MudChip>
-                        </MudBadge>
-
-                    </MudTooltip>
-
-
+                    <DomainChip Domain="@domain"></DomainChip>
                 }
 
             </MudPaper>
