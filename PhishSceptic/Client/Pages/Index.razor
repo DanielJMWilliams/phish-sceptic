@@ -17,7 +17,7 @@ else if (loading && emailAnalyser!=null)
     Analyse();
 }
 else{
-    <InfoComponent></InfoComponent>
+    <MudText Align="Align.Center">Need help? Visit the <MudLink Href="/help">Help Page</MudLink>.</MudText>
     <MudDivider Class="my-4" />
 
      <MudText>
@@ -29,13 +29,7 @@ else{
     
     <MudDivider Class="my-5"></MudDivider>
 
-    <MudText Align="Align.Center" Class="mb-4">
-        Click the notification icon
-        <MudBadge Color="Color.Error" Overlap Dot>
-            <MudIcon Icon="@Icons.Material.Filled.Notifications" />
-        </MudBadge>
-        to see a summary of the suspicious characteristics.
-    </MudText>
+    <ResultsHelp/>
 
     <MudGrid>
         <MudItem md="7">

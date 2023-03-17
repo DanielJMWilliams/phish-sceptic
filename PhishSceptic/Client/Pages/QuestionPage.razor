@@ -2,12 +2,9 @@
 @inject HttpClient Http
 
 <MudText Align="Align.Center" Typo="Typo.h2">PhishSceptic</MudText>
-<MudText>The question tool asks you important questions for identifying a phishing email. It is useful when you cannot use our inspector tool if you do not have access to the .eml file or cannot upload it for data sensitivity reasons.</MudText>
-
-<MudDivider></MudDivider>
-
-<MudText Class="my-2">Have access to the .eml file? Use our <MudLink Href="/">inspector tool</MudLink> to guide you through the process.</MudText>
-
+<MudPaper Elevation="0" Class="px-8 mx-8 mt-4">
+    <MudText Align="Align.Center">The question tool asks you important questions for identifying a phishing email. It is useful when you cannot use our inspector tool if you do not have access to the .eml file or cannot upload it for data sensitivity reasons.</MudText>
+</MudPaper>
 
 @if (questionBank != null)
 {
@@ -15,6 +12,9 @@
     <QuestionBox questionBank="@questionBank"></QuestionBox>
 </MudPaper>   
 }
+
+<MudText Class="my-2" Align="Align.Center">Have access to the .eml file? Use our <MudLink Href="/">inspector tool</MudLink> to guide you through the process.</MudText>
+
 
 @code {
     private QuestionBank questionBank;
