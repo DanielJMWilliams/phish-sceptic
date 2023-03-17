@@ -4,31 +4,36 @@
 <DashboardItem Title="Sender Inspector" Description="This component helps you inspect the sender">
     <ComponentBody>
         <MudText>The email was sent by:</MudText>
-        @{
-            string icon = Icons.Material.Filled.WarningAmber;
-            Color color = Color.Warning;
-            if(domainReputation > 0)
-            {
-                color = Color.Error;
-                icon = Icons.Material.Filled.Dangerous;
 
-            }
-            else if (domainReputation==0)
+        <MudPaper Elevation="0" Class="d-flex justify-center my-4">
+            @if (domainReputation > 0)
             {
-                color = Color.Info;
-                icon = Icons.Material.Filled.Check;
-            }
-            <MudPaper Elevation="0" Class="d-flex justify-center my-4">
-                <MudBadge Icon="@icon" Color="color">
+                <MudBadge Content="@domainReputation" Color="Color.Error">
                     <MudText Class="my-2" Color="@(_isVerified ? Color.Default : Color.Error)"
-                            Align="Align.Center" Typo="Typo.h6">
+                         Align="Align.Center" Typo="Typo.h6">
                         @_sender
-                    </MudText>                    
-                    
-
+                    </MudText>
                 </MudBadge>
-            </MudPaper>
-        }
+            }
+            else if (domainReputation == 0)
+            {
+                <MudBadge Content="@domainReputation" Color="Color.Info">
+                    <MudText Class="my-2" Color="@(_isVerified ? Color.Default : Color.Error)"
+                         Align="Align.Center" Typo="Typo.h6">
+                        @_sender
+                    </MudText>
+                </MudBadge>
+            }
+            else
+            {
+                <MudBadge Icon="@Icons.Material.Filled.Warning" Color="Color.Warning">
+                    <MudText Class="my-2" Color="@(_isVerified ? Color.Default : Color.Error)"
+                         Align="Align.Center" Typo="Typo.h6">
+                        @_sender
+                    </MudText>
+                </MudBadge>
+            }
+        </MudPaper>
         <MudTextField Variant="Variant.Outlined" Immediate TextChanged="@verify" @bind-Value="_typedValue"
                         Label="Type the email address you see above"></MudTextField>
         <div class="my-2 pa-2">
