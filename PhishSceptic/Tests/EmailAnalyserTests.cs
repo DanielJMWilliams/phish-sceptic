@@ -1,7 +1,7 @@
 using Xunit;
-using PhishSceptic.Utilities;
 using System.Collections.Generic;
 using MimeKit;
+using PhishSceptic.Client.Utilities;
 
 namespace PhishScepticTests
 {

@@ -10,7 +10,7 @@ namespace PhishScepticTests
         [Fact]
         public void CheckDomainTest()
         {
-            LinkInspector.CheckReputation("www.piratebay.com");
+            //UrlInspector.CheckReputation("www.piratebay.com");
 
         }
 

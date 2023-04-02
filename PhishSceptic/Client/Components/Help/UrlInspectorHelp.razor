@@ -34,6 +34,26 @@
     <MudText>
         VirusTotal is a service that has a database untrustworthy domains. Scanning the URL will give back a whether ot not VirusTotal has flagged the domain as untrustworthy.
     </MudText>
+    <MudText>
+        Unscanned domain:
+    </MudText>
+    <MudBadge Icon="@Icons.Material.Filled.Warning" Color="Color.Warning" Overlap="false" Class="mx-6 my-4">
+        <MudChip>unscanned.domain</MudChip>
+    </MudBadge>
+
+    <MudText>
+        Scanned domain flagged by 2 security vendors from VirusTotal
+    </MudText>
+    <MudBadge Content="2" Color="Color.Error" Overlap="false" Class="mx-6 my-4">
+        <MudChip>untrustworthy.domain</MudChip>
+    </MudBadge>
+
+    <MudText>
+        Scanned domain flagged by 0 security vendors from VirusTotal:
+    </MudText>
+    <MudBadge Content="0" Color="Color.Info" Overlap="false" Class="mx-6 my-4">
+        <MudChip>potentially-safe.domain</MudChip>
+    </MudBadge>
 </MudPaper>
 
 
