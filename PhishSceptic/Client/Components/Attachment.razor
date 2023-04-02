@@ -44,6 +44,7 @@
     [Parameter] public MimeEntity FileEntity { get; set; }
 
     [Inject] IVirusTotalService vtService { get; set; }
+    [Inject] IWarningService warningService { get; set; }
 
     //default value to indicate unscanned
     private int positives = -2;
@@ -85,12 +86,17 @@
     private async Task<bool> Scan()
     {
         positives = await vtService.ScanFile(FileEntity);
-        if (positives >= 0)
+        if (positives < 0)
         {
-            //success
-            return true;
+            //failure
+
+            return false;
         }
-        //failure
-        return false;
+        else if (positives > 0)
+        {
+            warningService.AddWarning("Attachment flagged as suspicious: " + Filename);
+        }
+        //success
+        return true;
     }
 }

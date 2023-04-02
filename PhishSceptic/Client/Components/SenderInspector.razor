@@ -93,7 +93,7 @@
         if (domainReputation > 0)
         {
             Snackbar.Add("VirusTotal flagged this email as suspicious.", Severity.Error);
-            warningService.AddWarning("dodgy sender: " + _sender);
+            warningService.AddWarning("Sender flagged as suspicious: " + _sender);
         }
         StateHasChanged();
     }

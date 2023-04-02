@@ -88,7 +88,7 @@
             //scanned and bad
             _tip = "This domain has been flagged as dangerous by VirusTotal.";
             Snackbar.Add("VirusTotal flagged this domain as suspicious.", Severity.Error);
-            warningService.AddWarning("dodgy link: " + Domain);
+            warningService.AddWarning("Domain flagged as suspicious: " + Domain);
         }
         else if (positives == 0)
         {
