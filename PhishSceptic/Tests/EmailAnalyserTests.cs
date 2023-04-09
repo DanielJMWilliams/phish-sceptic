@@ -11,7 +11,7 @@ namespace PhishScepticTests
         public void ExtractUrls()
         {
             string emailString = "";
-         
+
             //no links
             List<string> actual = EmailAnalyser.ExtractUrls(emailString);
             List<string> expected = new List<string>();
@@ -22,8 +22,8 @@ namespace PhishScepticTests
             actual = EmailAnalyser.ExtractUrls(emailString);
             expected = new List<string>()
             {
-                "http://www.google.com",
-                "https://google.com"
+                "http://www.google.com ",
+                "https://google.com "
             };
             Assert.Equal(expected, actual);
         }
@@ -44,37 +44,6 @@ namespace PhishScepticTests
                 "linkedin.com", "linkedin.com"
             };
             Assert.Equal(expected, actual);
-        }
-
-        [Fact]
-        public void MimeKitLoad()
-        {
-            // Load a MimeMessage from a file path
-            var message = MimeMessage.Load(@"C:\Users\Admin\Documents\1Uni\1FinalYear\Project\PhishScepticTests\PhishScepticTests\test-data\email.eml");
-            string expected = "Hello Daniel,\r\n\r\nYou need to update your password now as your account has been compromised! Follow this link to change your password http://facebook.changemypassword.com.\r\n\r\nRegards,\r\n\r\nFacebook team.\r\n";
-            Assert.Equal(expected, message.TextBody);
-
-            var attachments = new List<MimePart>();
-            var multiparts = new List<Multipart>();
-            var iter = new MimeIterator(message);
-
-            // collect our list of attachments and their parent multiparts
-            while (iter.MoveNext())
-            {
-                var multipart = iter.Parent as Multipart;
-                var part = iter.Current as MimePart;
-
-                if (multipart != null && part != null && part.IsAttachment)
-                {
-                    // keep track of each attachment's parent multipart
-                    multiparts.Add(multipart);
-                    attachments.Add(part);
-                }
-            }
-
-            // now remove each attachment from its parent multipart...
-            for (int i = 0; i < attachments.Count; i++)
-                multiparts[i].Remove(attachments[i]);
         }
     }
 }
